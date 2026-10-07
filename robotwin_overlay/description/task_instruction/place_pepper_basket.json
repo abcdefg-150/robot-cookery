@@ -1,0 +1,19 @@
+{
+  "full_description": "pick up the green pepper from the table and place it in the basket with the right arm",
+  "schema": "{A} identifies the basket, {B} identifies the green pepper, and {a} identifies the arm moving the pepper",
+  "preference": "Use short instructions that mention both the pepper and the basket.",
+  "seen": [
+    "Place {B} in {A}.",
+    "Pick up {B} and put it in {A}.",
+    "Move {B} from the table into {A}.",
+    "Grab {B} and place it inside {A}.",
+    "Use {a} to place {B} in {A}.",
+    "Lift {B} with {a} and set it in {A}."
+  ],
+  "unseen": [
+    "Transfer {B} into {A}.",
+    "Set {B} inside {A}.",
+    "Take {B} from the table to {A}.",
+    "Use {a} to move {B} into {A}."
+  ]
+}
