@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "executed_from": "/tmp/w1_cookery_install_smoke",
+  "tests": [
+    {
+      "command": "python -m unittest discover -s scripts/tests -v",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "command": "python -m unittest discover -s XPolicyLab/policy/Pi_05/tests -v",
+      "passed": 7,
+      "failed": 0
+    }
+  ]
+}

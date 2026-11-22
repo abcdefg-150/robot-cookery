@@ -1,0 +1,28 @@
+diff --git a/policy/Pi_05/openpi/src/openpi/training/config.py b/policy/Pi_05/openpi/src/openpi/training/config.py
+index c6babbc..5758179 100644
+--- a/policy/Pi_05/openpi/src/openpi/training/config.py
++++ b/policy/Pi_05/openpi/src/openpi/training/config.py
+@@ -770,6 +770,23 @@ _CONFIGS = [
+     ),
+ ]
+ 
++# W1 has the same 6+1 / 6+1 layout, but must compute its own normalization
++# statistics. Do not reuse the ARX-X5 statistics from the source config.
++_w1_source_config = next(c for c in _CONFIGS if c.name == "pi05_base_aloha_full_sim_arx-x5_seed_0")
++_CONFIGS.append(dataclasses.replace(
++    _w1_source_config,
++    name="pi05_w1_g2_full",
++    data=dataclasses.replace(
++        _w1_source_config.data,
++        repo_id="w1_g2_final",
++        assets=AssetsConfig(),
++        adapt_to_pi=False,
++    ),
++    batch_size=8,
++    fsdp_devices=1,
++    num_train_steps=30_000,
++))
++
+ if len({config.name for config in _CONFIGS}) != len(_CONFIGS):
+     raise ValueError("Config names must be unique.")
+ _CONFIGS_DICT = {config.name: config for config in _CONFIGS}

@@ -1,0 +1,225 @@
+diff --git a/policy/Pi_05/openpi/scripts/process_data.py b/policy/Pi_05/openpi/scripts/process_data.py
+index fa166f5..4ced0c1 100644
+--- a/policy/Pi_05/openpi/scripts/process_data.py
++++ b/policy/Pi_05/openpi/scripts/process_data.py
+@@ -1,3 +1,5 @@
++from __future__ import annotations
++
+ import os
+ import numpy as np
+ import shutil
+@@ -8,15 +10,13 @@ import dataclasses
+ from pathlib import Path
+ from typing import Any, Literal
+ import random
++import json
+ from tqdm import tqdm
+ 
+-from XPolicyLab.utils.load_file import load_yaml, load_json
+-from XPolicyLab.utils.process_data import decode_image_bit
+-
+-from lerobot.common.datasets.lerobot_dataset import HF_LEROBOT_HOME
+-from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
++from XPolicyLab.utils.load_file import load_yaml
++from XPolicyLab.utils.process_data import decode_image_bit, get_robot_action_dim_info
+ 
+-ROOT_PATH = Path(__file__).parent.parent.parent.parent.parent
++ROOT_PATH = Path(__file__).resolve().parents[5]
+ 
+ CAMERA_ALIASES = {
+     "cam_head": "cam_high",
+@@ -43,7 +43,14 @@ def create_empty_dataset(
+     *,
+     dataset_config: DatasetConfig = DEFAULT_DATASET_CONFIG,
+     robot_action_dim_info: dict = None,
++    overwrite: bool = False,
+ ) -> LeRobotDataset:
++    try:
++        from lerobot.datasets.lerobot_dataset import HF_LEROBOT_HOME, LeRobotDataset
++    except ModuleNotFoundError as exc:
++        if exc.name not in ("lerobot.datasets", "lerobot.datasets.lerobot_dataset"):
++            raise
++        from lerobot.common.datasets.lerobot_dataset import HF_LEROBOT_HOME, LeRobotDataset
+     
+     MOTORS = [
+         *[f"left_{i}" for i in range(robot_action_dim_info["arm_dim"][0])],
+@@ -68,12 +75,14 @@ def create_empty_dataset(
+     for camera_name in CAMERA_ALIASES.values():
+         features[f"observation.images.{camera_name}"] = {
+             "dtype": mode,
+-            "shape": (3, 480, 640),
++            "shape": (480, 640, 3),
+             "names": ["height", "width", "channels"],
+         }
+ 
+     output_path = HF_LEROBOT_HOME / repo_id
+     if output_path.exists():
++        if not overwrite:
++            raise FileExistsError(f"Dataset exists: {output_path}; use --overwrite to replace it")
+         shutil.rmtree(output_path)
+ 
+     return LeRobotDataset.create(
+@@ -89,7 +98,7 @@ def create_empty_dataset(
+     )
+ 
+ def _load_compressed_images(group: h5py.Group, key: str) -> np.ndarray:
+-    return np.asarray(decode_image_bit(group[key]))
++    return np.asarray(decode_image_bit(group[key][:]))
+ 
+ def _make_action_from_state(state: np.ndarray) -> np.ndarray:
+     action = np.empty_like(state, dtype=np.float32)
+@@ -103,25 +112,48 @@ def _make_action_from_state(state: np.ndarray) -> np.ndarray:
+ 
+ def load_data(ep_path) -> dict[str, Any]:
+     with h5py.File(ep_path, "r") as ep:
+-        right_state = np.concatenate(
+-            [ep["state/right_arm_joint_states"][:], ep["state/right_ee_joint_states"][:][:, None]],
+-            axis=1,
+-        )
+-        left_state = np.concatenate(
+-            [ep["state/left_arm_joint_states"][:], ep["state/left_ee_joint_states"][:][:, None]],
+-            axis=1,
+-        )
+-        state = np.concatenate([left_state, right_state], axis=1).astype(np.float32)
+-        action = _make_action_from_state(state)
++        def read_joints(group):
++            parts = []
++            for field in ("left_arm_joint_states", "left_ee_joint_states",
++                          "right_arm_joint_states", "right_ee_joint_states"):
++                value = np.asarray(ep[f"{group}/{field}"], dtype=np.float32)
++                if value.ndim == 1:
++                    value = value[:, None]
++                if value.ndim != 2:
++                    raise ValueError(f"{group}/{field}: expected [T,D], got {value.shape}")
++                parts.append(value)
++            return np.concatenate(parts, axis=1)
++        state = read_joints("state")
++        action = read_joints("action") if "action" in ep else _make_action_from_state(state)
++        if state.shape != action.shape or not len(state):
++            raise ValueError(f"Invalid state/action shapes: {state.shape}, {action.shape}")
++        if not np.isfinite(state).all() or not np.isfinite(action).all():
++            raise ValueError("Non-finite state/action")
+ 
+         images = {}
+         for source_name, output_name in CAMERA_ALIASES.items():
+             if source_name in ep["vision"]:
+                 images[output_name] = _load_compressed_images(ep["vision"][source_name], "colors")
+-        try:
+-            instructions = ep["instructions"]
+-        except KeyError:
+-            instructions = None
++        missing = set(CAMERA_ALIASES.values()) - set(images)
++        if missing:
++            raise ValueError(f"Missing cameras: {sorted(missing)}")
++        for name, frames in images.items():
++            if len(frames) != len(state):
++                raise ValueError(f"Camera {name} has {len(frames)} frames; state has {len(state)}")
++            images[name] = np.stack([
++                cv2.resize(frame, (640, 480)) if frame.shape[:2] != (480, 640) else frame
++                for frame in frames
++            ])
++        instructions = None
++        if "instructions" in ep:
++            raw = ep["instructions"].asstr()[()]
++            if isinstance(raw, str):
++                try:
++                    raw = json.loads(raw)
++                except json.JSONDecodeError:
++                    raw = [raw]
++            instructions = [str(value) for value in np.asarray(raw).reshape(-1) if str(value).strip()]
++        frequency = float(ep["additional_info/frequency"][()]) if "additional_info/frequency" in ep else None
+ 
+     return {
+         "images": images,
+@@ -131,6 +163,7 @@ def load_data(ep_path) -> dict[str, Any]:
+         "effort": None,
+         "timestamps": None,
+         "instructions": instructions,
++        "frequency": frequency,
+     }
+ 
+ def main():
+@@ -166,7 +199,11 @@ def main():
+         default="Do your job.",
+         help="Default instruction when not present in HDF5",
+     )
++    parser.add_argument("--overwrite", action="store_true", help="Replace an existing converted dataset")
++    parser.add_argument("--fps", type=int, help="Dataset FPS override; episodes must already be resampled to this rate")
+     args = parser.parse_args()
++    if args.action_type != "joint":
++        parser.error("Pi_05 data conversion currently supports action_type=joint only")
+ 
+     bench_name = args.bench_name
+     ckpt_name = args.ckpt_name
+@@ -189,16 +226,7 @@ def main():
+     env_cfg = load_yaml(os.path.join(ROOT_PATH, "./env_cfg", f"{env_cfg_type}.yml"))
+     robot_type = env_cfg['config']['robot']
+ 
+-    robot_action_dim_info = robot_action_dim_info = load_json(os.path.join(ROOT_PATH, "env_cfg/robot", "_robot_info.json"))[robot_type]
+-
+-    dataset = create_empty_dataset(
+-        repo_id=repo_id,
+-        robot_type=robot_type,
+-        fps=50, # pi default to 50
+-        mode=mode,
+-        dataset_config=DEFAULT_DATASET_CONFIG,
+-        robot_action_dim_info=robot_action_dim_info,
+-    )
++    robot_action_dim_info = get_robot_action_dim_info(env_cfg_type)
+ 
+     episode_files = []
+     for raw_task_dir in raw_task_dirs:
+@@ -209,16 +237,34 @@ def main():
+         episode_files.extend(task_episode_files)
+     if expert_data_num is not None:
+         episode_files = episode_files[:expert_data_num]
++    if not episode_files:
++        raise FileNotFoundError(f"No HDF5 episodes found for {raw_task_dirs} / {env_cfg_type}")
++    fps = args.fps if args.fps is not None else int(env_cfg.get("observation", {}).get("collect_freq", 50))
++    if fps <= 0:
++        raise ValueError("collect_freq must be positive")
++    dataset = create_empty_dataset(
++        repo_id=repo_id, robot_type=robot_type, fps=fps, mode=mode,
++        dataset_config=DEFAULT_DATASET_CONFIG, robot_action_dim_info=robot_action_dim_info,
++        overwrite=args.overwrite,
++    )
+     for ep_file in tqdm(episode_files, desc="Processing episodes", unit="episode"):
+         try:
+             data = load_data(ep_file)
++            if data["frequency"] is not None and not np.isclose(data["frequency"], fps):
++                raise ValueError(f"Episode frequency {data['frequency']} != dataset {fps}; resample first")
++            expected_dim = sum(robot_action_dim_info["arm_dim"]) + sum(robot_action_dim_info["ee_dim"])
++            if data["state"].shape[1] != expected_dim:
++                raise ValueError(f"Expected {expected_dim} joints, got {data['state'].shape[1]}")
+             num_frames = data["state"].shape[0]
++            # One instruction describes the whole trajectory, not a new random
++            # instruction at every frame of an action chunk.
++            episode_instruction = random.choice(data["instructions"]) if data["instructions"] else instruction
+ 
+             for i in range(num_frames):
+                 frame = {
+                     "observation.state": data["state"][i],
+                     "action": data["action"][i],
+-                    "task": instruction if data["instructions"] is None else random.choice(data["instructions"]),
++                    "task": episode_instruction,
+                 }
+                 for camera_name, images in data["images"].items():
+                     frame[f"observation.images.{camera_name}"] = images[i]
+@@ -226,10 +272,16 @@ def main():
+                 dataset.add_frame(frame)
+             
+             dataset.save_episode()
+-            dataset.hf_dataset = dataset.create_hf_dataset()
++            if hasattr(dataset, "create_hf_dataset"):
++                dataset.hf_dataset = dataset.create_hf_dataset()
+             tqdm.write(f"Finished {ep_file.name} with {num_frames} frames")
+         except Exception as e:
+             tqdm.write(f"Error processing episode {ep_file}: {e}")
++            # A failed add_frame can leave a partial episode buffered. Stop
++            # immediately instead of appending the next episode to it.
++            raise RuntimeError(f"Conversion stopped at {ep_file}; output may be partial") from e
++    if hasattr(dataset, "finalize"):
++        dataset.finalize()
+ 
+ if __name__ == "__main__":
+     main()

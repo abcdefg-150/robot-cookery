@@ -1,0 +1,39 @@
+{
+  "config": "w1_finals_real_v5",
+  "independent_simulation_episodes": 1,
+  "attempts": [
+    {
+      "seed": 0,
+      "success": true
+    }
+  ],
+  "accepted": [
+    {
+      "seed": 0,
+      "native_episode": "data/w1_stir_back_up_v1/candidates/seed_0000",
+      "physical_success": true,
+      "native_archive": "data/w1_stir_back_up_v1/native_episode_0000.zip"
+    }
+  ],
+  "validation": [
+    {
+      "path": "data/w1_stir_back_up_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
+      "frames": 5924,
+      "frequency_hz": 30.0,
+      "state_action_dim": 14,
+      "cameras": 3,
+      "rgb_shape": [
+        480,
+        640,
+        3
+      ],
+      "depth_unit": "mm",
+      "status": "passed",
+      "source_type": "simulation"
+    }
+  ],
+  "model_training_started": false,
+  "lerobot_exported": false,
+  "native_schema": "W1 v0.1 JSONL 250Hz + RGB-D 30Hz + TSF/IDX",
+  "canonical_vla": "30Hz / 14D / 3 RGB-D views"
+}

@@ -1,0 +1,4 @@
+config:
+  robot: dual_w1_g2
+observation:
+  collect_freq: 50

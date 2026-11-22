@@ -1,0 +1,15 @@
+{
+  "source_episode": "/home/bsrl/RoboTwin/data/real_w1/episode_0001",
+  "pan_diameter_m": 0.26,
+  "base_separation_m": 0.6,
+  "arm_color": "black",
+  "potato_length_estimate_m": 0.0684,
+  "small_pepper_length_estimate_m": 0.065,
+  "inferred_sizes_not_measurements": [
+    "potato",
+    "small_pepper"
+  ],
+  "original_robot_and_glb_files_modified": false,
+  "wrist_calibration": "not supplied; provisional CAD mounts",
+  "pan_dynamics": "fixed during initial collection profile"
+}

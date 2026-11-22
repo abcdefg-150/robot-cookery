@@ -1,0 +1,54 @@
+diff --git a/envs/_base_task.py b/envs/_base_task.py
+index 3abdf3c..62c6ea6 100644
+--- a/envs/_base_task.py
++++ b/envs/_base_task.py
+@@ -101,6 +101,10 @@ class Base_Task(gym.Env):
+         self.eval_video_path = kwags.get("eval_video_save_dir", None)
+ 
+         self.save_freq = kwags.get("save_freq")
++        # save_freq is a stride in physics steps, not a frequency in Hz.
++        # New embodiments can supply an explicit nominal frequency; preserve
++        # the legacy value for existing datasets/configurations.
++        self.data_frequency = kwags.get("data_frequency", self.save_freq or 15)
+         self.world_pcd = None
+ 
+         self.size_dict = list()
+@@ -393,12 +397,23 @@ class Base_Task(gym.Env):
+         else:
+             self.robot.reset(self.scene, self.need_topp, **kwags)
+ 
+-        for link in self.robot.left_entity.get_links():
+-            link: sapien.physx.PhysxArticulationLinkComponent = link
+-            link.set_mass(1)
+-        for link in self.robot.right_entity.get_links():
+-            link: sapien.physx.PhysxArticulationLinkComponent = link
+-            link.set_mass(1)
++        if kwags.get("initialize_qpos_to_home", False):
++            for side in ("left", "right"):
++                entity = getattr(self.robot, f"{side}_entity")
++                active = entity.get_active_joints()
++                positions = entity.get_qpos()
++                for joint, value in zip(getattr(self.robot, f"{side}_arm_joints"),
++                                        getattr(self.robot, f"{side}_homestate")):
++                    positions[active.index(joint)] = value
++                entity.set_qpos(positions)
++
++        if not kwags.get("preserve_urdf_mass", False):
++            for link in self.robot.left_entity.get_links():
++                link: sapien.physx.PhysxArticulationLinkComponent = link
++                link.set_mass(1)
++            for link in self.robot.right_entity.get_links():
++                link: sapien.physx.PhysxArticulationLinkComponent = link
++                link.set_mass(1)
+ 
+     def load_camera(self, **kwags):
+         """
+@@ -620,7 +635,7 @@ class Base_Task(gym.Env):
+             target_file_path,
+             target_video_path,
+             instructions=instructions,
+-            frequency=int(self.save_freq or 15),
++            frequency=int(self.data_frequency),
+         )
+ 
+     def remove_data_cache(self):

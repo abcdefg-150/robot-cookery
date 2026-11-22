@@ -1,0 +1,99 @@
+urdf_path: w1_g2.urdf
+srdf_path: w1_g2.srdf
+joint_stiffness: 1000
+joint_damping: 200
+gripper_stiffness: 1000
+gripper_damping: 200
+move_group:
+- link6
+- link6
+ee_joints:
+- joint6
+- joint6
+arm_joints_name:
+- &id001
+  - joint1
+  - joint2
+  - joint3
+  - joint4
+  - joint5
+  - joint6
+- *id001
+gripper_name:
+- base: g2_left_joint
+  mimic:
+  - - g2_right_joint
+    - 1.0
+    - 0.0
+- base: g2_left_joint
+  mimic:
+  - - g2_right_joint
+    - 1.0
+    - 0.0
+fix_gripper_name:
+- g2_left_link
+- g2_right_link
+gripper_bias: 0.2466
+gripper_scale:
+- 0.0
+- 0.036
+homestate:
+- &id002
+  - 0.0
+  - -0.6
+  - 1.0
+  - 0.0
+  - 0.6
+  - 0.0
+- *id002
+delta_matrix:
+- - 0
+  - 0
+  - -1
+- - 0
+  - 1
+  - 0
+- - 1
+  - 0
+  - 0
+global_trans_matrix:
+- - 0
+  - 0
+  - 1
+- - 0
+  - 1
+  - 0
+- - -1
+  - 0
+  - 0
+robot_pose:
+- - 0
+  - -0.45
+  - 0.74
+  - 0.7071067811865476
+  - 0
+  - 0
+  - 0.7071067811865476
+planner: curobo
+dual_arm: false
+rotate_lim:
+- 0
+- 1
+grasp_perfect_direction:
+- front_right
+- front_left
+static_camera_list:
+- name: head_camera
+  type: D435
+  position:
+  - 0
+  - -0.65
+  - 1.45
+  forward:
+  - 0
+  - 0.65
+  - -0.75
+  left:
+  - -1
+  - 0
+  - 0

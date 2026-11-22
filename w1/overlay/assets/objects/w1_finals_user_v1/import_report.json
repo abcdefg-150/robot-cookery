@@ -1,0 +1,820 @@
+{
+  "units": "m",
+  "dimensions_measured": false,
+  "dimensions_user_confirmed": true,
+  "sources": {
+    "pan": {
+      "source": "Meshy_AI_Black_Wok_1114112931_texture.glb",
+      "source_sha256": "2d54847b377348d40a36051dd41f4efffbfbaef18c9078aab8a7937e88bd0c96",
+      "source_bounds": [
+        [
+          -0.9503679871559143,
+          -0.2048339992761612,
+          -0.5835700035095215
+        ],
+        [
+          0.9469379782676697,
+          0.20141500234603882,
+          0.5802689790725708
+        ]
+      ],
+      "source_to_metric": [
+        [
+          5.413795999262318e-17,
+          -5.413795999262318e-17,
+          0.24381569644937656,
+          0.0003964270664828712
+        ],
+        [
+          0.24381569644937656,
+          1.2021041938009164e-32,
+          -5.413795999262318e-17,
+          0.09048346599708545
+        ],
+        [
+          0.0,
+          0.24381569644937656,
+          5.413795999262318e-17,
+          0.04994174419002834
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "metric_bounds": [
+        [
+          -0.14188709976615627,
+          -0.14123116667452595,
+          0.0
+        ],
+        [
+          0.14187511232703043,
+          0.32136180866278197,
+          0.09904988326238061
+        ]
+      ],
+      "dimensions_measured": false,
+      "dimensions_user_confirmed": true,
+      "convex_parts": 96,
+      "parts": [
+        {
+          "name": "convex_000",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_000.obj"
+        },
+        {
+          "name": "convex_001",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_001.obj"
+        },
+        {
+          "name": "convex_002",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_002.obj"
+        },
+        {
+          "name": "convex_003",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_003.obj"
+        },
+        {
+          "name": "convex_004",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_004.obj"
+        },
+        {
+          "name": "convex_005",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_005.obj"
+        },
+        {
+          "name": "convex_006",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_006.obj"
+        },
+        {
+          "name": "convex_007",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_007.obj"
+        },
+        {
+          "name": "convex_008",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_008.obj"
+        },
+        {
+          "name": "convex_009",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_009.obj"
+        },
+        {
+          "name": "convex_010",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_010.obj"
+        },
+        {
+          "name": "convex_011",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_011.obj"
+        },
+        {
+          "name": "convex_012",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_012.obj"
+        },
+        {
+          "name": "convex_013",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_013.obj"
+        },
+        {
+          "name": "convex_014",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_014.obj"
+        },
+        {
+          "name": "convex_015",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_015.obj"
+        },
+        {
+          "name": "convex_016",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_016.obj"
+        },
+        {
+          "name": "convex_017",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_017.obj"
+        },
+        {
+          "name": "convex_018",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_018.obj"
+        },
+        {
+          "name": "convex_019",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_019.obj"
+        },
+        {
+          "name": "convex_020",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_020.obj"
+        },
+        {
+          "name": "convex_021",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_021.obj"
+        },
+        {
+          "name": "convex_022",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_022.obj"
+        },
+        {
+          "name": "convex_023",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_023.obj"
+        },
+        {
+          "name": "convex_024",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_024.obj"
+        },
+        {
+          "name": "convex_025",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_025.obj"
+        },
+        {
+          "name": "convex_026",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_026.obj"
+        },
+        {
+          "name": "convex_027",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_027.obj"
+        },
+        {
+          "name": "convex_028",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_028.obj"
+        },
+        {
+          "name": "convex_029",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_029.obj"
+        },
+        {
+          "name": "convex_030",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_030.obj"
+        },
+        {
+          "name": "convex_031",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_031.obj"
+        },
+        {
+          "name": "convex_032",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_032.obj"
+        },
+        {
+          "name": "convex_033",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_033.obj"
+        },
+        {
+          "name": "convex_034",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_034.obj"
+        },
+        {
+          "name": "convex_035",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_035.obj"
+        },
+        {
+          "name": "convex_036",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_036.obj"
+        },
+        {
+          "name": "convex_037",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_037.obj"
+        },
+        {
+          "name": "convex_038",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_038.obj"
+        },
+        {
+          "name": "convex_039",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_039.obj"
+        },
+        {
+          "name": "convex_040",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_040.obj"
+        },
+        {
+          "name": "convex_041",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_041.obj"
+        },
+        {
+          "name": "convex_042",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_042.obj"
+        },
+        {
+          "name": "convex_043",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_043.obj"
+        },
+        {
+          "name": "convex_044",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_044.obj"
+        },
+        {
+          "name": "convex_045",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_045.obj"
+        },
+        {
+          "name": "convex_046",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_046.obj"
+        },
+        {
+          "name": "convex_047",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_047.obj"
+        },
+        {
+          "name": "convex_048",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_048.obj"
+        },
+        {
+          "name": "convex_049",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_049.obj"
+        },
+        {
+          "name": "convex_050",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_050.obj"
+        },
+        {
+          "name": "convex_051",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_051.obj"
+        },
+        {
+          "name": "convex_052",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_052.obj"
+        },
+        {
+          "name": "convex_053",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_053.obj"
+        },
+        {
+          "name": "convex_054",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_054.obj"
+        },
+        {
+          "name": "convex_055",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_055.obj"
+        },
+        {
+          "name": "convex_056",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_056.obj"
+        },
+        {
+          "name": "convex_057",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_057.obj"
+        },
+        {
+          "name": "convex_058",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_058.obj"
+        },
+        {
+          "name": "convex_059",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_059.obj"
+        },
+        {
+          "name": "convex_060",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_060.obj"
+        },
+        {
+          "name": "convex_061",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_061.obj"
+        },
+        {
+          "name": "convex_062",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_062.obj"
+        },
+        {
+          "name": "convex_063",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_063.obj"
+        },
+        {
+          "name": "convex_064",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_064.obj"
+        },
+        {
+          "name": "convex_065",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_065.obj"
+        },
+        {
+          "name": "convex_066",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_066.obj"
+        },
+        {
+          "name": "convex_067",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_067.obj"
+        },
+        {
+          "name": "convex_068",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_068.obj"
+        },
+        {
+          "name": "convex_069",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_069.obj"
+        },
+        {
+          "name": "convex_070",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_070.obj"
+        },
+        {
+          "name": "convex_071",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_071.obj"
+        },
+        {
+          "name": "convex_072",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_072.obj"
+        },
+        {
+          "name": "convex_073",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_073.obj"
+        },
+        {
+          "name": "convex_074",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_074.obj"
+        },
+        {
+          "name": "convex_075",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_075.obj"
+        },
+        {
+          "name": "convex_076",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_076.obj"
+        },
+        {
+          "name": "convex_077",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_077.obj"
+        },
+        {
+          "name": "convex_078",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_078.obj"
+        },
+        {
+          "name": "convex_079",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_079.obj"
+        },
+        {
+          "name": "convex_080",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_080.obj"
+        },
+        {
+          "name": "convex_081",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_081.obj"
+        },
+        {
+          "name": "convex_082",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_082.obj"
+        },
+        {
+          "name": "convex_083",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_083.obj"
+        },
+        {
+          "name": "convex_084",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_084.obj"
+        },
+        {
+          "name": "convex_085",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_085.obj"
+        },
+        {
+          "name": "convex_086",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_086.obj"
+        },
+        {
+          "name": "convex_087",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_087.obj"
+        },
+        {
+          "name": "convex_088",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_088.obj"
+        },
+        {
+          "name": "convex_089",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_089.obj"
+        },
+        {
+          "name": "convex_090",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_090.obj"
+        },
+        {
+          "name": "convex_091",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_091.obj"
+        },
+        {
+          "name": "convex_092",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_092.obj"
+        },
+        {
+          "name": "convex_093",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_093.obj"
+        },
+        {
+          "name": "convex_094",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_094.obj"
+        },
+        {
+          "name": "convex_095",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/pan/collision_095.obj"
+        }
+      ],
+      "units": "m",
+      "procedural": false,
+      "collision_mode": "static_mesh",
+      "active_collision_mesh": "assets/objects/w1_finals_user_v1/pan/visual.glb"
+    },
+    "spatula": {
+      "source": "Meshy_AI_Silicone_Spatula_1114112939_texture.glb",
+      "source_sha256": "32db70440d93cd01cab5816bb1e1f56b575f269ff1ce24d72fd405019580a7fb",
+      "source_bounds": [
+        [
+          -0.9514060020446777,
+          -0.10202399641275406,
+          -0.2857550084590912
+        ],
+        [
+          0.9474490284919739,
+          0.09698399901390076,
+          0.2795650064945221
+        ]
+      ],
+      "source_to_metric": [
+        [
+          -0.13692461816135548,
+          -3.723339311440589e-33,
+          1.6768429535577754e-17,
+          0.0848932632600404
+        ],
+        [
+          1.6768429535577754e-17,
+          -3.0403372744148945e-17,
+          0.13692461816135548,
+          0.0004107738544840542
+        ],
+        [
+          0.0,
+          0.13692461816135548,
+          3.0403372744148945e-17,
+          0.008215477089681329
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "metric_bounds": [
+        [
+          -0.04483583319357032,
+          -0.038716121566471924,
+          -0.005754119662430522
+        ],
+        [
+          0.2151641668064297,
+          0.03869010562002335,
+          0.02149497412242097
+        ]
+      ],
+      "dimensions_measured": false,
+      "dimensions_user_confirmed": true,
+      "convex_parts": 12,
+      "parts": [
+        {
+          "name": "convex_000",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_000.obj"
+        },
+        {
+          "name": "convex_001",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_001.obj"
+        },
+        {
+          "name": "convex_002",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_002.obj"
+        },
+        {
+          "name": "convex_003",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_003.obj"
+        },
+        {
+          "name": "neck_004",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/neck_collision_004.obj"
+        },
+        {
+          "name": "convex_005",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_005.obj"
+        },
+        {
+          "name": "convex_006",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_006.obj"
+        },
+        {
+          "name": "convex_007",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_007.obj"
+        },
+        {
+          "name": "convex_009",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_009.obj"
+        },
+        {
+          "name": "convex_010",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_010.obj"
+        },
+        {
+          "name": "convex_011",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_011.obj"
+        },
+        {
+          "name": "handle_contact_box",
+          "center": [
+            0,
+            0,
+            0.001
+          ],
+          "half_size": [
+            0.045,
+            0.0075,
+            0.0055
+          ]
+        }
+      ],
+      "units": "m",
+      "procedural": false,
+      "source_convex_parts": [
+        {
+          "name": "convex_000",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_000.obj"
+        },
+        {
+          "name": "convex_001",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_001.obj"
+        },
+        {
+          "name": "convex_002",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_002.obj"
+        },
+        {
+          "name": "convex_003",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_003.obj"
+        },
+        {
+          "name": "convex_004",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_004.obj"
+        },
+        {
+          "name": "convex_005",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_005.obj"
+        },
+        {
+          "name": "convex_006",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_006.obj"
+        },
+        {
+          "name": "convex_007",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_007.obj"
+        },
+        {
+          "name": "convex_008",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_008.obj"
+        },
+        {
+          "name": "convex_009",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_009.obj"
+        },
+        {
+          "name": "convex_010",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_010.obj"
+        },
+        {
+          "name": "convex_011",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_011.obj"
+        }
+      ],
+      "handle_collision": "fitted_box_for_contact_patch",
+      "mass_kg": 0.035,
+      "grasp_offset": [
+        0,
+        0,
+        -0.015
+      ],
+      "motion_profile": "curved_wok",
+      "lift_vector": [
+        0,
+        0.08,
+        0.08
+      ],
+      "approach_offset": [
+        0,
+        0.08,
+        0.08
+      ],
+      "lift_segments": 6,
+      "contact_patch_radius": 0.006,
+      "min_contact_patch_radius": 0.004,
+      "blade_center": [
+        0.16910190342927403,
+        0.0,
+        0.006024683199099641
+      ],
+      "blade_tip": [
+        0.2136,
+        0.0,
+        0.0205
+      ],
+      "rest_height": 0.056,
+      "stand_post_height": 0.05,
+      "stand_post_x": [
+        -0.03,
+        0.05
+      ],
+      "return_center_offset": [
+        0.08516416680642969,
+        0
+      ],
+      "return_half_size": [
+        0.14200000000000002,
+        0.075
+      ],
+      "grasp_tilt_y": 0,
+      "enter_pitch": 1.2,
+      "enter_roll": -0.5,
+      "tip_clearance": 0.008,
+      "scoop_pitch": 1.05,
+      "push_distance": 0.06,
+      "hover_pitch": 1.2,
+      "rest_yaw": 3.141592653589793,
+      "hover_clearance": 0.03,
+      "second_push_distance": 0.05,
+      "contact_x_max_from_pan": -0.035,
+      "second_enter_roll": 0.0,
+      "second_tip_clearance": 0.0035,
+      "second_scoop_lift": 0.025,
+      "second_scoop_pitch": 0.9,
+      "second_scoop_advance": 0.01,
+      "second_scoop_roll": 0.6
+    },
+    "green_pepper": {
+      "source": "Meshy_AI_Green_S_Curve_1114112943_texture.glb",
+      "source_sha256": "88f3cc2c0eb7e607c55f46140c834cc61928a8743be5ee5bd313bf27cce182fe",
+      "source_bounds": [
+        [
+          -0.9507489800453186,
+          -0.22730299830436707,
+          -0.25157099962234497
+        ],
+        [
+          0.9462249875068665,
+          0.22528499364852905,
+          0.24754400551319122
+        ]
+      ],
+      "source_to_metric": [
+        [
+          0.05798708990294773,
+          0.0,
+          0.0,
+          0.0001311665810237447
+        ],
+        [
+          0.0,
+          1.28757204682523e-17,
+          -0.05798708990294773,
+          -0.00011675683472306961
+        ],
+        [
+          0.0,
+          0.05798708990294773,
+          1.28757204682523e-17,
+          5.850910870132299e-05
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "metric_bounds": [
+        [
+          -0.055,
+          -0.014471113337352277,
+          -0.013122130289183586
+        ],
+        [
+          0.055,
+          0.014471113337352277,
+          0.013122130289183584
+        ]
+      ],
+      "dimensions_measured": false,
+      "dimensions_user_confirmed": true,
+      "convex_parts": 1,
+      "parts": [
+        {
+          "name": "convex_000",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/green_pepper/collision_000.obj"
+        }
+      ],
+      "units": "m",
+      "procedural": false
+    },
+    "eggplant": {
+      "source": "Meshy_AI_Eggplant_1114112946_texture.glb",
+      "source_sha256": "0123acce84deda4b356e12393734eb4539ddee69bbc60873421b8566297bbe8a",
+      "source_bounds": [
+        [
+          -0.9508619904518127,
+          -0.30323898792266846,
+          -0.2603929936885834
+        ],
+        [
+          0.9467139840126038,
+          0.29831600189208984,
+          0.25656500458717346
+        ]
+      ],
+      "source_to_metric": [
+        [
+          0.04215904979645397,
+          0.0,
+          0.0,
+          8.743800501331164e-05
+        ],
+        [
+          0.0,
+          9.361189556068343e-18,
+          -0.04215904979645397,
+          -8.069219157331176e-05
+        ],
+        [
+          0.0,
+          0.04215904979645397,
+          9.361189556068343e-18,
+          0.00010377420660520552
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "metric_bounds": [
+        [
+          -0.04,
+          -0.010897228995991399,
+          -0.012680493385452877
+        ],
+        [
+          0.04,
+          0.010897228995991399,
+          0.012680493385452879
+        ]
+      ],
+      "dimensions_measured": false,
+      "dimensions_user_confirmed": true,
+      "convex_parts": 1,
+      "parts": [
+        {
+          "name": "convex_000",
+          "collision_mesh": "assets/objects/w1_finals_user_v1/eggplant/collision_000.obj"
+        }
+      ],
+      "units": "m",
+      "procedural": false
+    }
+  },
+  "geometry_checks": {
+    "pan_cavity_open": true,
+    "center_collision_top_m": 0.0048456866454577585,
+    "source_files_modified": false,
+    "pan_collision_mode": "static_mesh"
+  }
+}

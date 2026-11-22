@@ -1,0 +1,80 @@
+{
+  "real_duration_s": 106.42861986160278,
+  "simulation_duration_s": 197.53600001335144,
+  "comparison_note": "Same task ordering and data layout; conservative planner timing and uncalibrated actuator response differ from teleoperation.",
+  "arms": {
+    "left": {
+      "simulation": {
+        "samples": 49384,
+        "ee_speed_p95_m_s": 0.12704037081730607,
+        "ee_path_length_m": 3.2709889392808416,
+        "joint_velocity_p99_rad_s": [
+          0.467381893627174,
+          0.6498366887974613,
+          0.6377579275405365,
+          0.6537632067154947,
+          0.8608592855172749,
+          0.583832296268598
+        ]
+      },
+      "real": {
+        "samples": 26545,
+        "ee_speed_p95_m_s": 0.2029304247682002,
+        "ee_path_length_m": 3.6771014587628947,
+        "joint_velocity_p99_rad_s": [
+          0.786845718322642,
+          0.8358112917800531,
+          0.6245343017633537,
+          0.8583785884154084,
+          1.131076285285944,
+          0.4948993452663509
+        ]
+      }
+    },
+    "right": {
+      "simulation": {
+        "samples": 49384,
+        "ee_speed_p95_m_s": 0.16208358659332828,
+        "ee_path_length_m": 6.355084660426393,
+        "joint_velocity_p99_rad_s": [
+          0.5208551912621585,
+          0.7657002216209764,
+          0.854083433934378,
+          0.6730814620626661,
+          1.0773855213729029,
+          0.6330211602291351
+        ]
+      },
+      "real": {
+        "samples": 26543,
+        "ee_speed_p95_m_s": 0.21532840830719174,
+        "ee_path_length_m": 6.472042641503131,
+        "joint_velocity_p99_rad_s": [
+          0.8671019655974191,
+          0.8444520413642105,
+          0.8831540546732588,
+          0.8025846958380082,
+          1.3273707498137566,
+          0.5987773980065119
+        ]
+      }
+    }
+  },
+  "physical_success_checks": {
+    "plan_success": true,
+    "completed": true,
+    "all_picks_verified": true,
+    "tool_returned": true,
+    "green_pepper_inside_pan": true,
+    "potato_inside_pan": true,
+    "eggplant_inside_pan": true,
+    "small_pepper_inside_pan": true,
+    "foods_supported": true,
+    "foods_stationary": true,
+    "foods_stable_dwell": true,
+    "no_severe_collisions": true,
+    "both_arms_parked": true,
+    "effective_reciprocal_stirring": true
+  },
+  "turn_angles_deg": []
+}

@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "release": "w1-cookery-stir-v1",
+  "task_config": "w1_finals_real_v5",
+  "validated_at": "2026-11-22T09:02:11.483540+00:00",
+  "independent_simulation_episodes": 1,
+  "source_seed": 0,
+  "frames": 5924,
+  "frequency_hz": 30,
+  "state_action_dimension": 14,
+  "rgb_d_cameras": 3,
+  "initial_spatula_surface": "back_up",
+  "initial_working_face_normal_world": [
+    -0.003881528536873801,
+    0.05711898318510941,
+    -0.9983598326736288
+  ],
+  "stir_metrics": {
+    "success": true,
+    "motion_duration_s": 2.448000116273761,
+    "contact_duration_s": 2.140000101644546,
+    "contact_steps": 535,
+    "direction_reversals": 5,
+    "maximum_food_displacement_m": 0.032862333176530846,
+    "contacted_foods": [
+      "green_pepper",
+      "small_pepper"
+    ],
+    "tool_planar_path_m": 0.10105274411475143,
+    "minimum_motion_duration_s": 2.0,
+    "minimum_food_displacement_m": 0.005,
+    "minimum_stroke_m": 0.008,
+    "duration_definition": "Measured in-pan tool motion after first food contact; stationary waits excluded."
+  },
+  "success_checks": {
+    "plan_success": true,
+    "completed": true,
+    "all_picks_verified": true,
+    "tool_returned": true,
+    "green_pepper_inside_pan": true,
+    "potato_inside_pan": true,
+    "eggplant_inside_pan": true,
+    "small_pepper_inside_pan": true,
+    "foods_supported": true,
+    "foods_stationary": true,
+    "foods_stable_dwell": true,
+    "no_severe_collisions": true,
+    "both_arms_parked": true,
+    "effective_reciprocal_stirring": true
+  },
+  "severe_collision_events": 0,
+  "native_and_hdf_validation": "passed",
+  "actual_pi05_all_frames_reader": "passed",
+  "clean_install_full_fsm": "passed",
+  "clean_install_has_raw_real_data": false,
+  "api_smoke": "passed",
+  "unit_tests_passed": 19,
+  "training_data_in_git": false,
+  "lerobot_exported": false,
+  "model_training_started": false,
+  "data_path": "data/w1_stir_back_up_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
+  "limitations": [
+    "Pan fixed; real pan moves.",
+    "Wrist mounts and object dimensions fitted from images.",
+    "Simulation duration 197.54 s vs real 106.43 s; conservative timing, no video retiming.",
+    "Actuator and contact parameters not identified from the real robot."
+  ]
+}

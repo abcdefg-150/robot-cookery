@@ -1,0 +1,93 @@
+{
+  "hdf5": {
+    "path": "/home/bsrl/RoboTwin/data/w1_stir_back_up_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
+    "frames": 5924,
+    "frequency_hz": 30.0,
+    "state_action_dim": 14,
+    "cameras": 3,
+    "rgb_shape": [
+      480,
+      640,
+      3
+    ],
+    "depth_unit": "mm",
+    "status": "passed",
+    "source_type": "simulation"
+  },
+  "native_indices": {
+    "extra/ground_truth.jsonl": 5926,
+    "actions/left_arm.jsonl": 49384,
+    "actions/car.jsonl": 9876,
+    "actions/right_arm.jsonl": 49384
+  },
+  "native_media": {
+    "cam_front_rgb.mp4": {
+      "timestamps": 5926,
+      "maximum_interval_s": 0.03600001335144043
+    },
+    "cam_front_depth.mkv": {
+      "timestamps": 5926,
+      "maximum_interval_s": 0.03600001335144043
+    },
+    "cam_left_rgb.mp4": {
+      "timestamps": 5926,
+      "maximum_interval_s": 0.03600001335144043
+    },
+    "cam_left_depth.mkv": {
+      "timestamps": 5926,
+      "maximum_interval_s": 0.03600001335144043
+    },
+    "cam_right_rgb.mp4": {
+      "timestamps": 5926,
+      "maximum_interval_s": 0.03600001335144043
+    },
+    "cam_right_depth.mkv": {
+      "timestamps": 5926,
+      "maximum_interval_s": 0.03600001335144043
+    }
+  },
+  "archive_crc_passed": true,
+  "initial_working_face_normal_world": [
+    -0.003881528536873801,
+    0.05711898318510941,
+    -0.9983598326736288
+  ],
+  "spatula_back_up_passed": true,
+  "pi05_reader": {
+    "status": "passed",
+    "frames": 5924,
+    "state_shape": [
+      5924,
+      14
+    ],
+    "action_shape": [
+      5924,
+      14
+    ],
+    "image_shapes": {
+      "cam_high": [
+        5924,
+        480,
+        640,
+        3
+      ],
+      "cam_left_wrist": [
+        5924,
+        480,
+        640,
+        3
+      ],
+      "cam_right_wrist": [
+        5924,
+        480,
+        640,
+        3
+      ]
+    },
+    "instruction": "Put both green peppers, the potato and the eggplant in the pan, stir with small back-and-forth pushes for at least two seconds, and return the spatula.",
+    "frequency_hz": 30.0,
+    "lerobot_exported": false,
+    "training_started": false
+  },
+  "status": "passed"
+}

@@ -1,0 +1,200 @@
+potato:
+  visual: assets/objects/069_vagetable/visual/base0.glb
+  collision: assets/objects/069_vagetable/visual/base0.glb
+  scale: 0.05458242784888707
+  rotation_rpy:
+  - 1.5707963267948966
+  - 0.0
+  - 1.2199773513518224
+  center_visual: true
+  procedural: false
+  mass: 0.03
+  linear_damping: 0.3
+  angular_damping: 2.0
+  initial_xy:
+  - 0.4105309820226037
+  - -0.13072881581151066
+  real_grasp_rotation_rpy:
+  - -1.2288052241900864
+  - 1.3754374028532426
+  - 1.6592306369530285
+  preferred_grasp_rotation_rpy:
+  - -1.2288052241900864
+  - 1.3754374028532426
+  - 1.6592306369530285
+  previous_nominal_scale: 0.036
+  grasp_offset:
+  - 0.0
+  - 0.0
+  - 0.0
+  rescale_inertia_to_mass: true
+  image_fitted_dimensions_not_measured:
+  - 0.10371419846157076
+  - 0.06692869890227007
+  - 0.07235304616582876
+pan:
+  visual: assets/objects/w1_finals_user_v1/pan/visual.glb
+  collision: assets/objects/w1_real_reference_v1/pan_collision.obj
+  scale: 1.0575611007874848
+  rotation_rpy:
+  - 0
+  - 0
+  - 0
+  center_local:
+  - 0
+  - 0
+  - 0
+  inner_radius: 0.13536782090079807
+  floor_height: 0.006345366604724909
+  rim_height: 0.08375844552000573
+  procedural: false
+  collision_mode: static_mesh
+  mouth_diameter_m: 0.2961171082204958
+  collision_approximation:
+    method: closed axisymmetric piecewise-linear inner-surface fit
+    angular_segments: 64
+    triangles: 896
+    radii_m:
+    - 0.07402927705512395
+    - 0.09680751614900825
+    - 0.11958575524289253
+    - 0.14236399433677682
+    - 0.1480585541102479
+    heights_m:
+    - 0.006345366604724909
+    - 0.014882526963814804
+    - 0.03570264612311288
+    - 0.07497394757594505
+    - 0.08375844552000573
+    visual_mesh_modified: false
+    handle_collision_included: false
+    note: Fixed pan profile; handle is visual only. Retains bowl diameter and rim
+      height.
+    outer_radius_m: 0.15033637801963634
+  user_reported_diameter_m: 0.26
+  diameter_measurement_basis: unconfirmed; fitted to RGB image
+  simulated_outer_diameter_m: 0.3000958821155435
+spatula:
+  visual: assets/objects/w1_real_image_v1/spatula_visual.glb
+  metadata: assets/objects/w1_real_image_v1/spatula_metadata_back_up_v4.json
+  procedural: false
+green_pepper:
+  visual: assets/objects/w1_finals_user_v1/green_pepper/visual.glb
+  collision: assets/objects/w1_finals_user_v1/green_pepper/visual.glb
+  collision_mode: convex
+  scale: 1.5325396444276318
+  rotation_rpy:
+  - 0.0
+  - 0.0
+  - -0.054059528391041
+  center_visual: false
+  procedural: false
+  mass: 0.025
+  refresh_grasp_pose: true
+  grasp_offset:
+  - -0.030606016356518204
+  - 0.001656160463689778
+  - 0.0
+  linear_damping: 0.3
+  angular_damping: 2.0
+  grasp_tilt_y: 0
+  lift_segments: 6
+  pan_offset_xy:
+  - -0.025
+  - -0.012
+  turn_heading: 0.8
+  initial_xy:
+  - -0.3663140678973474
+  - 0.03693298617518355
+  real_grasp_rotation_rpy:
+  - -0.10381411792596071
+  - 1.1517434460943967
+  - 2.18959512945105
+  preferred_grasp_rotation_rpy:
+  - -1.5707963267948966
+  - 1.5707963267948966
+  - 0.0
+  previous_nominal_scale: 1.0
+  rescale_inertia_to_mass: true
+  image_fitted_dimensions_not_measured:
+  - 0.16857935997357468
+  - 0.04435511083273442
+  - 0.04022036945682682
+eggplant:
+  visual: assets/objects/w1_finals_user_v1/eggplant/visual.glb
+  collision: assets/objects/w1_finals_user_v1/eggplant/visual.glb
+  collision_mode: convex
+  scale: 2.1020350893377038
+  rotation_rpy:
+  - 0.0
+  - 0.0
+  - -0.7352195816696917
+  center_visual: false
+  procedural: false
+  mass: 0.025
+  refresh_grasp_pose: true
+  grasp_offset:
+  - 0.0
+  - 0.0
+  - 0.006306105268013111
+  linear_damping: 0.3
+  angular_damping: 2.0
+  initial_xy:
+  - -0.4009714489921562
+  - -0.22234923875180623
+  real_grasp_rotation_rpy:
+  - -1.6634632154769502
+  - 1.394372070256062
+  - 2.276924324773221
+  preferred_grasp_rotation_rpy:
+  - -1.5707963267948966
+  - 1.5707963267948966
+  - 0.0
+  previous_nominal_scale: 1.0
+  rescale_inertia_to_mass: true
+  image_fitted_dimensions_not_measured:
+  - 0.16816280338828465
+  - 0.045812717258387405
+  - 0.05330968371321316
+small_pepper:
+  visual: assets/objects/w1_finals_user_v1/green_pepper/visual.glb
+  collision: assets/objects/w1_finals_user_v1/green_pepper/visual.glb
+  collision_mode: convex
+  scale: 0.902022908105223
+  rotation_rpy:
+  - 0.0
+  - 0.0
+  - 2.1726703773385325
+  center_visual: false
+  procedural: false
+  mass: 0.012
+  refresh_grasp_pose: true
+  grasp_offset:
+  - 0.01037143755642982
+  - -0.015099090752463603
+  - 0.006106001224096894
+  linear_damping: 0.3
+  angular_damping: 2.0
+  grasp_tilt_y: 0
+  lift_segments: 6
+  pan_offset_xy:
+  - -0.025
+  - -0.012
+  turn_heading: -1.5707963267948966
+  initial_xy:
+  - 0.43980112045738806
+  - 0.012756730049463257
+  real_grasp_rotation_rpy:
+  - -2.1979917301848
+  - 1.4864703115485236
+  - 1.3123230796218646
+  preferred_grasp_rotation_rpy:
+  - -1.5707963267948966
+  - 1.5707963267948966
+  - 0.0
+  previous_nominal_scale: 0.5909090909090909
+  rescale_inertia_to_mass: true
+  image_fitted_dimensions_not_measured:
+  - 0.09922251935392698
+  - 0.02610655209354479
+  - 0.023672924060677756

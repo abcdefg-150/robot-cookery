@@ -1,0 +1,29 @@
+{
+  "control_steps": 30,
+  "physics_steps": 250,
+  "state_shape": [
+    14
+  ],
+  "cameras": {
+    "cam_head": [
+      480,
+      640,
+      3
+    ],
+    "cam_left_wrist": [
+      480,
+      640,
+      3
+    ],
+    "cam_right_wrist": [
+      480,
+      640,
+      3
+    ]
+  },
+  "depth_unit": "mm",
+  "task_success": false,
+  "policy": "hold",
+  "training_demonstration": false,
+  "status": "passed"
+}

@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "checks": {
+    "green_pepper": {
+      "source_unchanged": true,
+      "length_m": 0.10999999940395355,
+      "texture_preserved": true
+    },
+    "eggplant": {
+      "source_unchanged": true,
+      "length_m": 0.07999999821186066,
+      "texture_preserved": true
+    },
+    "spatula": {
+      "source_unchanged": true,
+      "length_m": 0.26000000163912773,
+      "texture_preserved": true
+    },
+    "pan": {
+      "convex_parts": 96,
+      "cavity_open": true,
+      "center_floor_top_m": 0.004845686645457703
+    }
+  }
+}

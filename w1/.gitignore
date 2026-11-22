@@ -1,0 +1,13 @@
+!overlay/
+!overlay/**
+!examples/
+!examples/**
+__pycache__/
+*.pyc
+data/
+datasets/
+*.hdf5
+*.zip
+.w1_install_backups/
+.w1_cookery_install.json
+overlay/assets/embodiments/*/curobo.yml

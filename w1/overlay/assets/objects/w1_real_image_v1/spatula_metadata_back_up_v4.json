@@ -1,0 +1,253 @@
+{
+  "source": "Meshy_AI_Silicone_Spatula_1114112939_texture.glb",
+  "source_sha256": "32db70440d93cd01cab5816bb1e1f56b575f269ff1ce24d72fd405019580a7fb",
+  "source_bounds": [
+    [
+      -0.9514060020446777,
+      -0.10202399641275406,
+      -0.2857550084590912
+    ],
+    [
+      0.9474490284919739,
+      0.09698399901390076,
+      0.2795650064945221
+    ]
+  ],
+  "source_to_metric": [
+    [
+      -0.13692461816135548,
+      -3.723339311440589e-33,
+      1.6768429535577754e-17,
+      0.0848932632600404
+    ],
+    [
+      1.6768429535577754e-17,
+      -3.0403372744148945e-17,
+      0.13692461816135548,
+      0.0004107738544840542
+    ],
+    [
+      0.0,
+      0.13692461816135548,
+      3.0403372744148945e-17,
+      0.008215477089681329
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "metric_bounds": [
+    [
+      -0.04483583319357032,
+      -0.038716121566471924,
+      -0.005754119662430522
+    ],
+    [
+      0.2151641668064297,
+      0.03869010562002335,
+      0.02149497412242097
+    ]
+  ],
+  "dimensions_measured": false,
+  "dimensions_user_confirmed": true,
+  "convex_parts": 12,
+  "parts": [
+    {
+      "name": "convex_000",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_000.obj"
+    },
+    {
+      "name": "convex_001",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_001.obj"
+    },
+    {
+      "name": "convex_002",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_002.obj"
+    },
+    {
+      "name": "convex_003",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_003.obj"
+    },
+    {
+      "name": "neck_004",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_004.obj"
+    },
+    {
+      "name": "convex_005",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_005.obj"
+    },
+    {
+      "name": "convex_006",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_006.obj"
+    },
+    {
+      "name": "convex_007",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_007.obj"
+    },
+    {
+      "name": "convex_009",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_008.obj"
+    },
+    {
+      "name": "convex_010",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_009.obj"
+    },
+    {
+      "name": "convex_011",
+      "collision_mesh": "assets/objects/w1_real_image_v1/spatula_collision_010.obj"
+    },
+    {
+      "name": "handle_contact_box",
+      "center": [
+        0,
+        0,
+        0.001
+      ],
+      "half_size": [
+        0.045,
+        0.0075,
+        0.0055
+      ]
+    }
+  ],
+  "units": "m",
+  "procedural": false,
+  "source_convex_parts": [
+    {
+      "name": "convex_000",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_000.obj"
+    },
+    {
+      "name": "convex_001",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_001.obj"
+    },
+    {
+      "name": "convex_002",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_002.obj"
+    },
+    {
+      "name": "convex_003",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_003.obj"
+    },
+    {
+      "name": "convex_004",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_004.obj"
+    },
+    {
+      "name": "convex_005",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_005.obj"
+    },
+    {
+      "name": "convex_006",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_006.obj"
+    },
+    {
+      "name": "convex_007",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_007.obj"
+    },
+    {
+      "name": "convex_008",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_008.obj"
+    },
+    {
+      "name": "convex_009",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_009.obj"
+    },
+    {
+      "name": "convex_010",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_010.obj"
+    },
+    {
+      "name": "convex_011",
+      "collision_mesh": "assets/objects/w1_finals_user_v1/spatula/collision_011.obj"
+    }
+  ],
+  "handle_collision": "fitted_box_for_contact_patch",
+  "mass_kg": 0.035,
+  "grasp_offset": [
+    0.0006488223830041621,
+    0.01998947296742245,
+    0.006
+  ],
+  "motion_profile": "curved_wok",
+  "lift_vector": [
+    0,
+    0,
+    0.13
+  ],
+  "approach_offset": [
+    0,
+    0.035,
+    0.13
+  ],
+  "lift_segments": 1,
+  "contact_patch_radius": 0.006,
+  "min_contact_patch_radius": 0.004,
+  "blade_center": [
+    0.16910190342927403,
+    0.0,
+    0.006024683199099641
+  ],
+  "blade_tip": [
+    0.2136,
+    0.0,
+    0.0205
+  ],
+  "rest_height": 0.022994973450899122,
+  "stand_post_height": 0.05,
+  "stand_post_x": [
+    -0.03,
+    0.05
+  ],
+  "return_center_offset": [
+    0.08516416680642969,
+    0
+  ],
+  "return_half_size": [
+    0.14200000000000002,
+    0.075
+  ],
+  "grasp_tilt_y": 0,
+  "enter_pitch": 0.8,
+  "enter_roll": 0.0,
+  "tip_clearance": 0.012,
+  "scoop_pitch": 0.4,
+  "push_distance": 0.035,
+  "hover_pitch": 0.8,
+  "rest_yaw": 1.538349514634091,
+  "hover_clearance": 0.03,
+  "second_push_distance": 0.035,
+  "second_enter_roll": 0.0,
+  "second_tip_clearance": 0.012,
+  "second_scoop_lift": 0.04,
+  "second_scoop_pitch": 0.4,
+  "second_scoop_advance": 0.01,
+  "second_scoop_roll": 0.0,
+  "use_stand": false,
+  "grasp_point_tool_local": [
+    0.02,
+    0.0,
+    -0.006
+  ],
+  "grasp_rotation_rpy": [
+    -1.760512956646443,
+    1.4817892054640032,
+    1.4030293477296918
+  ],
+  "scoop_lift": 0.04,
+  "scoop_advance": 0.01,
+  "rescale_inertia_to_mass": true,
+  "blade_width_image_fit_factor": 1.3097516387967059,
+  "rest_roll": 3.141592653589793,
+  "rest_pitch": 0,
+  "initial_surface": "back_up",
+  "working_face_normal_tool_local": [
+    0,
+    0,
+    1
+  ],
+  "rest_height_basis": "visual and collision lower envelope + 1.5 mm before natural settling"
+}

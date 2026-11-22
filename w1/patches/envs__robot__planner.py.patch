@@ -1,0 +1,160 @@
+diff --git a/envs/robot/planner.py b/envs/robot/planner.py
+index 21ae432..f5c9f3e 100644
+--- a/envs/robot/planner.py
++++ b/envs/robot/planner.py
+@@ -29,12 +29,17 @@ try:
+ 
+     class CuroboPlanner:
+ 
++        # Opt-in for sequential arms with identical robot/world models. Each
++        # wrapper retains its own world-to-base transform and joint ordering.
++        _sequential_motion_gen_cache = {}
++
+         def __init__(
+             self,
+             robot_origion_pose,
+             active_joints_name,
+             all_joints,
+             yml_path=None,
++            maximum_trajectory_dt=None,
+         ):
+             super().__init__()
+             ta.setup_logging("CRITICAL")  # hide logging
+@@ -52,9 +57,23 @@ try:
+             with open(self.yml_path, "r") as f:
+                 yml_data = yaml.safe_load(f)
+             self.frame_bias = yml_data["planner"]["frame_bias"]
++            self.continuous_urdf_trajectory = yml_data["planner"].get("continuous_urdf_trajectory", False)
++            self.trajectory_velocity_limits = yml_data["planner"].get("trajectory_velocity_limits", [1.0]*6)
++            self.trajectory_acceleration_limits = yml_data["planner"].get("trajectory_acceleration_limits", [3.0]*6)
++            self.trajectory_accept = None
++            self.pose_ik = None
++            if yml_data["planner"].get("bounded_urdf_ik", False):
++                from .ik import URDFPoseIK
++                from .curobo_compat import clear_fallback_self_collision_outputs
++                clear_fallback_self_collision_outputs()
++                kinematics = yml_data["robot_cfg"]["kinematics"]
++                self.pose_ik = URDFPoseIK(kinematics["urdf_path"], kinematics["base_link"],
++                                          kinematics["ee_link"], self.active_joints_name)
+ 
+             # motion generation
+-            if True:
++            if "world_config" in yml_data["planner"]:
++                world_config = yml_data["planner"]["world_config"]
++            else:
+                 world_config = {
+                     "cuboid": {
+                         "table": {
+@@ -71,21 +90,42 @@ try:
+                         },
+                     }
+                 }
++            cache_key = None
++            if yml_data["planner"].get("reuse_sequential_motion_gen", False):
++                import hashlib
++                import json
++                from pathlib import Path
++                kinematics = yml_data["robot_cfg"]["kinematics"]
++                dependencies = [kinematics["urdf_path"], kinematics["collision_spheres"]]
++                cache_key = (json.dumps(yml_data, sort_keys=True), json.dumps(world_config, sort_keys=True),
++                             maximum_trajectory_dt, tuple(hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in dependencies))
++                if cache_key in self._sequential_motion_gen_cache:
++                    self.motion_gen = self._sequential_motion_gen_cache[cache_key]
++                    self.motion_gen.reset(reset_seed=False)
++                    self.motion_gen_batch = None
++                    return
+             motion_gen_config = MotionGenConfig.load_from_robot_config(
+                 self.yml_path,
+                 world_config,
+                 interpolation_dt=1 / 250,
+                 num_trajopt_seeds=1,
++                maximum_trajectory_dt=maximum_trajectory_dt,
+             )
+ 
+             self.motion_gen = MotionGen(motion_gen_config)
+             self.motion_gen.warmup()
++            if cache_key is not None:
++                self._sequential_motion_gen_cache[cache_key] = self.motion_gen
++            self.motion_gen_batch = None
++            if not yml_data["planner"].get("enable_batch_planning", True):
++                return
+             motion_gen_config = MotionGenConfig.load_from_robot_config(
+                 self.yml_path,
+                 world_config,
+                 interpolation_dt=1 / 250,
+                 num_trajopt_seeds=1,
+                 num_graph_seeds=1,
++                maximum_trajectory_dt=maximum_trajectory_dt,
+             )
+             self.motion_gen_batch = MotionGen(motion_gen_config)
+             self.motion_gen_batch.warmup(batch=CONFIGS.ROTATE_NUM)
+@@ -140,12 +180,52 @@ try:
+                 )
+                 plan_config.pose_cost_metric = pose_cost_metric
+ 
+-            result = self.motion_gen.plan_single(start_joint_states, goal_pose_of_ee, plan_config)
++            if self.pose_ik is not None and constraint_pose is None:
++                def accept_solution(positions):
++                    query = torch.tensor(positions, dtype=torch.float32).cuda().reshape(1, 1, -1)
++                    metrics = self.motion_gen.rollout_fn.rollout_constraint(query, use_batch_env=False)
++                    return metrics.feasible.all().item()
++                if self.continuous_urdf_trajectory:
++                    from .cartesian_trajectory import cartesian_knots, time_parameterize
++                    knots=cartesian_knots(self.pose_ik,np.asarray(joint_angles),target_pose_p,target_pose_q)
++                    backend="continuous_cartesian_ik"
++                    reason="URDF_IK_UNREACHABLE"
++                    for attempt in range(2):
++                        if attempt==1 or knots is None:
++                            solution=self.pose_ik.solve(target_pose_p,target_pose_q,np.asarray(joint_angles),accept=accept_solution)
++                            if solution is None:break
++                            knots=np.stack([joint_angles,solution]);backend="validated_joint_spline"
++                        positions,velocities,duration=time_parameterize(knots,self.trajectory_velocity_limits,self.trajectory_acceleration_limits)
++                        if np.any(positions<self.pose_ik.lower) or np.any(positions>self.pose_ik.upper):
++                            reason="INTERPOLATED_JOINT_LIMIT";continue
++                        clear=True
++                        for chunk in np.array_split(positions,max(1,int(np.ceil(len(positions)/256)))):
++                            query=torch.as_tensor(chunk,dtype=torch.float32,device="cuda").unsqueeze(1)
++                            if not self.motion_gen.rollout_fn.rollout_constraint(query,use_batch_env=False).feasible.all().item():
++                                clear=False;break
++                        if not clear:reason="CONTROL_PATH_COLLISION";continue
++                        if self.trajectory_accept is not None and not self.trajectory_accept(positions):
++                            reason="HELD_OBJECT_OR_PAN_PATH_COLLISION";continue
++                        return {"status":"Success","position":positions,"velocity":velocities,
++                                "planner_status":backend,"duration_s":duration,"all_control_samples_collision_checked":True}
++                    return {"status":"Fail","planner_status":reason}
++                solution = self.pose_ik.solve(target_pose_p, target_pose_q, np.asarray(joint_angles), accept=accept_solution)
++                if solution is None:
++                    return {"status": "Fail", "planner_status": "URDF_IK_UNREACHABLE"}
++                goal_state = JointState.from_position(
++                    torch.tensor(solution, dtype=torch.float32).cuda().reshape(1, -1),
++                    joint_names=self.active_joints_name,
++                )
++                result = self.motion_gen.plan_single_js(start_joint_states, goal_state, plan_config)
++            else:
++                result = self.motion_gen.plan_single(start_joint_states, goal_pose_of_ee, plan_config)
+ 
+             # output
+             res_result = dict()
+             if result.success.item() == False:
+                 res_result["status"] = "Fail"
++                res_result["planner_status"] = str(result.status)
++                print(f"[{arms_tag} planner] {result.status}, start={joint_angles}", flush=True)
+                 return res_result
+             else:
+                 res_result["status"] = "Success"
+@@ -174,6 +254,15 @@ try:
+                 - result['velocity']: numpy array of joint velocities with same shape as position
+             """
+ 
++            if self.motion_gen_batch is None:
++                results = [self.plan_path(curr_joint_pos, pose, constraint_pose=constraint_pose, arms_tag=arms_tag)
++                           for pose in target_gripper_pose_list]
++                return {
++                    "status": np.asarray([r["status"] for r in results]),
++                    "position": [r.get("position", np.empty((0, len(self.active_joints_name)))) for r in results],
++                    "velocity": [r.get("velocity", np.empty((0, len(self.active_joints_name)))) for r in results],
++                }
++
+             num_poses = len(target_gripper_pose_list)
+             # transformation from world to arm's base
+             world_base_pose = np.concatenate([

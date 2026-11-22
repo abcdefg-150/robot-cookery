@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="play_g2">
+  <group name="arm">
+    <chain base_link="base_link" tip_link="link6" />
+  </group>
+  <disable_collisions link1="base_link" link2="link1" reason="Default" />
+  <disable_collisions link1="base_link" link2="link2" reason="Default" />
+  <disable_collisions link1="link1" link2="link2" reason="Default" />
+  <disable_collisions link1="link1" link2="link3" reason="Default" />
+  <disable_collisions link1="link2" link2="link3" reason="Default" />
+  <disable_collisions link1="link2" link2="link4" reason="Default" />
+  <disable_collisions link1="link3" link2="link4" reason="Default" />
+  <disable_collisions link1="link3" link2="link5" reason="Default" />
+  <disable_collisions link1="link3" link2="link6" reason="Default" />
+  <disable_collisions link1="link4" link2="link5" reason="Default" />
+  <disable_collisions link1="link4" link2="link6" reason="Default" />
+  <disable_collisions link1="link5" link2="link6" reason="Default" />
+  <disable_collisions link1="link5" link2="eef_connect_base_link" reason="Default" />
+  <disable_collisions link1="link5" link2="g2_base_link" reason="Default" />
+  <disable_collisions link1="link5" link2="g2_left_link" reason="Default" />
+  <disable_collisions link1="link5" link2="g2_right_link" reason="Default" />
+  <disable_collisions link1="link6" link2="eef_connect_base_link" reason="Default" />
+  <disable_collisions link1="link6" link2="g2_base_link" reason="Default" />
+  <disable_collisions link1="link6" link2="g2_left_link" reason="Default" />
+  <disable_collisions link1="link6" link2="g2_right_link" reason="Default" />
+  <disable_collisions link1="eef_connect_base_link" link2="g2_base_link" reason="Default" />
+  <disable_collisions link1="eef_connect_base_link" link2="g2_left_link" reason="Default" />
+  <disable_collisions link1="eef_connect_base_link" link2="g2_right_link" reason="Default" />
+  <disable_collisions link1="g2_base_link" link2="g2_left_link" reason="Default" />
+  <disable_collisions link1="g2_base_link" link2="g2_right_link" reason="Default" />
+  <disable_collisions link1="g2_left_link" link2="g2_right_link" reason="Default" />
+</robot>
