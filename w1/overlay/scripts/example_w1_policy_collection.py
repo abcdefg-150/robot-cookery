@@ -18,7 +18,7 @@ def main():
         initial=observation["state"].copy();count=0
         for _ in range(args.steps):
             # Replace this hold action with your VLA's absolute joint targets.
-            # Gripper components 6/13 are width fractions, never metres.
+            # Gripper components 6/13 are total opening widths in metres.
             observation,reward,terminated,truncated,info=env.step(initial);count+=info["physics_steps"]
             assert not terminated and reward==0 and not truncated,"A hold policy must not satisfy the task"
             assert np.isfinite(observation["state"]).all()

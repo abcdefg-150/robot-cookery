@@ -1,7 +1,7 @@
 """Programmatic dual-W1 interface and physical 250 Hz / RGB-D 30 Hz recorder.
 
-Action/state: [left q1..q6 (rad), left opening / .072,
-               right q1..q6 (rad), right opening / .072].
+Action/state: [left q1..q6 (rad), left total opening (m),
+               right q1..q6 (rad), right total opening (m)].
 Native JSONL widths are metres; quaternion order is xyzw in each arm base.
 """
 import importlib
@@ -17,6 +17,8 @@ from scipy.spatial.transform import Rotation
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from scripts.w1_recording import IndexedJSONL,write_tsf,MASTER_GRIPPER_STROKE_M,SLAVE_GRIPPER_STROKE_M
+
+MAX_JOINT_STEP_RAD = 0.05
 
 
 def task_configuration(name, need_plan=True):
@@ -185,7 +187,10 @@ class W1Simulation:
     def observation(self):
         task=self.task;task._update_render();task.cameras.update_picture()
         packets={s:joint_packet(task,s) for s in ("left","right")}
-        state=np.concatenate([np.r_[packets[s]["joint_positions"],np.clip(packets[s]["gripper"]/.072,0,1)] for s in ("left","right")])
+        state = np.concatenate([
+            np.r_[packet["joint_positions"], np.clip(packet["gripper"], 0, SLAVE_GRIPPER_STROKE_M)]
+            for packet in packets.values()
+        ])
         images={"cam_head":task.cameras.static_camera_list[task.cameras.head_camera_id],
                 "cam_left_wrist":task.cameras.left_camera,"cam_right_wrist":task.cameras.right_camera}
         depths={}
@@ -198,15 +203,26 @@ class W1Simulation:
                 "timestamp":task._record_step/250,"phase":task.fsm_state}
 
     def step(self,action):
-        action=np.asarray(action,dtype=float)
-        if action.shape!=(14,) or not np.isfinite(action).all():raise ValueError("Expected finite 14-D action")
-        for side,offset in (("left",0),("right",7)):
-            planner=getattr(self.task.robot,f"{side}_planner")
-            if np.any(action[offset:offset+6]<planner.pose_ik.lower) or np.any(action[offset:offset+6]>planner.pose_ik.upper):raise ValueError("Joint target exceeds source URDF limits")
-            if not 0<=action[offset+6]<=1:raise ValueError("Opening must be normalized [0,1]")
-        for side,offset in (("left",0),("right",7)):
-            self.task.robot.set_arm_joints(action[offset:offset+6],np.zeros(6),side)
-            self.task.robot.set_gripper(float(action[offset+6]),side,gripper_eps=0)
+        action = np.asarray(action, dtype=float)
+        if action.shape != (14,) or not np.isfinite(action).all():
+            raise ValueError("Expected finite 14-D action")
+
+        commands = []
+        for side, offset in (("left", 0), ("right", 7)):
+            target = action[offset:offset + 6]
+            pose_ik = getattr(self.task.robot, f"{side}_planner").pose_ik
+            if np.any(target < pose_ik.lower) or np.any(target > pose_ik.upper):
+                raise ValueError(f"{side} joint target exceeds source URDF limits")
+            current = np.asarray(joint_packet(self.task, side)["joint_positions"])
+            joint_target = current + np.clip(
+                target - current, -MAX_JOINT_STEP_RAD, MAX_JOINT_STEP_RAD
+            )
+            opening = np.clip(action[offset + 6], 0, SLAVE_GRIPPER_STROKE_M)
+            commands.append((side, joint_target, float(opening / SLAVE_GRIPPER_STROKE_M)))
+
+        for side, joint_target, opening_fraction in commands:
+            self.task.robot.set_arm_joints(joint_target, np.zeros(6), side)
+            self.task.robot.set_gripper(opening_fraction, side, gripper_eps=0)
         self.task._recording=True;self.control_steps+=1
         desired=round(self.control_steps*250/self.control_hz)
         steps=desired-round((self.control_steps-1)*250/self.control_hz)
