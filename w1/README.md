@@ -24,7 +24,7 @@ python scripts/analyze_w1_motion.py data/w1_cookery_001/candidates/seed_0000 \
   --output data/w1_cookery_001/motion_quality.json --require-pass
 ```
 
-采集器自动执行该检查，并将结果写入候选的 `motion_quality.json` 和 HDF5 的场景元数据。不合格候选不会加入 accepted 列表。旧 v5 示例虽然通过物理任务判断，但包含不必要的搬运旋转和关节回退绕转，已由本版替换；扩充训练集时使用新采集的 v6 数据。
+采集器自动执行该检查，并将结果写入候选的 `motion_quality.json` 和 HDF5 的场景元数据。不合格候选不会加入 accepted 列表。工作区已清理历史示范、旧预览和失败测试输出，仅保留当前 v6 的验收示范及原始实机输入。
 
 ## 安装
 
@@ -139,19 +139,19 @@ python scripts/process_data.py w1_cookery_001 w1_finals_real w1_g2 joint --fps 3
 - 实际约 250 Hz 末端轨迹质量检查、原生 IDX/TSF、ZIP CRC、HDF5 独立检查及 π0.5 全部 4510 帧读取通过。
 - 独立安装目录的 30 次 reset/step 接口保持检查、22 项任务/接触/转动/在线接口测试和 7 项 π0.5 转换测试通过；重复安装无待修改文件。
 
-累计实际末端转角对比（包含中途绕转，单位 °）：
+当前示范的实际末端累计转角（单位 °）：
 
-| 阶段 | v5 | v6 |
-| --- | ---: | ---: |
-| 小青椒搬运 | 51.9 | 0.4 |
-| 大青椒搬运 | 97.0 | 0.4 |
-| 土豆搬运 | 358.4 | 5.8 |
-| 茄子搬运 | 63.9 | 0.3 |
-| 锅铲入锅 | 317.2 | 19.5 |
-| 锅铲下降 | 370.4 | 0.3 |
+| 阶段 | 累计转角 |
+| --- | ---: |
+| 小青椒搬运 | 0.4 |
+| 大青椒搬运 | 0.4 |
+| 土豆搬运 | 5.8 |
+| 茄子搬运 | 0.3 |
+| 锅铲入锅 | 19.5 |
+| 锅铲下降 | 0.3 |
 
 视频：[完整流程 4×](examples/complete_workflow_4x.mp4)、[锅铲抓取—翻炒—放回 1×](examples/tool_grasp_stir_return_1x.mp4)。
 
-本示范约 150.41 秒，实机样例约 106.43 秒。原生训练轨迹保留真实仿真时间；4× 仅用于预览播放。具体转动、路径及已知近似见 `validation/motion_quality.json`、`rotation_comparison.json` 和 `trajectory_comparison.json`。
+本示范约 150.41 秒，实机样例约 106.43 秒。原生训练轨迹保留真实仿真时间；4× 仅用于预览播放。具体转动、路径及已知近似见 `validation/motion_quality.json` 和 `trajectory_comparison.json`。
 
 远端接口并发更新已整合：在线开度采用米制、关节每步限幅 0.05 rad。完整示范在该接口合并前采集；状态机、原生写入器及专家执行代码的语义一致性已核对，原始采集哈希保留。合并后的在线接口另外验证，见 `validation/interface_merge_validation.json` 和 `api_smoke.json`。

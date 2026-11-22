@@ -97,7 +97,7 @@
   ],
   "package_sha256": {
     ".gitignore": "b03fdebcc46db965cf0cb52bff29bba431c3a0260ab31ca1443b0947082d5299",
-    "README.md": "2459cbe3b4799571a5e9bd40b75a6047a5bb84f87d850edf618ad33851a2cf43",
+    "README.md": "5b982d08e40b8da3f4ecad3b60adb37069b0445ec5bec4417c1d4fe8dac160fc",
     "examples/complete_workflow_4x.mp4": "fc422a45daa64ea2143db12dd60a5c34f1687a48f6f0b817bc980d295ec0149c",
     "examples/initial_back_up.png": "907ad9403f00999ab7eb56b2fa965ae7f63b2ec9b977b5095826789a4a76de4b",
     "examples/storyboard.jpg": "c2dc79252bdf530cc5248fc95402f7f119e70db29c20f11a7b9f738df0ac5dcf",
@@ -347,8 +347,6 @@
     "validation/data_validation.json": "851df8209433aeecc5b6a07be6751b9eb81c7ffe13ea9628d1e588c4a21fdd54",
     "validation/interface_merge_validation.json": "03cc445ae6712df27202d48c4d704e3e23f3bb7e7cff2ab7768c877c18b52d75",
     "validation/motion_quality.json": "821e9bb8c6c4968c5a7cc79113002521e2c8d0e77a7113a94779a3ef000f7aef",
-    "validation/motion_quality_v5.json": "d5b6486a4eb499ea5b77900a25f012173b9f8b94402610bdad7055bcaea21b93",
-    "validation/rotation_comparison.json": "0cc9ef12fa7257f646bb37402114b57126193ecfddd2b194640102acfa231d19",
     "validation/source_provenance.json": "b583aa33cf5a51e3d2d22669404a75914f4629ea0af1976b47b65b4575243f67",
     "validation/tool_clip_validation.json": "9b851c966b37df3d069fbdf4b6f7269f9947d1f1638016474a289b0bcbf1da45",
     "validation/trajectory_comparison.json": "74b8907c3ebdcc496281eb4a199b2e415593f7f82556a9bf512113d81a9cd918",
