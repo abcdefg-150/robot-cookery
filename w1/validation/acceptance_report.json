@@ -1,11 +1,11 @@
 {
   "status": "passed",
-  "release": "w1-cookery-stir-v1",
-  "task_config": "w1_finals_real_v5",
-  "validated_at": "2026-11-22T09:02:11.483540+00:00",
+  "release": "w1-cookery-minimal-rotation-v2",
+  "task_config": "w1_finals_real_v6",
+  "validated_at": "2026-11-22T11:35:43.444459+00:00",
   "independent_simulation_episodes": 1,
   "source_seed": 0,
-  "frames": 5924,
+  "frames": 4510,
   "frequency_hz": 30,
   "state_action_dimension": 14,
   "rgb_d_cameras": 3,
@@ -17,16 +17,16 @@
   ],
   "stir_metrics": {
     "success": true,
-    "motion_duration_s": 2.448000116273761,
-    "contact_duration_s": 2.140000101644546,
-    "contact_steps": 535,
-    "direction_reversals": 5,
-    "maximum_food_displacement_m": 0.032862333176530846,
+    "motion_duration_s": 2.3520001117140055,
+    "contact_duration_s": 1.9480000925250351,
+    "contact_steps": 487,
+    "direction_reversals": 3,
+    "maximum_food_displacement_m": 0.019950510479047792,
     "contacted_foods": [
-      "green_pepper",
-      "small_pepper"
+      "eggplant",
+      "green_pepper"
     ],
-    "tool_planar_path_m": 0.10105274411475143,
+    "tool_planar_path_m": 0.09931286482920519,
     "minimum_motion_duration_s": 2.0,
     "minimum_food_displacement_m": 0.005,
     "minimum_stroke_m": 0.008,
@@ -48,21 +48,33 @@
     "both_arms_parked": true,
     "effective_reciprocal_stirring": true
   },
+  "motion_quality_checks": {
+    "all_four_food_transfers_measured": true,
+    "food_transfer_rotation_below_30deg": true,
+    "stir_entry_below_75deg": true,
+    "stir_lower_keeps_orientation": true,
+    "no_extra_rotation_loops": true
+  },
   "severe_collision_events": 0,
   "native_and_hdf_validation": "passed",
   "actual_pi05_all_frames_reader": "passed",
   "clean_install_full_fsm": "passed",
   "clean_install_has_raw_real_data": false,
   "api_smoke": "passed",
-  "unit_tests_passed": 19,
+  "unit_tests_passed": 29,
   "training_data_in_git": false,
   "lerobot_exported": false,
   "model_training_started": false,
-  "data_path": "data/w1_stir_back_up_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
+  "data_path": "data/w1_minimal_rotation_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
   "limitations": [
+    "One seed validated; no multi-seed success-rate claim.",
     "Pan fixed; real pan moves.",
     "Wrist mounts and object dimensions fitted from images.",
-    "Simulation duration 197.54 s vs real 106.43 s; conservative timing, no video retiming.",
+    "Simulation duration 150.41 s vs real 106.43 s; conservative timing.",
     "Actuator and contact parameters not identified from the real robot."
-  ]
+  ],
+  "online_gripper_unit": "m",
+  "offline_hdf5_gripper_unit": "normalized_width_fraction",
+  "online_joint_step_limit_rad": 0.05,
+  "interface_merge_validation": "interface_merge_validation.json"
 }

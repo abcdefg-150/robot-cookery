@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "remote_interface_commit": "33753fc",
+  "checked_producer_functions": [
+    "task_configuration",
+    "joint_packet",
+    "NativeRecorder",
+    "W1Simulation.__init__",
+    "W1Simulation.reset",
+    "W1Simulation.expert",
+    "W1Simulation.close"
+  ],
+  "native_producer_and_expert_semantics_unchanged": true,
+  "collection_provenance_preserved": true,
+  "online_units": "m",
+  "offline_hdf5_gripper_units": "normalized_width_fraction",
+  "note": "Full episode was recorded before merging the online step/observation interface change. Native recorder, joint packets, reset, expert and close are unchanged; merged online contract is verified separately."
+}

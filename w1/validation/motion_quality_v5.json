@@ -1,0 +1,516 @@
+{
+  "episode": "data/w1_stir_back_up_v1/candidates/seed_0000",
+  "quaternion_order": "xyzw",
+  "sampling_hz": 250,
+  "metric": "SO(3) geodesic increments over every recorded physical sample",
+  "success": false,
+  "checks": {
+    "all_four_food_transfers_measured": true,
+    "food_transfer_rotation_below_30deg": false,
+    "stir_entry_below_75deg": false,
+    "stir_lower_keeps_orientation": false,
+    "no_extra_rotation_loops": false
+  },
+  "stages": [
+    {
+      "phase": "SMALL_PEPPER_APPROACH",
+      "stage_index": 0,
+      "arm": "right",
+      "duration_s": 4.476000212598592,
+      "translation_path_m": 0.39397788978942727,
+      "net_rotation_deg": 90.42633316473797,
+      "angular_path_deg": 105.23127817787241,
+      "excess_rotation_deg": 14.804945013134443
+    },
+    {
+      "phase": "SMALL_PEPPER_DESCEND",
+      "stage_index": 1,
+      "arm": "right",
+      "duration_s": 0.9680000459775329,
+      "translation_path_m": 0.16027032593634627,
+      "net_rotation_deg": 0.10917238698107669,
+      "angular_path_deg": 0.4628305260726124,
+      "excess_rotation_deg": 0.3536581390915357
+    },
+    {
+      "phase": "SMALL_PEPPER_GRASP",
+      "stage_index": 2,
+      "arm": "right",
+      "duration_s": 1.4000000664964318,
+      "translation_path_m": 0.0008762554235456808,
+      "net_rotation_deg": 0.09078227550456347,
+      "angular_path_deg": 0.10547459635012396,
+      "excess_rotation_deg": 0.014692320845560491
+    },
+    {
+      "phase": "SMALL_PEPPER_LIFT",
+      "stage_index": 3,
+      "arm": "right",
+      "duration_s": 1.1760000558570027,
+      "translation_path_m": 0.1626239330134609,
+      "net_rotation_deg": 0.14715137477463716,
+      "angular_path_deg": 0.30738349310307217,
+      "excess_rotation_deg": 0.160232118328435
+    },
+    {
+      "phase": "SMALL_PEPPER_TRANSFER",
+      "stage_index": 4,
+      "arm": "right",
+      "duration_s": 7.2600003448314965,
+      "translation_path_m": 0.36753756183984787,
+      "net_rotation_deg": 51.80257865386677,
+      "angular_path_deg": 51.85609496550659,
+      "excess_rotation_deg": 0.053516311639825176
+    },
+    {
+      "phase": "SMALL_PEPPER_RELEASE",
+      "stage_index": 5,
+      "arm": "right",
+      "duration_s": 2.2120001050643623,
+      "translation_path_m": 0.09593167185517029,
+      "net_rotation_deg": 0.027935354852860465,
+      "angular_path_deg": 0.41598988668126863,
+      "excess_rotation_deg": 0.38805453182840816
+    },
+    {
+      "phase": "SMALL_PEPPER_RETREAT",
+      "stage_index": 6,
+      "arm": "right",
+      "duration_s": 1.0760000511072576,
+      "translation_path_m": 0.03977949719945921,
+      "net_rotation_deg": 0.04076370217987188,
+      "angular_path_deg": 0.24288894944303746,
+      "excess_rotation_deg": 0.20212524726316558
+    },
+    {
+      "phase": "SMALL_PEPPER_PARK",
+      "stage_index": 7,
+      "arm": "right",
+      "duration_s": 7.540000358130783,
+      "translation_path_m": 0.577157768751044,
+      "net_rotation_deg": 89.81072856525478,
+      "angular_path_deg": 136.94493195376458,
+      "excess_rotation_deg": 47.1342033885098
+    },
+    {
+      "phase": "GREEN_PEPPER_APPROACH",
+      "stage_index": 8,
+      "arm": "left",
+      "duration_s": 5.972000283654779,
+      "translation_path_m": 0.3683958449865821,
+      "net_rotation_deg": 96.86720159185334,
+      "angular_path_deg": 114.09964882276543,
+      "excess_rotation_deg": 17.232447230912086
+    },
+    {
+      "phase": "GREEN_PEPPER_DESCEND",
+      "stage_index": 9,
+      "arm": "left",
+      "duration_s": 1.1440000543370843,
+      "translation_path_m": 0.18299700151026588,
+      "net_rotation_deg": 0.1013616559675615,
+      "angular_path_deg": 0.47067377536048227,
+      "excess_rotation_deg": 0.36931211939292075
+    },
+    {
+      "phase": "GREEN_PEPPER_GRASP",
+      "stage_index": 10,
+      "arm": "left",
+      "duration_s": 1.4000000664964318,
+      "translation_path_m": 0.0007751192615815777,
+      "net_rotation_deg": 0.07664671857264999,
+      "angular_path_deg": 0.08404610673405102,
+      "excess_rotation_deg": 0.007399388161401038
+    },
+    {
+      "phase": "GREEN_PEPPER_LIFT",
+      "stage_index": 11,
+      "arm": "left",
+      "duration_s": 1.2080000573769212,
+      "translation_path_m": 0.16246953235863465,
+      "net_rotation_deg": 0.15618463547823555,
+      "angular_path_deg": 0.33185677802391705,
+      "excess_rotation_deg": 0.1756721425456815
+    },
+    {
+      "phase": "GREEN_PEPPER_TRANSFER",
+      "stage_index": 12,
+      "arm": "left",
+      "duration_s": 3.860000183340162,
+      "translation_path_m": 0.33828084393826885,
+      "net_rotation_deg": 96.98187071945145,
+      "angular_path_deg": 96.9848453580364,
+      "excess_rotation_deg": 0.0029746385849449553
+    },
+    {
+      "phase": "GREEN_PEPPER_RELEASE",
+      "stage_index": 13,
+      "arm": "left",
+      "duration_s": 2.160000102594495,
+      "translation_path_m": 0.08456172396452699,
+      "net_rotation_deg": 0.03368390346240544,
+      "angular_path_deg": 0.394390691726081,
+      "excess_rotation_deg": 0.3607067882636755
+    },
+    {
+      "phase": "GREEN_PEPPER_RETREAT",
+      "stage_index": 14,
+      "arm": "left",
+      "duration_s": 1.0840000514872372,
+      "translation_path_m": 0.0397480382336279,
+      "net_rotation_deg": 0.041552603712715595,
+      "angular_path_deg": 0.2431394681664873,
+      "excess_rotation_deg": 0.2015868644537717
+    },
+    {
+      "phase": "GREEN_PEPPER_PARK",
+      "stage_index": 15,
+      "arm": "left",
+      "duration_s": 6.264000297524035,
+      "translation_path_m": 0.4378628586406682,
+      "net_rotation_deg": 125.00935032914042,
+      "angular_path_deg": 139.61924828234567,
+      "excess_rotation_deg": 14.609897953205248
+    },
+    {
+      "phase": "POTATO_APPROACH",
+      "stage_index": 16,
+      "arm": "right",
+      "duration_s": 3.6080001713708043,
+      "translation_path_m": 0.3153273331304877,
+      "net_rotation_deg": 120.88636838195634,
+      "angular_path_deg": 122.36497579501608,
+      "excess_rotation_deg": 1.4786074130597342
+    },
+    {
+      "phase": "POTATO_DESCEND",
+      "stage_index": 17,
+      "arm": "right",
+      "duration_s": 1.0160000482574105,
+      "translation_path_m": 0.167741098285142,
+      "net_rotation_deg": 0.1014575930063029,
+      "angular_path_deg": 0.4081329360660103,
+      "excess_rotation_deg": 0.3066753430597074
+    },
+    {
+      "phase": "POTATO_GRASP",
+      "stage_index": 18,
+      "arm": "right",
+      "duration_s": 1.4000000664964318,
+      "translation_path_m": 0.0006195393277821638,
+      "net_rotation_deg": 0.07048864158917774,
+      "angular_path_deg": 0.09446711230291549,
+      "excess_rotation_deg": 0.02397847071373775
+    },
+    {
+      "phase": "POTATO_LIFT",
+      "stage_index": 19,
+      "arm": "right",
+      "duration_s": 1.1960000568069518,
+      "translation_path_m": 0.16273323613504062,
+      "net_rotation_deg": 0.16376740291335184,
+      "angular_path_deg": 0.2688391775586382,
+      "excess_rotation_deg": 0.10507177464528633
+    },
+    {
+      "phase": "POTATO_TRANSFER",
+      "stage_index": 20,
+      "arm": "right",
+      "duration_s": 15.352000729180872,
+      "translation_path_m": 0.37236359437429,
+      "net_rotation_deg": 34.358579333054756,
+      "angular_path_deg": 358.41628800544976,
+      "excess_rotation_deg": 324.057708672395
+    },
+    {
+      "phase": "POTATO_RELEASE",
+      "stage_index": 21,
+      "arm": "right",
+      "duration_s": 2.0480000972747803,
+      "translation_path_m": 0.06100495322766765,
+      "net_rotation_deg": 0.03025456419276672,
+      "angular_path_deg": 0.32744105795463485,
+      "excess_rotation_deg": 0.2971864937618681
+    },
+    {
+      "phase": "POTATO_RETREAT",
+      "stage_index": 22,
+      "arm": "right",
+      "duration_s": 1.0920000518672168,
+      "translation_path_m": 0.03969506342244576,
+      "net_rotation_deg": 0.03935042571193926,
+      "angular_path_deg": 0.2564780313291367,
+      "excess_rotation_deg": 0.21712760561719746
+    },
+    {
+      "phase": "POTATO_PARK",
+      "stage_index": 23,
+      "arm": "right",
+      "duration_s": 15.060000715311617,
+      "translation_path_m": 0.23204772584325897,
+      "net_rotation_deg": 94.48970394859406,
+      "angular_path_deg": 293.7661716491703,
+      "excess_rotation_deg": 199.27646770057623
+    },
+    {
+      "phase": "EGGPLANT_APPROACH",
+      "stage_index": 24,
+      "arm": "left",
+      "duration_s": 3.536000167950988,
+      "translation_path_m": 0.3238620639139259,
+      "net_rotation_deg": 116.23223160259337,
+      "angular_path_deg": 117.7602771074786,
+      "excess_rotation_deg": 1.5280455048852275
+    },
+    {
+      "phase": "EGGPLANT_DESCEND",
+      "stage_index": 25,
+      "arm": "left",
+      "duration_s": 1.1680000554770231,
+      "translation_path_m": 0.16277600599455372,
+      "net_rotation_deg": 0.1402431540550236,
+      "angular_path_deg": 0.2830253737592331,
+      "excess_rotation_deg": 0.14278221970420948
+    },
+    {
+      "phase": "EGGPLANT_GRASP",
+      "stage_index": 26,
+      "arm": "left",
+      "duration_s": 1.4000000664964318,
+      "translation_path_m": 0.0007505632551726532,
+      "net_rotation_deg": 0.08180675019715343,
+      "angular_path_deg": 0.13452072767803575,
+      "excess_rotation_deg": 0.052713977480882315
+    },
+    {
+      "phase": "EGGPLANT_LIFT",
+      "stage_index": 27,
+      "arm": "left",
+      "duration_s": 1.3680000649765134,
+      "translation_path_m": 0.16292667961246501,
+      "net_rotation_deg": 0.1657425187466074,
+      "angular_path_deg": 0.306213953873872,
+      "excess_rotation_deg": 0.14047143512726462
+    },
+    {
+      "phase": "EGGPLANT_TRANSFER",
+      "stage_index": 28,
+      "arm": "left",
+      "duration_s": 2.1200001006945968,
+      "translation_path_m": 0.2832116539192359,
+      "net_rotation_deg": 63.84824688935592,
+      "angular_path_deg": 63.86310988607762,
+      "excess_rotation_deg": 0.014862996721703325
+    },
+    {
+      "phase": "EGGPLANT_RELEASE",
+      "stage_index": 29,
+      "arm": "left",
+      "duration_s": 2.176000103354454,
+      "translation_path_m": 0.06586469024585272,
+      "net_rotation_deg": 0.025411737216334915,
+      "angular_path_deg": 0.38614797195035355,
+      "excess_rotation_deg": 0.3607362347340186
+    },
+    {
+      "phase": "EGGPLANT_RETREAT",
+      "stage_index": 30,
+      "arm": "left",
+      "duration_s": 1.1680000554770231,
+      "translation_path_m": 0.03973353729402418,
+      "net_rotation_deg": 0.044970732734562924,
+      "angular_path_deg": 0.23840065004224908,
+      "excess_rotation_deg": 0.19342991730768616
+    },
+    {
+      "phase": "EGGPLANT_PARK",
+      "stage_index": 31,
+      "arm": "left",
+      "duration_s": 2.87200013641268,
+      "translation_path_m": 0.13102732828390112,
+      "net_rotation_deg": 61.08517741579536,
+      "angular_path_deg": 61.412324892039905,
+      "excess_rotation_deg": 0.3271474762445479
+    },
+    {
+      "phase": "SPATULA_APPROACH",
+      "stage_index": 33,
+      "arm": "right",
+      "duration_s": 3.9120001858100295,
+      "translation_path_m": 0.2851721044237779,
+      "net_rotation_deg": 99.66467370900207,
+      "angular_path_deg": 102.9811376653862,
+      "excess_rotation_deg": 3.3164639563841263
+    },
+    {
+      "phase": "SPATULA_DESCEND",
+      "stage_index": 34,
+      "arm": "right",
+      "duration_s": 1.0120000480674207,
+      "translation_path_m": 0.1290873808291897,
+      "net_rotation_deg": 0.09623009139820028,
+      "angular_path_deg": 0.1600733498161977,
+      "excess_rotation_deg": 0.06384325841799741
+    },
+    {
+      "phase": "SPATULA_GRASP",
+      "stage_index": 35,
+      "arm": "right",
+      "duration_s": 1.4000000664964318,
+      "translation_path_m": 0.0007090110207997748,
+      "net_rotation_deg": 0.05660985488615674,
+      "angular_path_deg": 0.09176474465326824,
+      "excess_rotation_deg": 0.0351548897671115
+    },
+    {
+      "phase": "SPATULA_LIFT",
+      "stage_index": 36,
+      "arm": "right",
+      "duration_s": 1.7200000816956162,
+      "translation_path_m": 0.1295449591936385,
+      "net_rotation_deg": 0.08744614093688297,
+      "angular_path_deg": 0.31669224661513795,
+      "excess_rotation_deg": 0.22924610567825499
+    },
+    {
+      "phase": "STIR_APPROACH",
+      "stage_index": 38,
+      "arm": "right",
+      "duration_s": 13.872000658884645,
+      "translation_path_m": 0.4376893147976595,
+      "net_rotation_deg": 54.0453634517852,
+      "angular_path_deg": 317.1928891023489,
+      "excess_rotation_deg": 263.1475256505637
+    },
+    {
+      "phase": "STIR_LOWER",
+      "stage_index": 39,
+      "arm": "right",
+      "duration_s": 35.56000168900937,
+      "translation_path_m": 0.9960054956666065,
+      "net_rotation_deg": 0.07855889492857872,
+      "angular_path_deg": 370.44124007566086,
+      "excess_rotation_deg": 370.3626811807323
+    },
+    {
+      "phase": "STIR_PUSH",
+      "stage_index": 40,
+      "arm": "right",
+      "duration_s": 2.196000104304403,
+      "translation_path_m": 0.034655759186351685,
+      "net_rotation_deg": 9.736569442295846,
+      "angular_path_deg": 9.791688199108572,
+      "excess_rotation_deg": 0.05511875681272649
+    },
+    {
+      "phase": "STIR_REVERSE",
+      "stage_index": 41,
+      "arm": "right",
+      "duration_s": 0.9880000469274819,
+      "translation_path_m": 0.0330786518731319,
+      "net_rotation_deg": 0.31409021413921473,
+      "angular_path_deg": 0.34595094535218973,
+      "excess_rotation_deg": 0.031860731212975
+    },
+    {
+      "phase": "STIR_PUSH",
+      "stage_index": 42,
+      "arm": "right",
+      "duration_s": 1.2480000592768192,
+      "translation_path_m": 0.03318507907477021,
+      "net_rotation_deg": 3.2684140032277473,
+      "angular_path_deg": 3.3157904830695806,
+      "excess_rotation_deg": 0.04737647984183324
+    },
+    {
+      "phase": "STIR_REVERSE",
+      "stage_index": 43,
+      "arm": "right",
+      "duration_s": 0.9920000471174717,
+      "translation_path_m": 0.03307080996406639,
+      "net_rotation_deg": 0.30458406452382036,
+      "angular_path_deg": 0.3758489921700765,
+      "excess_rotation_deg": 0.07126492764625614
+    },
+    {
+      "phase": "STIR_PUSH",
+      "stage_index": 44,
+      "arm": "right",
+      "duration_s": 1.0400000493973494,
+      "translation_path_m": 0.033062855430719074,
+      "net_rotation_deg": 1.6695445605008177,
+      "angular_path_deg": 1.7108496026035573,
+      "excess_rotation_deg": 0.041305042102739664
+    },
+    {
+      "phase": "STIR_REVERSE",
+      "stage_index": 45,
+      "arm": "right",
+      "duration_s": 0.9840000467374921,
+      "translation_path_m": 0.03302695223482377,
+      "net_rotation_deg": 0.2836357176776878,
+      "angular_path_deg": 0.3141496330403109,
+      "excess_rotation_deg": 0.0305139153626231
+    },
+    {
+      "phase": "STIR_WITHDRAW",
+      "stage_index": 46,
+      "arm": "right",
+      "duration_s": 0.9920000471174717,
+      "translation_path_m": 0.08844306004354813,
+      "net_rotation_deg": 1.3296932742525098,
+      "angular_path_deg": 1.449398130439608,
+      "excess_rotation_deg": 0.11970485618709814
+    },
+    {
+      "phase": "SPATULA_RETURN_CLEAR",
+      "stage_index": 48,
+      "arm": "right",
+      "duration_s": 4.676000222098082,
+      "translation_path_m": 0.4518036668516312,
+      "net_rotation_deg": 54.24882825882879,
+      "angular_path_deg": 61.28298849249512,
+      "excess_rotation_deg": 7.034160233666334
+    },
+    {
+      "phase": "SPATULA_RETURN_APPROACH",
+      "stage_index": 49,
+      "arm": "right",
+      "duration_s": 0.7960000378079712,
+      "translation_path_m": 0.01908084107226251,
+      "net_rotation_deg": 11.438005730140784,
+      "angular_path_deg": 11.454203714199872,
+      "excess_rotation_deg": 0.016197984059088455
+    },
+    {
+      "phase": "SPATULA_RETURN_LOWER",
+      "stage_index": 50,
+      "arm": "right",
+      "duration_s": 0.9960000473074615,
+      "translation_path_m": 0.09876043202476223,
+      "net_rotation_deg": 0.24400796563116883,
+      "angular_path_deg": 0.29714830832861755,
+      "excess_rotation_deg": 0.05314034269744872
+    },
+    {
+      "phase": "SPATULA_RETURN_RELEASE",
+      "stage_index": 51,
+      "arm": "right",
+      "duration_s": 1.600000075995922,
+      "translation_path_m": 0.0010626487586683619,
+      "net_rotation_deg": 0.16123903402308645,
+      "angular_path_deg": 0.16222944982166412,
+      "excess_rotation_deg": 0.0009904157985776707
+    },
+    {
+      "phase": "SPATULA_RETURN_RETREAT",
+      "stage_index": 52,
+      "arm": "right",
+      "duration_s": 1.5080000716261566,
+      "translation_path_m": 0.06986664287584175,
+      "net_rotation_deg": 0.031507348466494,
+      "angular_path_deg": 0.27943230322517093,
+      "excess_rotation_deg": 0.24792495475867693
+    }
+  ]
+}

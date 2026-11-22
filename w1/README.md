@@ -1,6 +1,6 @@
 # 双 W1/G2 做饭仿真环境
 
-当前入口为 `w1_finals_real_v5`，包版本为 `w1-cookery-stir-v1`。此目录是 RoboTwin 2.0 的覆盖包，包含运行所需的 W1 模型、处理后的锅与食材资产、任务脚本、相机标定参考和采集接口。原始实机视频、ZIP、训练 HDF5 不进入本仓库。
+当前入口为 `w1_finals_real_v6`，包版本为 `w1-cookery-minimal-rotation-v2`。此目录是 RoboTwin 2.0 的覆盖包，包含运行所需的 W1 模型、处理后的锅与食材资产、任务脚本、相机标定参考和采集接口。原始实机视频、ZIP、训练 HDF5 不进入本仓库。
 
 ## 场景与任务
 
@@ -12,6 +12,19 @@
 翻炒按用户确认的标准判断：锅内真实接触任一种食材、可见食材位移、小幅往返推动，累计有效运动至少 2 秒。实现中要求被接触食材至少移动 5 mm、推动方向至少反转一次（有效行程至少 8 mm）。计时仅包括锅内往返阶段、工具速度大于 3 mm/s 且最近 0.5 秒内发生过食材接触的运动；静止等待不计时。记录实际接触时长，**不要求 45° 转角或两次翻面**。最终还检查所有食材完整留在锅内、受支撑且连续静止至少 1 秒、锅铲释放归位及无严重碰撞。
 
 锅的 26 cm 是用户提供的待核实尺寸，内径/外径含义未确定。本版按实机画面拟合，锅体外宽约 30.0 cm；资产清单保留估计来源。食材尺寸及腕相机安装也是图像拟合值。前相机采用实机内参及外参；当前锅固定，实机中锅会移动。质量、摩擦与驱动参数为仿真参数，尚未进行实机动力学辨识。
+
+## 搬运姿态与轨迹检查
+
+食材入锅没有指定 yaw。状态机优先保持抬起后的实际姿态；不可达时才按小角度递增倾斜，通过连续路径检查后执行。锅铲保持背面朝上的初始摆放，抓起后优先选择与当前姿态接近的推动角度，并预检抬起、入锅和推动走廊。接触后按观察到的夹持姿态退出和放回，放回位置仍为原桌面区域。
+
+检查覆盖整个运动过程。除了限位、避碰与物理接触，还累计每个控制点之间的 SO(3) 转角，拒绝起终点接近但途中绕圈的 IK 分支。空爪归位也按完整轨迹选取腕部解。采集后在原生约 250 Hz 末端反馈上再次独立检查：四次食材搬运各不超过 30°，锅铲入锅不超过 75°，下降不超过 15°；各阶段累计转角超出起终点最短转角不超过 25°。这些是采集质量上限，实际轨迹优先保持姿态。
+
+```bash
+python scripts/analyze_w1_motion.py data/w1_cookery_001/candidates/seed_0000 \
+  --output data/w1_cookery_001/motion_quality.json --require-pass
+```
+
+采集器自动执行该检查，并将结果写入候选的 `motion_quality.json` 和 HDF5 的场景元数据。不合格候选不会加入 accepted 列表。旧 v5 示例虽然通过物理任务判断，但包含不必要的搬运旋转和关节回退绕转，已由本版替换；扩充训练集时使用新采集的 v6 数据。
 
 ## 安装
 
@@ -36,10 +49,10 @@ python w1/install.py --target ~/RoboTwin
 
 ```bash
 # 录制正面及左右腕部三视角预览，不导出训练示范
-python scripts/preview_w1_current.py --config w1_finals_real_v5 --output data/w1_preview_001
+python scripts/preview_w1_current.py --config w1_finals_real_v6 --output data/w1_preview_001
 
 # 30 Hz reset/step 接口的保持动作检查；此输出不属于成功示范
-python scripts/example_w1_policy_collection.py --config w1_finals_real_v5 \
+python scripts/example_w1_policy_collection.py --config w1_finals_real_v6 \
   --steps 30 --record-dir data/w1_api_smoke_001 --report data/w1_api_smoke_001_report.json
 
 # 判定器和接触过滤测试
@@ -52,7 +65,7 @@ python -m unittest discover -s XPolicyLab/policy/Pi_05/tests -v
 ## 采集一条完整示范
 
 ```bash
-python scripts/collect_w1_real_style.py --config w1_finals_real_v5 \
+python scripts/collect_w1_real_style.py --config w1_finals_real_v6 \
   --output data/w1_cookery_001 --episodes 1 --max-attempts 5
 ```
 
@@ -84,7 +97,7 @@ data/w1_cookery_001/
 ```python
 from scripts.w1_sim_interface import W1Simulation
 
-sim = W1Simulation("w1_finals_real_v5", control_hz=30)
+sim = W1Simulation("w1_finals_real_v6", control_hz=30)
 try:
     obs = sim.reset(seed=0)
     action = obs["state"].copy()  # 在这里替换为 VLA 输出
@@ -95,7 +108,7 @@ finally:
 
 在线接口的动作与状态顺序为 `[左 q1…q6, 左开度, 右 q1…q6, 右开度]`。关节目标用 rad 表示绝对位置，每个关节相对当前反馈位置每步最多变化 0.05 rad。夹爪总开度用米，范围为 `[0, 0.072]`，例如 `0.036` 表示 36 mm。观测包含 `state[14]`、三路 RGB `images`、三路 uint16 毫米深度 `depths` 和时间戳。物理频率 250 Hz，接口每次推进 8 或 9 步，实现 30 Hz 控制。
 
-离线 HDF5 转换仍使用归一化开度。其 state 为从手宽度 / 0.072，action 为主手宽度 / 0.0479。原生 EE 四元数为机械臂底座坐标系的 xyzw，仿真物体真值为世界坐标的 wxyz。时间戳保留 float64。仿真 effort 为零占位。实机 `master_qpos` 记录遥操主手编码器参考，原始记录未提供实际发送给从手的网络命令。
+π0.5 若使用本包离线 HDF5 训练，模型输入前需将在线 state 的第 6/13 维除以 0.072，模型输出的第 6/13 维乘以 0.072 后再传给 step。离线 HDF5 转换仍使用归一化开度。其 state 为从手宽度 / 0.072，action 为主手宽度 / 0.0479。原生 EE 四元数为机械臂底座坐标系的 xyzw，仿真物体真值为世界坐标的 wxyz。时间戳保留 float64。仿真 effort 为零占位。实机 `master_qpos` 记录遥操主手编码器参考，原始记录未提供实际发送给从手的网络命令。
 
 若需要转换另一个同格式实机记录：
 
@@ -120,11 +133,25 @@ python scripts/process_data.py w1_cookery_001 w1_finals_real w1_g2 joint --fps 3
 
 ## 本版验收结果
 
-- 原工作区完整采集通过：1 条物理示范，5924 帧，30 Hz、14 维、三路 RGB-D。
-- 有效往返运动 2.448 秒，实际食材接触 2.140 秒，推动方向反转 5 次，食材最大位移约 3.29 cm；严重碰撞事件为 0。
-- 四个食材完整入锅、自然稳定、锅铲释放归位和双臂归位检查全部通过。初始工作面法向 z 分量约 -0.998，验证锅铲背面朝上。
-- 原生 IDX/TSF、ZIP CRC 和 HDF5 独立检查通过；π0.5 读取器实际读取全部 5924 帧通过。
-- 干净 RoboTwin/XPolicyLab 基线安装后，30 次 reset/step 保持检查和完整状态机均通过；仿真目录没有原始实机 episode。
-- 12 项任务/碰撞判定测试及 7 项 π0.5 数据转换测试通过。重复安装预检没有待修改项目。
+- 从独立安装目录实际完成 1 条完整示范（seed 0），4510 帧，30 Hz、14 维、三路 RGB-D；不据此推断多种子成功率。
+- 有效往返运动 2.352 秒，实际食材接触 1.948 秒，方向反转 3 次，食材最大位移约 2.00 cm。
+- 四食材完整入锅、持续自然稳定、锅铲释放归位、双臂归位全部通过；严重碰撞事件为 0，初始锅铲背面朝上。
+- 实际约 250 Hz 末端轨迹质量检查、原生 IDX/TSF、ZIP CRC、HDF5 独立检查及 π0.5 全部 4510 帧读取通过。
+- 独立安装目录的 30 次 reset/step 接口保持检查、22 项任务/接触/转动/在线接口测试和 7 项 π0.5 转换测试通过；重复安装无待修改文件。
 
-本示范约 197.54 秒，实机样例约 106.43 秒；保守规划和接触阶段降速使仿真更慢，未做录像重定时。左右末端累计路径分别约 3.27/6.36 m，实机为 3.68/6.47 m。完整对比及当前近似保留在 `validation/trajectory_comparison.json`，后续扩充训练数据时应结合实机数据评估执行节奏。
+累计实际末端转角对比（包含中途绕转，单位 °）：
+
+| 阶段 | v5 | v6 |
+| --- | ---: | ---: |
+| 小青椒搬运 | 51.9 | 0.4 |
+| 大青椒搬运 | 97.0 | 0.4 |
+| 土豆搬运 | 358.4 | 5.8 |
+| 茄子搬运 | 63.9 | 0.3 |
+| 锅铲入锅 | 317.2 | 19.5 |
+| 锅铲下降 | 370.4 | 0.3 |
+
+视频：[完整流程 4×](examples/complete_workflow_4x.mp4)、[锅铲抓取—翻炒—放回 1×](examples/tool_grasp_stir_return_1x.mp4)。
+
+本示范约 150.41 秒，实机样例约 106.43 秒。原生训练轨迹保留真实仿真时间；4× 仅用于预览播放。具体转动、路径及已知近似见 `validation/motion_quality.json`、`rotation_comparison.json` 和 `trajectory_comparison.json`。
+
+远端接口并发更新已整合：在线开度采用米制、关节每步限幅 0.05 rad。完整示范在该接口合并前采集；状态机、原生写入器及专家执行代码的语义一致性已核对，原始采集哈希保留。合并后的在线接口另外验证，见 `validation/interface_merge_validation.json` 和 `api_smoke.json`。

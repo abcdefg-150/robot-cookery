@@ -1,16 +1,7 @@
 {
   "status": "passed",
-  "executed_from": "/tmp/w1_cookery_install_smoke",
-  "tests": [
-    {
-      "command": "python -m unittest discover -s scripts/tests -v",
-      "passed": 12,
-      "failed": 0
-    },
-    {
-      "command": "python -m unittest discover -s XPolicyLab/policy/Pi_05/tests -v",
-      "passed": 7,
-      "failed": 0
-    }
-  ]
+  "installed_root": "/tmp/w1_cookery_install_smoke",
+  "task_contact_and_motion_tests": 22,
+  "pi05_conversion_tests": 7,
+  "total": 29
 }

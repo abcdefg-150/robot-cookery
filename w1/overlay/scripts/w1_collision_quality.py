@@ -41,7 +41,7 @@ class CollisionQuality:
                 limit=.25 if intended else .01
             elif set(names)=={"spatula","skillet"}:
                 intended_turn=task.fsm_state.startswith("TURN_") and any(x in task.fsm_state for x in ("INSERT","SCOOP","WITHDRAW"))
-                intended_turn=intended_turn or task.fsm_state in {'STIR_LOWER','STIR_PUSH','STIR_REVERSE'}
+                intended_turn=intended_turn or task.fsm_state in {'STIR_LOWER','STIR_PUSH','STIR_REVERSE','STIR_WITHDRAW'}
                 observer=getattr(task,"policy_observer",None)
                 intended_turn=intended_turn or bool(observer is not None and task.fsm_state.startswith("TURN_") and observer.lifted["spatula"])
                 intended_turn=intended_turn or bool(observer is not None and task.fsm_state=='STIR_POLICY' and observer.lifted['spatula'])

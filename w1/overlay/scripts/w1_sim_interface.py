@@ -88,6 +88,7 @@ class NativeRecorder:
             "small_object_contact_offset_m":task.contact_offset,
             "small_object_solver_iterations":task.object_solver_iterations,
             "required_final_stationary_dwell_s":task.final_stability_min_s,
+            "minimal_rotation":task.minimal_rotation,"rotation_path_slack_deg":task.rotation_path_slack_deg,
             "asset_manifest":task.assets,"spatula_metadata":task.tool_metadata,
             "pan_mouth_diameter_m":task.assets["pan"].get("mouth_diameter_m"),
             "pan_size_basis":task.assets["pan"].get("diameter_measurement_basis","previous nominal dimensions"),
@@ -168,7 +169,7 @@ class NativeRecorder:
 
 class W1Simulation:
     """Minimal reset/step API; no network or physical-robot side effects."""
-    def __init__(self,config="w1_finals_real_v5",control_hz=30):
+    def __init__(self,config="w1_finals_real_v6",control_hz=30):
         self.config_name=config;self.control_hz=control_hz;self.task=None;self.recorder=None;self.control_steps=0
 
     def reset(self,seed=0,record_dir=None,need_plan=True,episode_id=0):

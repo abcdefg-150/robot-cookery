@@ -17,6 +17,9 @@ class ContactFilterTest(unittest.TestCase):
   q=CollisionQuality();q.observe(task(["spatula","skillet"],.01,"TURN_1_SCOOP"));self.assertFalse(q.severe)
  def test_wrong_food_contact_is_rejected(self):
   with self.assertRaises(RuntimeError):CollisionQuality().observe(task(["g2_left_link","green_pepper"],.02,"POTATO_GRASP","potato"))
+ def test_stir_withdraw_allows_only_bounded_tool_pan_contact(self):
+  q=CollisionQuality();q.observe(task(['spatula','skillet'],.01,'STIR_WITHDRAW'));self.assertFalse(q.severe)
+  with self.assertRaises(RuntimeError):CollisionQuality().observe(task(['spatula','skillet'],.03,'STIR_WITHDRAW'))
  def test_policy_closed_gripper_can_grasp_without_expert_intent(self):
   t=task(["g2_left_link","green_pepper"],.15,"GREEN_PEPPER_POLICY",None)
   body=t.scene.get_contacts()[0].bodies[0]
