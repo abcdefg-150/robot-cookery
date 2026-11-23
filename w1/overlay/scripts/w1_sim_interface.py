@@ -202,7 +202,8 @@ class W1Simulation:
                 "depths":depths,"depth_unit":"mm",
                 "timestamp":task._record_step/250,"phase":task.fsm_state}
 
-    def step(self,action):
+    def step(self, action, *, observe=True):
+        """Advance physics and optionally render the next policy observation."""
         action = np.asarray(action, dtype=float)
         if action.shape != (14,) or not np.isfinite(action).all():
             raise ValueError("Expected finite 14-D action")
@@ -228,7 +229,8 @@ class W1Simulation:
         steps=desired-round((self.control_steps-1)*250/self.control_hz)
         self.task._wait(steps/250)
         success=self.policy_monitor.success
-        return self.observation(),float(success),success,self.control_steps>=9000,{"control_hz":self.control_hz,"physics_steps":steps,**self.policy_monitor.info()}
+        observation = self.observation() if observe else None
+        return observation,float(success),success,self.control_steps>=9000,{"control_hz":self.control_hz,"physics_steps":steps,**self.policy_monitor.info()}
 
     def expert(self):
         self.task.policy_observer=None

@@ -3,7 +3,8 @@ import numpy as np
 
 
 class CollisionQuality:
-    def __init__(self):
+    def __init__(self, *, terminate_on_severe=True):
+        self.terminate_on_severe = terminate_on_severe
         self.severe=[];self.peak={};self.contact_steps=0
 
     @staticmethod
@@ -52,7 +53,8 @@ class CollisionQuality:
                 event={"phase":task.fsm_state,"time_s":task._record_step*task.scene.get_timestep(),
                        "bodies":pair,"impulse_Ns":impulse,"limit_Ns":limit}
                 self.severe.append(event)
-                raise RuntimeError(f"Unintended strong contact: {event}")
+                if self.terminate_on_severe:
+                    raise RuntimeError(f"Unintended strong contact: {event}")
 
     def report(self):
         return {"severe_event_count":len(self.severe),"severe_events":self.severe,

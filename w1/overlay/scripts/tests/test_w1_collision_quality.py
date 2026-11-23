@@ -12,6 +12,11 @@ class ContactFilterTest(unittest.TestCase):
   q=CollisionQuality();q.observe(task(["g2_left_link","green_pepper"],.08,"GREEN_PEPPER_RELEASE"));self.assertEqual(q.report()["severe_event_count"],0)
  def test_robot_pan_contact_is_rejected(self):
   with self.assertRaisesRegex(RuntimeError,"strong contact"):CollisionQuality().observe(task(["link6","skillet"],.02,"TURN_1_APPROACH"))
+ def test_can_record_severe_contact_without_terminating(self):
+  q=CollisionQuality(terminate_on_severe=False)
+  q.observe(task(["link6","skillet"],.02,"TURN_1_APPROACH"))
+  self.assertEqual(q.report()["severe_event_count"],1)
+  self.assertEqual(q.severe[0]["limit_Ns"],.01)
  def test_air_approach_and_controlled_stir_are_distinguished(self):
   with self.assertRaises(RuntimeError):CollisionQuality().observe(task(["spatula","skillet"],.001,"TURN_1_APPROACH"))
   q=CollisionQuality();q.observe(task(["spatula","skillet"],.01,"TURN_1_SCOOP"));self.assertFalse(q.severe)
