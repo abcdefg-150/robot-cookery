@@ -13,6 +13,7 @@ import cv2
 import h5py
 import numpy as np
 from w1_recording import CAMERAS,load_actions,read_tsf,nearest_indices,interpolate,SLAVE_GRIPPER_STROKE_M,MASTER_GRIPPER_STROKE_M
+from w1_stage_instructions import write_stage_instructions
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
@@ -118,6 +119,8 @@ def convert(source,output,fps=30):
             if annotation.exists() and source.resolve()==reference:
                 for row in json.loads(annotation.read_text()):phases[(relative>=row["start_s"])&(relative<row["end_s"])]=row["phase"]
         target.create_dataset("additional_info/fsm_state",data=phases,dtype=h5py.string_dtype())
+        if simulation:
+            write_stage_instructions(target)
         instruction=("Put both green peppers, the potato and the eggplant in the pan, stir with small back-and-forth pushes for at least two seconds, and return the spatula."
                      if stirring or not simulation else "Put both green peppers, the potato and the eggplant in the pan, turn the contents twice with the spatula, and return the spatula.")
         if simulation and extra.get('paired_foods'):instruction=meta['task_meta']['prompt']

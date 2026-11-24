@@ -26,6 +26,7 @@ def snapshot(config,destination):
            ROOT/"envs/robot/planner.py",ROOT/"envs/robot/ik.py",ROOT/"scripts/w1_sim_interface.py",
            ROOT/"envs/robot/curobo_compat.py",
            ROOT/"scripts/w1_recording.py",ROOT/"scripts/convert_w1_native.py",Path(__file__).resolve(),
+           ROOT/"scripts/w1_stage_instructions.py",
            ROOT/"scripts/w1_task_monitor.py",ROOT/"envs/_base_task.py",
            ROOT/"scripts/w1_collision_quality.py",ROOT/"envs/robot/cartesian_trajectory.py",
            ROOT/"scripts/w1_stir_monitor.py",ROOT/"scripts/prepare_w1_back_up_reference.py",
