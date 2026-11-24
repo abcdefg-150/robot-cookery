@@ -1,0 +1,15 @@
+{
+  "target": "/tmp/w1_dual_install_smoke",
+  "dry_run": true,
+  "files_to_copy": 0,
+  "core_patches": 0,
+  "registries_to_merge": 0,
+  "runtime_planner_configs": 0,
+  "identical_files": 235,
+  "status": "passed",
+  "initial_install_files": 235,
+  "initial_core_patches": 6,
+  "initial_registries_merged": 4,
+  "initial_planner_configs": 3,
+  "raw_real_episode_available": false
+}

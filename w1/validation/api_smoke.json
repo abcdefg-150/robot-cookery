@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "config": "w1_finals_real_v6",
+  "config": "w1_finals_real_v7",
   "hold_control_steps": 30,
   "hold_physics_steps": 250,
   "additional_limit_and_opening_steps": 1,

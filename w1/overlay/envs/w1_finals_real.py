@@ -13,6 +13,17 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 class w1_finals_real(w1_finals):
+    def _transition(self,state):
+        super()._transition(state)
+        if not getattr(self,'paired_foods',False) or state.startswith('PAIR_'):return
+        if state.startswith(('SPATULA','STIR')) or state=='FINAL_PARK':sides=[self.tool_arm]
+        elif state in ('FINAL_LEFT_PARK','TOOL_CLEARANCE_PARK'):sides=['left']
+        elif state in ('FINAL_SETTLE','DONE'):sides=['left','right']
+        else:return
+        for side in sides:
+            self.arm_fsm_state[side]=state
+            self.arm_fsm_transitions[side].append({'state':state,'time':self._record_step*self.scene.get_timestep()})
+
     def setup_demo(self, **kwargs):
         self.record_sink=None
         self.reference_episode=kwargs.get("real_episode","data/real_w1/episode_0001")
@@ -32,6 +43,10 @@ class w1_finals_real(w1_finals):
         self.minimal_rotation=bool(kwargs.get('minimal_rotation',False))
         self.rotation_path_slack_deg=float(kwargs.get('rotation_path_slack_deg',20.0))
         self.transfer_plans={}
+        self.paired_foods=bool(kwargs.get('paired_foods',False))
+        self.grasp_intents={}
+        self.arm_fsm_transitions={'left':[],'right':[]}
+        self.arm_fsm_state={'left':'IDLE','right':'IDLE'}
         self.stir_task=bool(kwargs.get("stir_task",False))
         from scripts.w1_stir_monitor import StirMonitor
         self.stir_monitor=StirMonitor(kwargs.get("stir_min_motion_s",2.0))
@@ -149,8 +164,8 @@ class w1_finals_real(w1_finals):
             return valid and (planner.trajectory_accept is None or planner.trajectory_accept(np.asarray(values)[None]))
         return planner.pose_ik.solve(p,q,current,accept=accept) is not None
 
-    def _pick(self,name,arm):
-        self.grasp_intent=name;self.held_entity[str(arm)]=None
+    def _select_grasp(self,name,arm):
+        self.held_entity[str(arm)]=None
         config=self.tool_metadata if name=="spatula" else self.assets[name]
         if name=="spatula":
             # The thin handle otherwise receives much less normal force than
@@ -210,10 +225,15 @@ class w1_finals_real(w1_finals):
                     config["grasp_offset"]=adjusted.tolist()
                     self.selected_grasps[name]={"rotation_rpy":list(config["grasp_rotation_rpy"]),"lift_vector":vector.tolist(),"grasp_offset":adjusted.tolist()}
                     print(f"[W1 real grasp] {name}: {self.selected_grasps[name]}",flush=True)
-                    result=super()._pick(name,arm)
-                    self.held_entity[str(arm)]=entity
-                    return result
+                    return config
         raise RuntimeError(f"No collision-free approach/grasp/lift for {name}: {start}")
+
+    def _pick(self,name,arm):
+        self.grasp_intent=name
+        self._select_grasp(name,arm)
+        result=super()._pick(name,arm)
+        self.held_entity[str(arm)]=self.spatula if name=='spatula' else self.foods[name]
+        return result
 
     def _place_food(self,kind,arm,xy):
         arm=ArmTag(arm);self.active_arm=arm;food=self.foods[kind]
@@ -246,39 +266,9 @@ class w1_finals_real(w1_finals):
             print(f'[W1 transfer] {kind}: {self.transfer_plans[kind]}',flush=True)
         self._move_object(arm,food,[*xy,self.pot_rim+.065],rotation)
         self._wait(.10)
-        # Rounded props can rotate inside a real contact grasp during transfer.
-        # Re-observe that grip before computing a low placement; retaining the
-        # initial rigid transform can command the food below the pan surface.
-        self._remember_grasp(arm,food)
-        rotation=food.pose.to_transformation_matrix()[:3,:3].copy()
-        profile=self.assets["pan"]["collision_approximation"]
-        points=self.food_vertices[kind]@rotation.T
-        radius=np.linalg.norm(points[:,:2]+np.asarray(xy)-self.pot_center[:2],axis=1)
-        height=np.interp(radius,np.r_[0,profile["radii_m"]],np.r_[self.assets["pan"]["floor_height"],profile["heights_m"]])
-        minimum=self.table_top+float(np.max(height-points[:,2]))+.012
-        # Clear the actual settled foods before opening the fingers. The
-        # previous pan-only height could press a held potato into a pepper.
-        from scipy.spatial import ConvexHull
-        from scipy.optimize import linprog
-        held_hull=ConvexHull(points+np.r_[xy,0]).equations
-        for other,actor in self.foods.items():
-            if other==kind:continue
-            world=self.food_vertices[other]@actor.pose.to_transformation_matrix()[:3,:3].T+actor.pose.p
-            fixed_hull=ConvexHull(world).equations
-            # x/y are shared; z of the held shape and settled object vary
-            # independently. Max(z_other-z_held) is the first nonoverlap height.
-            a=np.r_[np.c_[held_hull[:,:3],np.zeros(len(held_hull))],
-                    np.c_[fixed_hull[:,:2],np.zeros(len(fixed_hull)),fixed_hull[:,2]]]
-            b=-np.r_[held_hull[:,3],fixed_hull[:,3]]
-            result=linprog([0,0,1,-1],A_ub=a,b_ub=b,bounds=[(None,None)]*4,method="highs")
-            if result.success:minimum=max(minimum,float(-result.fun)+.008)
-        release=None
-        for z in np.arange(minimum,max(minimum+.025,self.pot_rim+.15),.005):
-            if self._release_goal_reachable(arm,[*xy,z],rotation):release=float(z);break
-        if release is None:raise RuntimeError(f"No collision-free low release pose: {kind}")
-        self.placement_release_heights[kind]=release
+        release_position,rotation=self._food_release_target(kind,arm,xy)
         self._transition(f"{kind.upper()}_RELEASE")
-        self._move_object(arm,food,[*xy,release],rotation)
+        self._move_object(arm,food,release_position,rotation)
         self.move(self.open_gripper(arm));self._wait(.25)
         self.held_entity[str(arm)]=None
         self._transition(f"{kind.upper()}_RETREAT")
@@ -293,8 +283,48 @@ class w1_finals_real(w1_finals):
         if not self._food_inside(kind):raise RuntimeError(f"{kind} did not settle inside pan")
         self.held_entity[str(arm)]=None;self.grasp_intent=None
 
+    def _food_release_target(self,kind,arm,xy,rotation=None,require_reachable=True):
+        food=self.foods[kind]
+        # Rounded props can rotate inside a real contact grasp during transfer.
+        # Re-observe that grip before computing a low placement; retaining the
+        # initial rigid transform can command the food below the pan surface.
+        self._remember_grasp(arm,food)
+        rotation=food.pose.to_transformation_matrix()[:3,:3].copy() if rotation is None else np.asarray(rotation).copy()
+        profile=self.assets["pan"]["collision_approximation"]
+        points=self.food_vertices[kind]@rotation.T
+        radius=np.linalg.norm(points[:,:2]+np.asarray(xy)-self.pot_center[:2],axis=1)
+        height=np.interp(radius,np.r_[0,profile["radii_m"]],np.r_[self.assets["pan"]["floor_height"],profile["heights_m"]])
+        minimum=self.table_top+float(np.max(height-points[:,2]))+.012
+        # Clear the actual settled foods before opening the fingers. The
+        # previous pan-only height could press a held potato into a pepper.
+        from scipy.spatial import ConvexHull
+        from scipy.optimize import linprog
+        held_hull=ConvexHull(points+np.r_[xy,0]).equations
+        for other,actor in self.foods.items():
+            if other==kind:continue
+            if any(actor is held for held in self.held_entity.values()):continue
+            world=self.food_vertices[other]@actor.pose.to_transformation_matrix()[:3,:3].T+actor.pose.p
+            fixed_hull=ConvexHull(world).equations
+            # x/y are shared; z of the held shape and settled object vary
+            # independently. Max(z_other-z_held) is the first nonoverlap height.
+            a=np.r_[np.c_[held_hull[:,:3],np.zeros(len(held_hull))],
+                    np.c_[fixed_hull[:,:2],np.zeros(len(fixed_hull)),fixed_hull[:,2]]]
+            b=-np.r_[held_hull[:,3],fixed_hull[:,3]]
+            result=linprog([0,0,1,-1],A_ub=a,b_ub=b,bounds=[(None,None)]*4,method="highs")
+            if result.success:minimum=max(minimum,float(-result.fun)+.008)
+        if not require_reachable:return np.r_[xy,minimum],rotation
+        release=None
+        for z in np.arange(minimum,max(minimum+.025,self.pot_rim+.15),.005):
+            if self._release_goal_reachable(arm,[*xy,z],rotation):release=float(z);break
+        if release is None:raise RuntimeError(f"No collision-free low release pose: {kind}")
+        self.placement_release_heights[kind]=release
+        return np.r_[xy,release],rotation
+
     def _release_goal_reachable(self,arm,position,rotation,**kwargs):
         self.open_gripper_clearance=True
+        held=self.held_entity.get(str(arm))
+        if self.paired_foods and held is not None and held is not self.spatula:
+            kwargs.setdefault('max_restarts',0)
         try:return self._object_goal_reachable(arm,position,rotation,**kwargs)
         finally:self.open_gripper_clearance=False
 
@@ -583,7 +613,7 @@ class w1_finals_real(w1_finals):
             for kind in ('small_pepper','green_pepper','potato','eggplant'):
                 food=self.foods[kind]
                 for extra in (0.,.01,.02,.03):
-                    lip=np.r_[food.pose.p[:2]-.030*direction[:2],food.pose.p[2]+extra]
+                    lip=np.r_[food.pose.p[:2]-(.015 if self.paired_foods else .030)*direction[:2],food.pose.p[2]+extra]
                     root=lip-rotation@tip;end=root+.035*direction
                     if not all(self._object_goal_reachable(arm,p,rotation) for p in (root,end)):continue
                     local=self.tool_vertices@rotation.T
@@ -604,11 +634,16 @@ class w1_finals_real(w1_finals):
         for side in ("left","right"):self.move(self.close_gripper(ArmTag(side)))
         self._recording=True
         try:
-            for kind,side,offset in (("small_pepper","right",[.060,-.025]),("green_pepper","left",[.005,-.035]),
-                                      ("potato","right",[.030,.065]),("eggplant","left",[-.055,-.015])):
-                self._pick(kind,side)
-                self._place_food(kind,side,self.pot_center[:2]+offset)
-                self._park(side,f"{kind.upper()}_PARK")
+            if self.paired_foods:
+                from scripts.w1_dual_control import DualFoodCoordinator
+                self.dual_coordinator=DualFoodCoordinator(self)
+                self.dual_coordinator.run()
+            else:
+                for kind,side,offset in (("small_pepper","right",[.060,-.025]),("green_pepper","left",[.005,-.035]),
+                                          ("potato","right",[.030,.065]),("eggplant","left",[-.055,-.015])):
+                    self._pick(kind,side)
+                    self._place_food(kind,side,self.pot_center[:2]+offset)
+                    self._park(side,f"{kind.upper()}_PARK")
             self._clear_tool_workspace()
             self._pick("spatula",self.tool_arm)
             self._wait(.4);self._remember_grasp(self.tool_arm,self.spatula)
@@ -632,6 +667,8 @@ class w1_finals_real(w1_finals):
             selected_grasps=self.selected_grasps,
             transfer_plans=self.transfer_plans,minimal_rotation=self.minimal_rotation,
             rotation_path_slack_deg=self.rotation_path_slack_deg,
+            paired_foods=self.paired_foods,arm_fsm_transitions=self.arm_fsm_transitions,
+            dual_coordination=self.dual_coordinator.report() if self.paired_foods else None,
             final_stable_duration_s=self.final_stability_steps*self.scene.get_timestep(),
             collision_quality=self.collision_quality.report(),
             task_judgement_version='stir_contact_motion_v1' if self.stir_task else 'two_turns_45deg_v1',

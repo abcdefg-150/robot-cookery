@@ -30,6 +30,7 @@ def snapshot(config,destination):
            ROOT/"scripts/w1_collision_quality.py",ROOT/"envs/robot/cartesian_trajectory.py",
            ROOT/"scripts/w1_stir_monitor.py",ROOT/"scripts/prepare_w1_back_up_reference.py",
            ROOT/"scripts/w1_motion_quality.py",ROOT/"scripts/analyze_w1_motion.py",
+           ROOT/"scripts/w1_dual_control.py",ROOT/"scripts/w1_dual_collision.py",ROOT/"scripts/w1_dual_trajectory.py",
            ROOT/"env_cfg/task_config/_camera_config.yml",ROOT/"env_cfg/task_config/_embodiment_config.yml",
            ROOT/"scripts/prepare_w1_real_reference.py",
            ROOT/"scripts/prepare_w1_continuous_reference.py",ROOT/"scripts/prepare_w1_image_reference.py",
@@ -62,7 +63,7 @@ def snapshot(config,destination):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--config",default="w1_finals_real_v6")
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--config",default="w1_finals_real_v7")
     p.add_argument("--output",type=Path,default=ROOT/"data/w1_real_style_v1")
     p.add_argument("--episodes",type=int,default=1);p.add_argument("--max-attempts",type=int,default=12)
     p.add_argument("--start-seed",type=int,default=0)

@@ -101,6 +101,9 @@ def convert(source,output,fps=30):
             truth=[json.loads(line) for line in (source/"extra/ground_truth.jsonl").read_text().splitlines()]
             gt_times=np.asarray([r["timestamp"] for r in truth]);ids=nearest_indices(gt_times,times)
             phases=np.asarray([truth[i]["fsm_state"] for i in ids],dtype=object)
+            if 'arm_fsm_state' in truth[0]:
+                for side in ('left','right'):
+                    target.create_dataset(f'additional_info/{side}_fsm_state',data=np.asarray([truth[i]['arm_fsm_state'][side] for i in ids],dtype=object),dtype=h5py.string_dtype())
             for name in truth[0]["poses"]:
                 target.create_dataset(f"task/{name}",data=np.asarray([truth[i]["poses"][name] for i in ids]))
             for key in ("effective_flip_count","turn_angle_deg","tool_pepper_contact","tool_returned"):
@@ -117,6 +120,7 @@ def convert(source,output,fps=30):
         target.create_dataset("additional_info/fsm_state",data=phases,dtype=h5py.string_dtype())
         instruction=("Put both green peppers, the potato and the eggplant in the pan, stir with small back-and-forth pushes for at least two seconds, and return the spatula."
                      if stirring or not simulation else "Put both green peppers, the potato and the eggplant in the pan, turn the contents twice with the spatula, and return the spatula.")
+        if simulation and extra.get('paired_foods'):instruction=meta['task_meta']['prompt']
         target.create_dataset("instructions",data=json.dumps([instruction]),dtype=h5py.string_dtype())
         for native,canonical in CAMERAS.items():
             cfg=meta["sensors"][native];width,height=cfg["camera"][0]["width"],cfg["camera"][0]["height"]

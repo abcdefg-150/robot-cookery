@@ -1,7 +1,7 @@
 {
   "status": "passed",
-  "installed_root": "/tmp/w1_cookery_install_smoke",
-  "task_contact_and_motion_tests": 22,
+  "installed_root": "/tmp/w1_dual_install_smoke",
+  "task_contact_motion_interface_tests": 28,
   "pi05_conversion_tests": 7,
-  "total": 29
+  "total": 35
 }

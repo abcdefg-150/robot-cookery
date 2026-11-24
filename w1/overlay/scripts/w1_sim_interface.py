@@ -89,6 +89,7 @@ class NativeRecorder:
             "small_object_solver_iterations":task.object_solver_iterations,
             "required_final_stationary_dwell_s":task.final_stability_min_s,
             "minimal_rotation":task.minimal_rotation,"rotation_path_slack_deg":task.rotation_path_slack_deg,
+            "paired_foods":task.paired_foods,
             "asset_manifest":task.assets,"spatula_metadata":task.tool_metadata,
             "pan_mouth_diameter_m":task.assets["pan"].get("mouth_diameter_m"),
             "pan_size_basis":task.assets["pan"].get("diameter_measurement_basis","previous nominal dimensions"),
@@ -104,6 +105,9 @@ class NativeRecorder:
             self.meta["sensors"][name]["camera"][0]["height"]=480
         if task.stir_task:
             self.meta['task_meta']['prompt']='Put both green peppers, the potato and the eggplant in the pan, stir with small back-and-forth pushes for at least two seconds, and return the spatula.'
+        if task.paired_foods:
+            self.meta['task_meta']['prompt']='Use both arms to pick and place the vegetables into the pan, then stir with small back-and-forth spatula pushes for at least two seconds and return the spatula.'
+            self.meta['task_meta']['tags'].append('paired_dual_arm')
 
     def observe(self,task):
         relative=task._record_step*task.scene.get_timestep();stamp=self.epoch+relative
@@ -143,7 +147,7 @@ class NativeRecorder:
         for contact in task.scene.get_contacts():
             impulse=sum(float(np.linalg.norm(point.impulse)) for point in contact.points)
             if impulse>1e-7:contacts.append({"bodies":sorted({body.entity.name for body in contact.bodies}),"impulse_Ns":impulse})
-        self.truth.write({"timestamp":stamp,"fsm_state":task.fsm_state,"poses":poses,"contacts":contacts,
+        self.truth.write({"timestamp":stamp,"fsm_state":task.fsm_state,"arm_fsm_state":dict(task.arm_fsm_state),"poses":poses,"contacts":contacts,
             "effective_flip_count":sum(e["valid"] for e in task.flip_events),"turn_angle_deg":task.current_turn_angle,
             "tool_pepper_contact":task.last_tool_contact,"tool_returned":task.tool_returned,
             "stir_success":task.stir_monitor.success,"stir_motion_duration_s":task.stir_monitor.motion_s,
@@ -169,7 +173,7 @@ class NativeRecorder:
 
 class W1Simulation:
     """Minimal reset/step API; no network or physical-robot side effects."""
-    def __init__(self,config="w1_finals_real_v6",control_hz=30):
+    def __init__(self,config="w1_finals_real_v7",control_hz=30):
         self.config_name=config;self.control_hz=control_hz;self.task=None;self.recorder=None;self.control_steps=0
 
     def reset(self,seed=0,record_dir=None,need_plan=True,episode_id=0):

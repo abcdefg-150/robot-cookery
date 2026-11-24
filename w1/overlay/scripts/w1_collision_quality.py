@@ -4,7 +4,7 @@ import numpy as np
 
 class CollisionQuality:
     def __init__(self):
-        self.severe=[];self.peak={};self.contact_steps=0
+        self.severe=[];self.peak={};self.contact_steps=0;self.inter_arm_contact_count=0
 
     @staticmethod
     def policy_grasp(task,contact,other,robot):
@@ -32,13 +32,28 @@ class CollisionQuality:
             limit=None
             if robot:
                 other=set(names)-task.robot_link_names
-                intended=(other and other<={getattr(task,"grasp_intent",None)} and
+                intents={getattr(task,"grasp_intent",None)}
+                phases=[task.fsm_state]
+                if getattr(task,'grasp_intents',{}):
+                    intents=set();phases=[]
+                    for body in contact.bodies:
+                        if body.entity.name not in robot:continue
+                        for side in ('left','right'):
+                            if body in getattr(task.robot,f'{side}_entity').get_links():
+                                intents.add(task.grasp_intents.get(side))
+                                phases.append(getattr(task,'arm_fsm_state',{}).get(side,task.fsm_state));break
+                intended=(other and other<=intents and
                           all(name in {"g2_left_link","g2_right_link"} for name in robot) and
-                          ("GRASP" in task.fsm_state or "DESCEND" in task.fsm_state or "RELEASE" in task.fsm_state
-                           or "LIFT" in task.fsm_state or "TRANSFER" in task.fsm_state
-                           or "TURN" in task.fsm_state or "STIR" in task.fsm_state or "SPATULA_RETURN" in task.fsm_state))
+                          any(any(word in phase for word in ('GRASP','DESCEND','RELEASE','LIFT','TRANSFER','TURN','STIR','SPATULA_RETURN')) for phase in phases))
                 intended=intended or self.policy_grasp(task,contact,other,robot)
                 limit=.25 if intended else .01
+                if len(robot)>1 and hasattr(task,'robot'):
+                    sides=set()
+                    for body in contact.bodies:
+                        for side in ('left','right'):
+                            if body in getattr(task.robot,f'{side}_entity').get_links():sides.add(side);break
+                    if len(sides)>1:
+                        self.inter_arm_contact_count+=1;limit=1e-7
             elif set(names)=={"spatula","skillet"}:
                 intended_turn=task.fsm_state.startswith("TURN_") and any(x in task.fsm_state for x in ("INSERT","SCOOP","WITHDRAW"))
                 intended_turn=intended_turn or task.fsm_state in {'STIR_LOWER','STIR_PUSH','STIR_REVERSE','STIR_WITHDRAW'}
@@ -57,4 +72,5 @@ class CollisionQuality:
     def report(self):
         return {"severe_event_count":len(self.severe),"severe_events":self.severe,
                 "peak_pair_impulse_Ns":dict(self.peak),"contact_steps":self.contact_steps,
+                "inter_arm_contact_count":self.inter_arm_contact_count,
                 "thresholds_note":"Engineering simulation filters, not measured hardware force limits."}

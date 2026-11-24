@@ -8,7 +8,7 @@ from w1_sim_interface import W1Simulation
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config",default="w1_finals_real_v6")
+    parser.add_argument("--config",default="w1_finals_real_v7")
     parser.add_argument("--steps",type=int,default=30)
     parser.add_argument("--record-dir",type=Path)
     parser.add_argument("--report",type=Path)
