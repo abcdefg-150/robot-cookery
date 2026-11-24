@@ -75,7 +75,7 @@ python -m unittest discover -s XPolicyLab/policy/Pi_05/tests -v
 ## 采集一条完整示范
 
 ```bash
-python scripts/collect_w1_real_style.py --config w1_finals_real_v7 \
+python scripts/collect_w1_real_style.py --config w1_finals_real_v7_diverse \
   --output data/w1_cookery_001 --episodes 1 --max-attempts 5
 ```
 
@@ -97,6 +97,10 @@ data/w1_cookery_001/
     episode_0000000.alignment.json
     episode_0000000.validation.json
 ```
+
+采集器默认使用 `w1_finals_real_v7_diverse`。每个 seed 独立采样食材摆位、双臂分工、锅和锅铲位置、三路相机与照明。正面相机以实采两套标定为中心做扰动，并在需要时加宽视野让食材保持在画面内。照明在整条 episode 内保持固定。原生元数据和 HDF5 场景记录保存实际采样参数、静置后位姿，以及正面画面的可见性检查结果。使用 `--config w1_finals_real_v7` 可复现固定参考场景。
+
+分阶段标签与实采 `w1_lerobot_subtask_v1` 对齐。HDF5 的 `additional_info/subtask_index` 和 `subtask_instruction` 按帧记录两颗青椒入锅、土豆和茄子入锅、锅铲翻炒三个阶段，`metadata/subtasks` 保存 ID 对照表。细粒度状态机指令同时保留。仿真完整任务包含土豆，因此使用三个任务阶段的 ID 0–2。
 
 只使用 `collection_summary.json` 中 accepted 列表对应的成功示范。失败候选保留用于排查，转换器会拒绝 `success=false` 的仿真记录。不要把预览、保持动作检查、失败候选或旧版本数据直接混入本批训练集。
 

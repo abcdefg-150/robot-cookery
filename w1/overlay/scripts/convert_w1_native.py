@@ -13,7 +13,7 @@ import cv2
 import h5py
 import numpy as np
 from w1_recording import CAMERAS,load_actions,read_tsf,nearest_indices,interpolate,SLAVE_GRIPPER_STROKE_M,MASTER_GRIPPER_STROKE_M
-from w1_stage_instructions import write_stage_instructions
+from w1_stage_instructions import STIR_TASK_INSTRUCTION, write_stage_instructions
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
@@ -119,11 +119,15 @@ def convert(source,output,fps=30):
             if annotation.exists() and source.resolve()==reference:
                 for row in json.loads(annotation.read_text()):phases[(relative>=row["start_s"])&(relative<row["end_s"])]=row["phase"]
         target.create_dataset("additional_info/fsm_state",data=phases,dtype=h5py.string_dtype())
+        variation = extra.get("scene_variation")
         if simulation:
-            write_stage_instructions(target)
+            pairs = variation["pair_foods"] if variation is not None else None
+            write_stage_instructions(target, pairs, stirring=stirring)
         instruction=("Put both green peppers, the potato and the eggplant in the pan, stir with small back-and-forth pushes for at least two seconds, and return the spatula."
                      if stirring or not simulation else "Put both green peppers, the potato and the eggplant in the pan, turn the contents twice with the spatula, and return the spatula.")
         if simulation and extra.get('paired_foods'):instruction=meta['task_meta']['prompt']
+        if simulation and stirring and variation is not None:
+            instruction = STIR_TASK_INSTRUCTION
         target.create_dataset("instructions",data=json.dumps([instruction]),dtype=h5py.string_dtype())
         for native,canonical in CAMERAS.items():
             cfg=meta["sensors"][native];width,height=cfg["camera"][0]["width"],cfg["camera"][0]["height"]

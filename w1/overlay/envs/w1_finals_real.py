@@ -7,7 +7,7 @@ import sapien
 import transforms3d as t3d
 from .w1_finals import w1_finals
 from .utils import ArmTag
-from .utils.finals_assets import build_vegetable
+from .utils.finals_assets import load_asset_config
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -26,6 +26,16 @@ class w1_finals_real(w1_finals):
 
     def setup_demo(self, **kwargs):
         self.record_sink=None
+        self.scene_variation = None
+        self.camera_profiles = None
+        options = kwargs.get("scene_variation")
+        if options is not None:
+            from scripts.w1_scene_variation import sample_scene
+            assets = load_asset_config(kwargs["asset_manifest"])
+            self.scene_variation = sample_scene(ROOT, assets, options, kwargs.get("seed", 0))
+            self.camera_profiles = json.loads((ROOT / options["camera_profiles"]).read_text())
+            kwargs["pan_position_xy"] = self.scene_variation["pan"]["xy_m"]
+            kwargs["tool_rest_xy"] = self.scene_variation["spatula"]["xy_m"]
         self.small_pepper_spawn_xy = None
         spawn_positions = kwargs.get("small_pepper_spawn_positions_xy")
         if spawn_positions is not None:
@@ -76,6 +86,8 @@ class w1_finals_real(w1_finals):
             getattr(self.robot,f"{side}_planner").trajectory_accept=lambda path,side=side:self._path_clear(side,path)
 
     def setup_scene(self, **kwargs):
+        if self.scene_variation is not None:
+            kwargs.update(self.scene_variation["lighting"])
         super().setup_scene(**kwargs)
         # Base_Task calls setup_scene() without forwarding task kwargs.
         if self.camera_render_mode=="raster":sapien.render.set_camera_shader_dir("default")
@@ -106,20 +118,36 @@ class w1_finals_real(w1_finals):
             meta=json.loads((ROOT/self.reference_episode/"meta.json").read_text())
             calib=meta["sensors"]["cam_front"]["calibration"]
         optical=np.asarray(calib["extrinsics"]["left_arm"])
+        reference_intrinsic = np.asarray(calib["intrinsics"]["camera"])
+        head_intrinsic = reference_intrinsic
+        cameras = self.scene_variation["cameras"] if self.scene_variation is not None else None
+        if cameras is not None:
+            from scripts.w1_scene_variation import perturb_optical_pose
+            sample = cameras["front"]
+            profile = self.camera_profiles[sample["reference_index"]]
+            sample["reference_session"] = profile["session"]
+            optical = perturb_optical_pose(profile["left_arm_from_optical"], sample)
+            head_intrinsic = np.asarray(profile["intrinsics"])
         base=self.robot.left_entity_origion_pose.to_transformation_matrix()
         axes=np.eye(4);axes[:3,:3]=[[0,-1,0],[0,0,-1],[1,0,0]]
         head=self.cameras.static_camera_list[self.cameras.head_camera_id]
         head.entity.set_pose(sapien.Pose(base@optical@axes))
-        k=np.asarray(calib["intrinsics"]["camera"])
-        for camera in (head,self.cameras.left_camera,self.cameras.right_camera):
-            camera.set_perspective_parameters(.01,10,k[0,0],k[1,1],k[0,2],k[1,2],0)
+        for side, camera in (("front", head), ("left", self.cameras.left_camera),
+                             ("right", self.cameras.right_camera)):
+            k = head_intrinsic if side == "front" else reference_intrinsic
+            scale = cameras[side]["focal_scale"] if cameras is not None else 1.0
+            camera.set_perspective_parameters(.01, 10, scale*k[0,0], scale*k[1,1], k[0,2], k[1,2], 0)
+        if cameras is not None and self.wrist_image_fit is not None:
+            for side in ("left", "right"):
+                mount = self.wrist_image_fit[side]["flange_from_camera_optical"]
+                new_mount = perturb_optical_pose(mount, cameras[side])
+                self.wrist_image_fit[side]["flange_from_camera_optical"] = new_mount.tolist()
 
     def load_actors(self):
         super().load_actors()
         kind="small_pepper"
         xy = self.assets[kind]["initial_xy"] if self.small_pepper_spawn_xy is None else self.small_pepper_spawn_xy
-        actor,body,half,vertices=build_vegetable(self.scene,kind,xy,self.table_top,self.assets)
-        self.foods[kind]=actor;self.food_bodies[kind]=body;self.food_half[kind]=half;self.food_vertices[kind]=vertices
+        self._spawn_food(kind, xy)
         for value in [*self.food_bodies.values(),self.spatula_body]:
             value.solver_position_iterations=self.object_solver_iterations[0]
             value.solver_velocity_iterations=self.object_solver_iterations[1]

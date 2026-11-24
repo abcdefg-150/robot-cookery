@@ -244,13 +244,17 @@ class DualFoodCoordinator:
 
     def run(self):
         task=self.task;center=task.pot_center[:2]
-        self._pair(1,'green_pepper','small_pepper',center+[-.025,-.025],center+[.060,-.025])
-        self._pair(2,'eggplant','potato',center+[-.055,-.015],center+[.030,.065])
+        pairs = (('green_pepper', 'small_pepper'), ('eggplant', 'potato'))
+        if task.scene_variation is not None:
+            pairs = task.scene_variation["pair_foods"]
+        self._pair(1, *pairs[0], center+[-.025,-.025], center+[.060,-.025])
+        self._pair(2, *pairs[1], center+[-.055,-.015], center+[.030,.065])
         targets={}
         for side in ('left','right'):
             home=task.home_targets[side];r=t3d.quaternions.quat2mat(home[3:])
             targets[side]=self._tcp(np.asarray(home[:3])+r@[.12,0,0],r)
-        self._move('PAIR_FINAL_PARK',targets,{'left':'EGGPLANT_PARK','right':'POTATO_PARK'})
+        park_states = {side: f"{name.upper()}_PARK" for side, name in zip(("left", "right"), pairs[1])}
+        self._move('PAIR_FINAL_PARK', targets, park_states)
         self._grippers('PAIR_FINAL_CLOSE',{'left':0.,'right':0.},{'left':'IDLE','right':'IDLE'})
         task.grasp_intents={}
 

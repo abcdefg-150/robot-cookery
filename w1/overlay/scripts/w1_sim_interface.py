@@ -98,6 +98,9 @@ class NativeRecorder:
             "gripper_food_stiffness":3000,"gripper_tool_stiffness":6000,
             "static_layout":{"pan_xy":task.pot_center[:2].tolist(),"spatula_rest_xy":task.tool_rest[:2].tolist(),"spatula_yaw":task.tool_metadata["rest_yaw"]},
             "base_separation_m":.6,"success":False}
+        if task.scene_variation is not None:
+            self.meta["extra"]["scene_variation"] = task.scene_variation
+            self.meta["task_meta"]["tags"].append("varied_scene")
         for entry in self.meta["actions"].values():
             if "timestamp" in entry["schema"]:entry["schema"]["timestamp"]["dtype"]="float64"
         for name in self.meta["sensors"]:
@@ -108,6 +111,9 @@ class NativeRecorder:
         if task.paired_foods:
             self.meta['task_meta']['prompt']='Use both arms to pick and place the vegetables into the pan, then stir with small back-and-forth spatula pushes for at least two seconds and return the spatula.'
             self.meta['task_meta']['tags'].append('paired_dual_arm')
+        if task.scene_variation is not None and task.stir_task:
+            from scripts.w1_stage_instructions import STIR_TASK_INSTRUCTION
+            self.meta["task_meta"]["prompt"] = STIR_TASK_INSTRUCTION
 
     def observe(self,task):
         relative=task._record_step*task.scene.get_timestep();stamp=self.epoch+relative
@@ -186,8 +192,58 @@ class W1Simulation:
         self.control_steps=0
         from scripts.w1_task_monitor import W1TaskMonitor
         self.policy_monitor=W1TaskMonitor(self.task);self.task.policy_observer=self.policy_monitor
+        varied = self.task.scene_variation is not None
+        if varied:
+            self._fit_varied_front_frame()
+        observation = self.observation()
+        if varied:
+            self._validate_varied_initial_scene()
         if record_dir is not None:self.recorder=NativeRecorder(record_dir,self.task,episode_id);self.task.record_sink=self.recorder
-        return self.observation()
+        return observation
+
+    def _fit_varied_front_frame(self):
+        """Widen the sampled front view only when food geometry reaches a border."""
+        task = self.task
+        camera = task.cameras.static_camera_list[task.cameras.head_camera_id]
+        extrinsic = camera.get_extrinsic_matrix()
+        intrinsic = camera.get_intrinsic_matrix()
+        projected = []
+        for name, actor in task.foods.items():
+            transform = actor.pose.to_transformation_matrix()
+            world = task.food_vertices[name] @ transform[:3, :3].T + transform[:3, 3]
+            optical = world @ extrinsic[:3, :3].T + extrinsic[:3, 3]
+            if np.any(optical[:, 2] <= 0):
+                raise ValueError(f"Varied front camera points away from {name}")
+            projected.append(optical[:, :2] / optical[:, 2:] * [intrinsic[0,0], intrinsic[1,1]])
+        offsets = np.concatenate(projected, axis=0)
+        principal = intrinsic[:2, 2]
+        margin = 12
+        limits = np.stack((principal - margin, [camera.width, camera.height] - principal - margin))
+        extent = np.stack((-offsets.min(axis=0), offsets.max(axis=0)))
+        scale = min(1.0, float(np.min(limits / np.maximum(extent, 1))))
+        if scale < 1.0:
+            camera.set_perspective_parameters(.01, 10, scale*intrinsic[0,0], scale*intrinsic[1,1],
+                                              principal[0], principal[1], 0)
+        task.scene_variation["cameras"]["front"]["framing_scale"] = scale
+
+    def _validate_varied_initial_scene(self):
+        task = self.task
+        actors = {**task.foods, "pan": task.pot, "spatula": task.spatula}
+        camera = task.cameras.static_camera_list[task.cameras.head_camera_id]
+        labels = camera.get_picture("Segmentation")[..., 1]
+        pixels = {name: int(np.count_nonzero(labels == actor.per_scene_id))
+                  for name, actor in actors.items()}
+        obscured = [name for name, count in pixels.items() if count < 40]
+        if obscured:
+            raise ValueError(f"Varied layout has obscured objects in the front camera: {obscured}")
+        for contact in task.scene.get_contacts():
+            names = {body.entity.name for body in contact.bodies}
+            if len(names & (set(task.foods) | {"skillet", "spatula"})) > 1:
+                if any(np.linalg.norm(p.impulse) > 1e-6 for p in contact.points):
+                    raise ValueError(f"Varied layout starts with contact between props: {sorted(names)}")
+        task.scene_variation["settled_poses_world_wxyz"] = {
+            name: np.r_[actor.pose.p, actor.pose.q].tolist() for name, actor in actors.items()}
+        task.scene_variation["front_visible_pixels"] = pixels
 
     def observation(self):
         task=self.task;task._update_render();task.cameras.update_picture()
@@ -240,6 +296,8 @@ class W1Simulation:
     def expert(self):
         self.task.policy_observer=None
         info=self.task.play_once();success=self.task.check_success()
+        if self.task.scene_variation is not None:
+            info["scene_variation"] = self.task.scene_variation
         if self.recorder:self.recorder.close(info,success);self.task.record_sink=None
         return info,success
 

@@ -56,11 +56,31 @@ class w1_finals(w1_chili_pot):
             transform[:3, 3] = [0, -0.02, 1.78]
             self.debug_overhead.entity.set_pose(sapien.Pose(transform))
 
+    def _spawn_food(self, kind, xy):
+        sampled = getattr(self, "scene_variation", None)
+        yaw = 0.0
+        if sampled is not None:
+            entry = sampled["foods"][kind]
+            xy, yaw = entry["xy_m"], entry["yaw_rad"]
+            asset = self.assets[kind]
+            rotation = t3d.euler.euler2mat(0, 0, yaw)
+            if "grasp_offset" in asset:
+                asset["grasp_offset"] = (rotation @ asset["grasp_offset"]).tolist()
+            for field in ("real_grasp_rotation_rpy", "preferred_grasp_rotation_rpy", "grasp_rotation_rpy"):
+                if field in asset:
+                    asset[field] = list(t3d.euler.mat2euler(rotation @ t3d.euler.euler2mat(*asset[field])))
+        actor, body, half, vertices = build_vegetable(
+            self.scene, kind, xy, self.table_top, self.assets, yaw=yaw)
+        self.foods[kind], self.food_bodies[kind], self.food_half[kind] = actor, body, half
+        self.food_vertices[kind] = vertices
+
     def load_actors(self):
         self.assets = load_asset_config(self.asset_manifest)
         self.table_top = 0.74 + self.table_z_bias
         self.pot_center = np.array([*self.pan_position_xy, self.table_top])
-        self.pot, pan = build_pan(self.scene, self.pot_center[:2], self.table_top, self.assets)
+        sampled = getattr(self, "scene_variation", None)
+        pan_yaw = sampled["pan"]["yaw_rad"] if sampled is not None else 0.0
+        self.pot, pan = build_pan(self.scene, self.pot_center[:2], self.table_top, self.assets, yaw=pan_yaw)
         self.pot_radius = float(pan["inner_radius"])
         self.pot_floor = self.table_top + float(pan["floor_height"])
         self.pot_rim = self.table_top + float(pan["rim_height"])
@@ -73,20 +93,21 @@ class w1_finals(w1_chili_pot):
             ("green_pepper", [-0.20, -0.12]), ("potato", [0.19, -0.15]), ("eggplant", [0.28, -0.10]),
         ]):
             xy = self.assets[kind].get("initial_xy", xy)
-            actor, body, half, vertices = build_vegetable(self.scene, kind, np.asarray(xy) + jitter[index], self.table_top, self.assets)
-            self.foods[kind], self.food_bodies[kind], self.food_half[kind] = actor, body, half
-            self.food_vertices[kind] = vertices
+            self._spawn_food(kind, np.asarray(xy) + jitter[index])
         self.pepper = self.foods["green_pepper"]
         self.pepper_body = self.food_bodies["green_pepper"]
         root = Path(__file__).resolve().parents[1]
         self.tool_metadata = json.loads((root / self.assets["spatula"]["metadata"]).read_text())
+        if sampled is not None:
+            self.tool_metadata["rest_yaw"] = sampled["spatula"]["yaw_rad"]
         self.tool_motion_profile = self.tool_motion_profile or self.tool_metadata.get("motion_profile", "raised_handle")
         self.tool_rest = np.array([*self.tool_rest_xy, self.table_top + self.tool_metadata.get("rest_height", 0.056)])
         self.tool_return_rotation = t3d.euler.euler2mat(0, 0, self.tool_metadata.get("rest_yaw", 0))[:2,:2]
         self.tool_return_offset = np.asarray(self.tool_metadata.get("return_center_offset", [0.0325, 0]))
         self.tool_return_center = self.tool_rest[:2] + self.tool_return_rotation @ self.tool_return_offset
         self.tool_return_half = self.tool_metadata.get("return_half_size", [0.15, 0.075])
-        self.spatula, self.spatula_body, self.tool_vertices = build_spatula(self.scene, self.tool_rest, self.assets)
+        self.spatula, self.spatula_body, self.tool_vertices = build_spatula(
+            self.scene, self.tool_rest, self.assets, metadata=self.tool_metadata)
         self.active_arm = ArmTag("left")
 
     def _transition(self, state):

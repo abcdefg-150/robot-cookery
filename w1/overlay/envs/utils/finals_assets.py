@@ -17,7 +17,7 @@ def load_asset_config(path="env_cfg/w1_finals_assets.yml"):
         return yaml.safe_load(file)
 
 
-def build_vegetable(scene, kind, xy, table_z, config):
+def build_vegetable(scene, kind, xy, table_z, config, *, yaw=0):
     cfg = config[kind]
     scale = float(cfg["scale"])
     visual = ROOT / cfg["visual"]
@@ -35,7 +35,7 @@ def build_vegetable(scene, kind, xy, table_z, config):
                      else builder.add_convex_collision_from_file)
     add_collision(str(collision), pose=local_pose, scale=[scale] * 3, material=material)
     builder.add_visual_from_file(str(visual), pose=local_pose, scale=[scale] * 3)
-    builder.set_initial_pose(sapien.Pose([*xy, table_z + half[2] + 0.001]))
+    builder.set_initial_pose(sapien.Pose([*xy, table_z + half[2] + 0.001], t3d.euler.euler2quat(0, 0, yaw)))
     entity = builder.build(name=kind)
     body = entity.find_component_by_type(sapien.physx.PhysxRigidDynamicComponent)
     old_mass=float(body.mass);old_inertia=body.inertia.copy()
@@ -50,7 +50,7 @@ def build_vegetable(scene, kind, xy, table_z, config):
     return entity, body, half, hull_vertices
 
 
-def build_pan(scene, center, table_z, config):
+def build_pan(scene, center, table_z, config, *, yaw=0):
     cfg = config["pan"]
     scale = np.asarray(cfg["scale"] if isinstance(cfg["scale"], list) else [cfg["scale"]] * 3)
     rotation = t3d.euler.euler2mat(*cfg["rotation_rpy"])
@@ -66,13 +66,14 @@ def build_pan(scene, center, table_z, config):
                         else builder.add_multiple_convex_collisions_from_file)
     collision_loader(str(ROOT / cfg["collision"]), pose=local, scale=scale.tolist(), material=friction)
     builder.add_visual_from_file(str(ROOT / cfg["visual"]), pose=local, scale=scale.tolist())
-    builder.set_initial_pose(sapien.Pose([*center, table_z]))
+    builder.set_initial_pose(sapien.Pose([*center, table_z], t3d.euler.euler2quat(0, 0, yaw)))
     return builder.build_static(name="skillet"), cfg
 
 
-def build_spatula(scene, position, config):
+def build_spatula(scene, position, config, *, metadata=None):
     cfg = config["spatula"]
-    metadata = json.loads((ROOT / cfg["metadata"]).read_text())
+    if metadata is None:
+        metadata = json.loads((ROOT / cfg["metadata"]).read_text())
     rest_rotation = t3d.euler.euler2mat(metadata.get("rest_roll", 0),
                                         metadata.get("rest_pitch", 0), metadata.get("rest_yaw", 0))
     rest_pose = sapien.Pose(position, t3d.quaternions.mat2quat(rest_rotation))

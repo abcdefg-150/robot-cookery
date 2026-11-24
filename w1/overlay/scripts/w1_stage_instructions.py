@@ -62,6 +62,27 @@ PAIRS = {
     "2": ("the eggplant", "the potato"),
 }
 
+# Stable IDs and exact task-level phrases from w1_lerobot_subtask_v1.
+SUBTASKS = (
+    ("pick_pepper", "Pick up the green peppers and put them into the pan."),
+    ("pick_potato_eggplant", "Pick up the potato and eggplant and put them into the pan."),
+    ("pick_spatula", "Pick up the spatula and stir the vegetables."),
+)
+STIR_TASK_INSTRUCTION = (
+    "Put both green peppers, the potato and the eggplant into the pan, then use the spatula to "
+    "stir them back and forth for at least two seconds, return the spatula to its starting spot, "
+    "and move both arms back to their starting positions."
+)
+
+
+def subtask_index(phase):
+    if phase == "SETUP" or phase.startswith(("PAIR_1_", "GREEN_PEPPER_", "SMALL_PEPPER_")):
+        return 0
+    if phase.startswith(("PAIR_2_", "PAIR_FINAL_", "POTATO_", "EGGPLANT_")):
+        return 1
+    return 2
+
+
 PAIRED_ACTIONS = {
     "APPROACH": "Move the left gripper above {left} and the right gripper above {right}.",
     "OPEN": "Open both grippers above the ingredients.",
@@ -78,12 +99,12 @@ PAIRED_ACTIONS = {
 }
 
 
-def stage_instruction(phase):
+def stage_instruction(phase, pairs=PAIRS):
     if phase in FIXED:
         return FIXED[phase]
     if phase.startswith("PAIR_"):
         _, index, action = phase.split("_", 2)
-        left, right = PAIRS[index]
+        left, right = pairs[index]
         return PAIRED_ACTIONS[action].format(left=left, right=right)
     if phase.startswith("TURN_"):
         return TURN_ACTIONS[phase.rsplit("_", 1)[1]]
@@ -94,7 +115,7 @@ def stage_instruction(phase):
     raise ValueError(f"Unmapped W1 expert phase: {phase}")
 
 
-def arm_instruction(global_phase, arm_phase, side):
+def arm_instruction(global_phase, arm_phase, side, pairs=PAIRS):
     hold = f"Hold the {side} arm still."
     if global_phase == "PAIR_FINAL_CLOSE":
         return f"Close the empty {side} gripper at its home position."
@@ -104,7 +125,7 @@ def arm_instruction(global_phase, arm_phase, side):
         return stage_instruction(arm_phase) if arm_phase == global_phase else hold
 
     _, index, action = global_phase.split("_", 2)
-    target = PAIRS[index][0 if side == "left" else 1]
+    target = pairs[index][0 if side == "left" else 1]
     gripper = f"the {side} gripper"
     if action == "OPEN":
         return f"Open {gripper} above {target}."
@@ -121,18 +142,33 @@ def arm_instruction(global_phase, arm_phase, side):
     return stage_instruction(arm_phase)
 
 
-def write_stage_instructions(h5_file):
+def write_stage_instructions(h5_file, pair_foods=None, *, stirring=False):
     """Write labels aligned to the existing simulated FSM samples."""
     import h5py
+    import json
 
+    pairs = PAIRS if pair_foods is None else {
+        str(index): tuple(OBJECT_NAMES[name.upper()] for name in pair)
+        for index, pair in enumerate(pair_foods, start=1)
+    }
     group = h5_file["additional_info"]
     phases = group["fsm_state"].asstr()[:]
-    values = {"fsm_instruction": [stage_instruction(phase) for phase in phases]}
+    values = {"fsm_instruction": [stage_instruction(phase, pairs) for phase in phases]}
+    if stirring:
+        indices = [subtask_index(phase) for phase in phases]
+        if "subtask_index" not in group:
+            group.create_dataset("subtask_index", data=indices, dtype="int64")
+        values["subtask_instruction"] = [SUBTASKS[index][1] for index in indices]
+        metadata = h5_file.require_group("metadata")
+        if "subtasks" not in metadata:
+            rows = [{"subtask_index": i, "phase": name, "subtask": prompt}
+                    for i, (name, prompt) in enumerate(SUBTASKS)]
+            metadata.create_dataset("subtasks", data=json.dumps(rows), dtype=h5py.string_dtype("utf-8"))
     if any(phase.startswith("PAIR_") for phase in phases):
         for side in ("left", "right"):
             arm_phases = group[f"{side}_fsm_state"].asstr()[:]
             values[f"{side}_fsm_instruction"] = [
-                arm_instruction(phase, arm, side)
+                arm_instruction(phase, arm, side, pairs)
                 for phase, arm in zip(phases, arm_phases, strict=True)
             ]
     for name, instructions in values.items():

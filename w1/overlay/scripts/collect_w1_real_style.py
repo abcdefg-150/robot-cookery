@@ -26,7 +26,7 @@ def snapshot(config,destination):
            ROOT/"envs/robot/planner.py",ROOT/"envs/robot/ik.py",ROOT/"scripts/w1_sim_interface.py",
            ROOT/"envs/robot/curobo_compat.py",
            ROOT/"scripts/w1_recording.py",ROOT/"scripts/convert_w1_native.py",Path(__file__).resolve(),
-           ROOT/"scripts/w1_stage_instructions.py",
+           ROOT/"scripts/w1_stage_instructions.py", ROOT/"scripts/w1_scene_variation.py",
            ROOT/"scripts/w1_task_monitor.py",ROOT/"envs/_base_task.py",
            ROOT/"scripts/w1_collision_quality.py",ROOT/"envs/robot/cartesian_trajectory.py",
            ROOT/"scripts/w1_stir_monitor.py",ROOT/"scripts/prepare_w1_back_up_reference.py",
@@ -42,6 +42,8 @@ def snapshot(config,destination):
     registry=yaml.safe_load((ROOT/"env_cfg/task_config/_embodiment_config.yml").read_text())
     embodiment=ROOT/registry[cfg["embodiment"][0]]["file_path"]
     paths+=[p for p in embodiment.glob("*.yml") if p.name!="curobo.yml"]
+    if cfg.get("scene_variation"):
+        paths.append(ROOT / cfg["scene_variation"]["camera_profiles"])
     for field in ('camera_reference_file','native_meta_template'):
         if cfg.get(field):paths.append(ROOT/cfg[field])
     for optional in (ROOT/'episode_0001.zip',ROOT/cfg['real_episode']/'meta.json',ROOT/'w1_replay_urdf/w1_replay_urdf/urdf/replay.urdf'):
@@ -64,7 +66,7 @@ def snapshot(config,destination):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--config",default="w1_finals_real_v7")
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--config",default="w1_finals_real_v7_diverse")
     p.add_argument("--output",type=Path,default=ROOT/"data/w1_real_style_v1")
     p.add_argument("--episodes",type=int,default=1);p.add_argument("--max-attempts",type=int,default=12)
     p.add_argument("--start-seed",type=int,default=0)
