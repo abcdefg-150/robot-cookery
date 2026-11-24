@@ -178,7 +178,7 @@ class w1_finals(w1_chili_pot):
                     raise RuntimeError(f"No reachable scoop waypoint with joint margin: {self.fsm_state}")
             self._move_object(arm, self.spatula, p, waypoint_rotation)
 
-    def _object_goal_reachable(self, arm, position, rotation, limit_margin=0):
+    def _object_goal_reachable(self, arm, position, rotation, limit_margin=0, max_restarts=16):
         """Query bounded IK and collision feasibility without moving anything."""
         import torch
         transform = np.eye(4)
@@ -202,7 +202,7 @@ class w1_finals(w1_chili_pot):
             valid = planner.motion_gen.rollout_fn.rollout_constraint(query, use_batch_env=False).feasible.all().item()
             callback = getattr(planner, "trajectory_accept", None)
             return valid and (callback is None or callback(np.asarray(values)[None]))
-        return planner.pose_ik.solve(p, q, current, accept=feasible) is not None
+        return planner.pose_ik.solve(p, q, current, accept=feasible,max_restarts=max_restarts) is not None
 
     def _tool_hover_target(self, arm, lip_xy, rotations):
         """Clear the entire rim while respecting the observed physical grip."""

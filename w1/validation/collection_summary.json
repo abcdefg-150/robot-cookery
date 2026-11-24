@@ -1,5 +1,5 @@
 {
-  "config": "w1_finals_real_v5",
+  "config": "w1_finals_real_v7",
   "independent_simulation_episodes": 1,
   "attempts": [
     {
@@ -10,15 +10,15 @@
   "accepted": [
     {
       "seed": 0,
-      "native_episode": "data/w1_stir_back_up_v1/candidates/seed_0000",
+      "native_episode": "/home/bsrl/RoboTwin/data/w1_dual_coordinated_v1/candidates/seed_0000",
       "physical_success": true,
-      "native_archive": "data/w1_stir_back_up_v1/native_episode_0000.zip"
+      "native_archive": "/home/bsrl/RoboTwin/data/w1_dual_coordinated_v1/native_episode_0000.zip"
     }
   ],
   "validation": [
     {
-      "path": "data/w1_stir_back_up_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
-      "frames": 5924,
+      "path": "/home/bsrl/RoboTwin/data/w1_dual_coordinated_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
+      "frames": 2894,
       "frequency_hz": 30.0,
       "state_action_dim": 14,
       "cameras": 3,

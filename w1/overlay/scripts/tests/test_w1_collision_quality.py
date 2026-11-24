@@ -22,6 +22,26 @@ class ContactFilterTest(unittest.TestCase):
   q=CollisionQuality();q.observe(task(["spatula","skillet"],.01,"TURN_1_SCOOP"));self.assertFalse(q.severe)
  def test_wrong_food_contact_is_rejected(self):
   with self.assertRaises(RuntimeError):CollisionQuality().observe(task(["g2_left_link","green_pepper"],.02,"POTATO_GRASP","potato"))
+ def test_stir_withdraw_allows_only_bounded_tool_pan_contact(self):
+  q=CollisionQuality();q.observe(task(['spatula','skillet'],.01,'STIR_WITHDRAW'));self.assertFalse(q.severe)
+  with self.assertRaises(RuntimeError):CollisionQuality().observe(task(['spatula','skillet'],.03,'STIR_WITHDRAW'))
+ def test_dual_intents_do_not_allow_the_other_arms_food(self):
+  t=task(['g2_left_link','green_pepper'],.08,'PAIR_1_GRASP',None)
+  body=t.scene.get_contacts()[0].bodies[0]
+  t.robot=N(left_entity=N(get_links=lambda:[body]),right_entity=N(get_links=lambda:[]))
+  t.grasp_intents={'left':'green_pepper','right':'potato'}
+  t.arm_fsm_state={'left':'GREEN_PEPPER_TRANSFER','right':'POTATO_RELEASE'}
+  t.fsm_state='PAIR_1_RIGHT_LOWER'
+  CollisionQuality().observe(t)
+  t.grasp_intents={'left':'potato','right':'green_pepper'}
+  with self.assertRaises(RuntimeError):CollisionQuality().observe(t)
+ def test_even_light_contact_between_arms_is_rejected(self):
+  t=task(['g2_left_link','g2_right_link'],1e-5,'PAIR_1_TRANSFER',None)
+  bodies=t.scene.get_contacts()[0].bodies
+  t.robot=N(left_entity=N(get_links=lambda:[bodies[0]]),right_entity=N(get_links=lambda:[bodies[1]]))
+  q=CollisionQuality()
+  with self.assertRaises(RuntimeError):q.observe(t)
+  self.assertEqual(q.inter_arm_contact_count,1)
  def test_policy_closed_gripper_can_grasp_without_expert_intent(self):
   t=task(["g2_left_link","green_pepper"],.15,"GREEN_PEPPER_POLICY",None)
   body=t.scene.get_contacts()[0].bodies[0]

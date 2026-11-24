@@ -1,7 +1,7 @@
 {
   "hdf5": {
-    "path": "/home/bsrl/RoboTwin/data/w1_stir_back_up_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
-    "frames": 5924,
+    "path": "/home/bsrl/RoboTwin/data/w1_dual_coordinated_v1/w1_finals_real/w1_g2/data/episode_0000000.hdf5",
+    "frames": 2894,
     "frequency_hz": 30.0,
     "state_action_dim": 14,
     "cameras": 3,
@@ -15,34 +15,34 @@
     "source_type": "simulation"
   },
   "native_indices": {
-    "extra/ground_truth.jsonl": 5926,
-    "actions/left_arm.jsonl": 49384,
-    "actions/car.jsonl": 9876,
-    "actions/right_arm.jsonl": 49384
+    "extra/ground_truth.jsonl": 2896,
+    "actions/left_arm.jsonl": 24134,
+    "actions/car.jsonl": 4826,
+    "actions/right_arm.jsonl": 24134
   },
   "native_media": {
     "cam_front_rgb.mp4": {
-      "timestamps": 5926,
+      "timestamps": 2896,
       "maximum_interval_s": 0.03600001335144043
     },
     "cam_front_depth.mkv": {
-      "timestamps": 5926,
+      "timestamps": 2896,
       "maximum_interval_s": 0.03600001335144043
     },
     "cam_left_rgb.mp4": {
-      "timestamps": 5926,
+      "timestamps": 2896,
       "maximum_interval_s": 0.03600001335144043
     },
     "cam_left_depth.mkv": {
-      "timestamps": 5926,
+      "timestamps": 2896,
       "maximum_interval_s": 0.03600001335144043
     },
     "cam_right_rgb.mp4": {
-      "timestamps": 5926,
+      "timestamps": 2896,
       "maximum_interval_s": 0.03600001335144043
     },
     "cam_right_depth.mkv": {
-      "timestamps": 5926,
+      "timestamps": 2896,
       "maximum_interval_s": 0.03600001335144043
     }
   },
@@ -53,38 +53,960 @@
     -0.9983598326736288
   ],
   "spatula_back_up_passed": true,
+  "motion_quality": {
+    "episode": "/home/bsrl/RoboTwin/data/w1_dual_coordinated_v1/candidates/seed_0000",
+    "quaternion_order": "xyzw",
+    "sampling_hz": 250,
+    "metric": "SO(3) geodesic increments over every recorded physical sample",
+    "success": true,
+    "checks": {
+      "all_four_food_transfers_measured": true,
+      "food_transfer_rotation_below_30deg": true,
+      "stir_entry_below_75deg": true,
+      "stir_lower_keeps_orientation": true,
+      "no_extra_rotation_loops": true,
+      "actual_dual_arm_overlap_over_5s": true,
+      "paired_collision_sweeps_passed": true,
+      "dual_ee_high_frequency_rms_below_1mm": true,
+      "dual_command_jerk_bounded": true
+    },
+    "stages": [
+      {
+        "phase": "GREEN_PEPPER_APPROACH",
+        "stage_index": 0,
+        "arm": "left",
+        "duration_s": 6.3360003009438515,
+        "translation_path_m": 0.36845013646100133,
+        "net_rotation_deg": 96.8663667841827,
+        "angular_path_deg": 114.10672467813019,
+        "excess_rotation_deg": 17.24035789394749
+      },
+      {
+        "phase": "GREEN_PEPPER_DESCEND",
+        "stage_index": 1,
+        "arm": "left",
+        "duration_s": 1.7720000841654837,
+        "translation_path_m": 0.18282454286483724,
+        "net_rotation_deg": 0.11231038742493399,
+        "angular_path_deg": 0.42984558576931686,
+        "excess_rotation_deg": 0.3175351983443829
+      },
+      {
+        "phase": "GREEN_PEPPER_GRASP",
+        "stage_index": 2,
+        "arm": "left",
+        "duration_s": 1.3800000655464828,
+        "translation_path_m": 0.0007610062422482408,
+        "net_rotation_deg": 0.07174494871651413,
+        "angular_path_deg": 0.07526483974193932,
+        "excess_rotation_deg": 0.003519891025425187
+      },
+      {
+        "phase": "GREEN_PEPPER_LIFT",
+        "stage_index": 3,
+        "arm": "left",
+        "duration_s": 1.9240000913850963,
+        "translation_path_m": 0.16241009946553736,
+        "net_rotation_deg": 0.17915161212792766,
+        "angular_path_deg": 0.4103226701140033,
+        "excess_rotation_deg": 0.23117105798607565
+      },
+      {
+        "phase": "GREEN_PEPPER_TRANSFER",
+        "stage_index": 4,
+        "arm": "left",
+        "duration_s": 8.02400038111955,
+        "translation_path_m": 0.3164984248866609,
+        "net_rotation_deg": 0.14600598911730095,
+        "angular_path_deg": 0.516896607433334,
+        "excess_rotation_deg": 0.37089061831603304
+      },
+      {
+        "phase": "GREEN_PEPPER_RELEASE",
+        "stage_index": 5,
+        "arm": "left",
+        "duration_s": 3.0680001457221806,
+        "translation_path_m": 0.09468163562239769,
+        "net_rotation_deg": 0.026777150890870797,
+        "angular_path_deg": 0.35659373154699137,
+        "excess_rotation_deg": 0.3298165806561206
+      },
+      {
+        "phase": "GREEN_PEPPER_RETREAT",
+        "stage_index": 6,
+        "arm": "left",
+        "duration_s": 1.6800000797957182,
+        "translation_path_m": 0.07961809092494948,
+        "net_rotation_deg": 0.0676794424115969,
+        "angular_path_deg": 0.27495898657795725,
+        "excess_rotation_deg": 0.20727954416636035
+      },
+      {
+        "phase": "EGGPLANT_APPROACH",
+        "stage_index": 7,
+        "arm": "left",
+        "duration_s": 5.764000273775309,
+        "translation_path_m": 0.2729131062560367,
+        "net_rotation_deg": 134.863545088952,
+        "angular_path_deg": 134.87162627652268,
+        "excess_rotation_deg": 0.008081187570667225
+      },
+      {
+        "phase": "EGGPLANT_DESCEND",
+        "stage_index": 8,
+        "arm": "left",
+        "duration_s": 1.8160000862553716,
+        "translation_path_m": 0.16276660853113684,
+        "net_rotation_deg": 0.1511355558658931,
+        "angular_path_deg": 0.29645087821818483,
+        "excess_rotation_deg": 0.14531532235229172
+      },
+      {
+        "phase": "EGGPLANT_GRASP",
+        "stage_index": 9,
+        "arm": "left",
+        "duration_s": 1.3800000655464828,
+        "translation_path_m": 0.0006011804617975839,
+        "net_rotation_deg": 0.059300104067209126,
+        "angular_path_deg": 0.11538987395014386,
+        "excess_rotation_deg": 0.05608976988293473
+      },
+      {
+        "phase": "EGGPLANT_LIFT",
+        "stage_index": 10,
+        "arm": "left",
+        "duration_s": 2.016000095754862,
+        "translation_path_m": 0.1629824972430567,
+        "net_rotation_deg": 0.16944434717637247,
+        "angular_path_deg": 0.4278161195777228,
+        "excess_rotation_deg": 0.25837177240135034
+      },
+      {
+        "phase": "EGGPLANT_TRANSFER",
+        "stage_index": 11,
+        "arm": "left",
+        "duration_s": 7.79600037029013,
+        "translation_path_m": 0.2823914730084261,
+        "net_rotation_deg": 17.157851404767523,
+        "angular_path_deg": 17.645773393103042,
+        "excess_rotation_deg": 0.48792198833551836
+      },
+      {
+        "phase": "EGGPLANT_RELEASE",
+        "stage_index": 12,
+        "arm": "left",
+        "duration_s": 2.856000135652721,
+        "translation_path_m": 0.06251452505395526,
+        "net_rotation_deg": 0.027411994672226485,
+        "angular_path_deg": 0.3239965374099876,
+        "excess_rotation_deg": 0.2965845427377611
+      },
+      {
+        "phase": "EGGPLANT_RETREAT",
+        "stage_index": 13,
+        "arm": "left",
+        "duration_s": 1.724000081885606,
+        "translation_path_m": 0.08006625141669159,
+        "net_rotation_deg": 0.005338185397732303,
+        "angular_path_deg": 0.3748632216902825,
+        "excess_rotation_deg": 0.36952503629255024
+      },
+      {
+        "phase": "EGGPLANT_PARK",
+        "stage_index": 14,
+        "arm": "left",
+        "duration_s": 4.048000192269683,
+        "translation_path_m": 0.11468256172232585,
+        "net_rotation_deg": 116.80474388891362,
+        "angular_path_deg": 119.26243512376502,
+        "excess_rotation_deg": 2.4576912348513957
+      },
+      {
+        "phase": "SMALL_PEPPER_APPROACH",
+        "stage_index": 0,
+        "arm": "right",
+        "duration_s": 6.3360003009438515,
+        "translation_path_m": 0.3940395342583495,
+        "net_rotation_deg": 90.42845298725818,
+        "angular_path_deg": 105.25493764371338,
+        "excess_rotation_deg": 14.826484656455193
+      },
+      {
+        "phase": "SMALL_PEPPER_DESCEND",
+        "stage_index": 1,
+        "arm": "right",
+        "duration_s": 1.7720000841654837,
+        "translation_path_m": 0.16011399729833664,
+        "net_rotation_deg": 0.11755659961354807,
+        "angular_path_deg": 0.4199100990925371,
+        "excess_rotation_deg": 0.30235349947898904
+      },
+      {
+        "phase": "SMALL_PEPPER_GRASP",
+        "stage_index": 2,
+        "arm": "right",
+        "duration_s": 1.3800000655464828,
+        "translation_path_m": 0.0007721240665387135,
+        "net_rotation_deg": 0.07776932046398741,
+        "angular_path_deg": 0.08697083716261725,
+        "excess_rotation_deg": 0.009201516698629841
+      },
+      {
+        "phase": "SMALL_PEPPER_LIFT",
+        "stage_index": 3,
+        "arm": "right",
+        "duration_s": 1.9240000913850963,
+        "translation_path_m": 0.16256247899612192,
+        "net_rotation_deg": 0.1755732550632942,
+        "angular_path_deg": 0.3873501982562678,
+        "excess_rotation_deg": 0.21177694319297363
+      },
+      {
+        "phase": "SMALL_PEPPER_TRANSFER",
+        "stage_index": 4,
+        "arm": "right",
+        "duration_s": 3.3560001594014466,
+        "translation_path_m": 0.3544355401185369,
+        "net_rotation_deg": 0.1407785761089851,
+        "angular_path_deg": 0.3285012742374899,
+        "excess_rotation_deg": 0.18772269812850484
+      },
+      {
+        "phase": "SMALL_PEPPER_RELEASE",
+        "stage_index": 5,
+        "arm": "right",
+        "duration_s": 3.1560001499019563,
+        "translation_path_m": 0.10365803723921269,
+        "net_rotation_deg": 0.05555535914965125,
+        "angular_path_deg": 0.44296606832657515,
+        "excess_rotation_deg": 0.3874107091769239
+      },
+      {
+        "phase": "SMALL_PEPPER_RETREAT",
+        "stage_index": 6,
+        "arm": "right",
+        "duration_s": 6.260000297334045,
+        "translation_path_m": 0.11382293884666939,
+        "net_rotation_deg": 0.0013784229783613973,
+        "angular_path_deg": 0.44324839763321594,
+        "excess_rotation_deg": 0.44186997465485456
+      },
+      {
+        "phase": "POTATO_APPROACH",
+        "stage_index": 7,
+        "arm": "right",
+        "duration_s": 5.764000273775309,
+        "translation_path_m": 0.2099489515577742,
+        "net_rotation_deg": 83.22471121040533,
+        "angular_path_deg": 83.2291364202006,
+        "excess_rotation_deg": 0.004425209795272167
+      },
+      {
+        "phase": "POTATO_DESCEND",
+        "stage_index": 8,
+        "arm": "right",
+        "duration_s": 1.8160000862553716,
+        "translation_path_m": 0.16780047038532742,
+        "net_rotation_deg": 0.05254818045292001,
+        "angular_path_deg": 0.40051806431885795,
+        "excess_rotation_deg": 0.34796988386593797
+      },
+      {
+        "phase": "POTATO_GRASP",
+        "stage_index": 9,
+        "arm": "right",
+        "duration_s": 1.3800000655464828,
+        "translation_path_m": 0.0005268834851014971,
+        "net_rotation_deg": 0.06649939756442567,
+        "angular_path_deg": 0.08237927791262453,
+        "excess_rotation_deg": 0.015879880348198858
+      },
+      {
+        "phase": "POTATO_LIFT",
+        "stage_index": 10,
+        "arm": "right",
+        "duration_s": 2.016000095754862,
+        "translation_path_m": 0.16275322267092512,
+        "net_rotation_deg": 0.18239819460816278,
+        "angular_path_deg": 0.3696583236281389,
+        "excess_rotation_deg": 0.1872601290199761
+      },
+      {
+        "phase": "POTATO_TRANSFER",
+        "stage_index": 11,
+        "arm": "right",
+        "duration_s": 3.1120001478120685,
+        "translation_path_m": 0.34582082703668426,
+        "net_rotation_deg": 5.760021944151598,
+        "angular_path_deg": 5.783605735199233,
+        "excess_rotation_deg": 0.02358379104763486
+      },
+      {
+        "phase": "POTATO_RELEASE",
+        "stage_index": 12,
+        "arm": "right",
+        "duration_s": 3.324000157881528,
+        "translation_path_m": 0.08782970371263096,
+        "net_rotation_deg": 0.04972887215969991,
+        "angular_path_deg": 0.4410182313974263,
+        "excess_rotation_deg": 0.3912893592377264
+      },
+      {
+        "phase": "POTATO_RETREAT",
+        "stage_index": 13,
+        "arm": "right",
+        "duration_s": 5.940000282134861,
+        "translation_path_m": 0.11340596841361983,
+        "net_rotation_deg": 0.006281741510902402,
+        "angular_path_deg": 0.5418161565015398,
+        "excess_rotation_deg": 0.5355344149906374
+      },
+      {
+        "phase": "POTATO_PARK",
+        "stage_index": 14,
+        "arm": "right",
+        "duration_s": 4.048000192269683,
+        "translation_path_m": 0.21482894737122465,
+        "net_rotation_deg": 116.35656038500805,
+        "angular_path_deg": 118.15750716194643,
+        "excess_rotation_deg": 1.8009467769383747
+      },
+      {
+        "phase": "TOOL_CLEARANCE_PARK",
+        "stage_index": 26,
+        "arm": "left",
+        "duration_s": 4.336000205948949,
+        "translation_path_m": 0.24249004061572654,
+        "net_rotation_deg": 47.695276234038275,
+        "angular_path_deg": 47.699587419568985,
+        "excess_rotation_deg": 0.004311185530710304
+      },
+      {
+        "phase": "SPATULA_APPROACH",
+        "stage_index": 27,
+        "arm": "right",
+        "duration_s": 3.9120001858100295,
+        "translation_path_m": 0.2851504317334965,
+        "net_rotation_deg": 99.66219780683626,
+        "angular_path_deg": 102.97993740087345,
+        "excess_rotation_deg": 3.3177395940371923
+      },
+      {
+        "phase": "SPATULA_DESCEND",
+        "stage_index": 28,
+        "arm": "right",
+        "duration_s": 1.0120000480674207,
+        "translation_path_m": 0.12909336085726342,
+        "net_rotation_deg": 0.09586208146057182,
+        "angular_path_deg": 0.16059912976003649,
+        "excess_rotation_deg": 0.06473704829946467
+      },
+      {
+        "phase": "SPATULA_GRASP",
+        "stage_index": 29,
+        "arm": "right",
+        "duration_s": 1.4000000664964318,
+        "translation_path_m": 0.0007284873300884261,
+        "net_rotation_deg": 0.05560769046593604,
+        "angular_path_deg": 0.09373055636857884,
+        "excess_rotation_deg": 0.0381228659026428
+      },
+      {
+        "phase": "SPATULA_LIFT",
+        "stage_index": 30,
+        "arm": "right",
+        "duration_s": 1.7200000816956162,
+        "translation_path_m": 0.12955037957748913,
+        "net_rotation_deg": 0.08752716855962796,
+        "angular_path_deg": 0.31691788754851596,
+        "excess_rotation_deg": 0.22939071898888802
+      },
+      {
+        "phase": "STIR_APPROACH",
+        "stage_index": 32,
+        "arm": "right",
+        "duration_s": 4.0360001916997135,
+        "translation_path_m": 0.37710016703989524,
+        "net_rotation_deg": 19.557588147336546,
+        "angular_path_deg": 19.607066567314988,
+        "excess_rotation_deg": 0.049478419978441934
+      },
+      {
+        "phase": "STIR_LOWER",
+        "stage_index": 33,
+        "arm": "right",
+        "duration_s": 1.6720000794157386,
+        "translation_path_m": 0.055809138006880504,
+        "net_rotation_deg": 0.15490803191841987,
+        "angular_path_deg": 0.30992823670981595,
+        "excess_rotation_deg": 0.15502020479139608
+      },
+      {
+        "phase": "STIR_PUSH",
+        "stage_index": 34,
+        "arm": "right",
+        "duration_s": 1.3400000636465847,
+        "translation_path_m": 0.03400435881484305,
+        "net_rotation_deg": 2.095415457473031,
+        "angular_path_deg": 2.1568140373433833,
+        "excess_rotation_deg": 0.06139857987035224
+      },
+      {
+        "phase": "STIR_REVERSE",
+        "stage_index": 35,
+        "arm": "right",
+        "duration_s": 1.0840000514872372,
+        "translation_path_m": 0.03294548378016133,
+        "net_rotation_deg": 0.6465012719053234,
+        "angular_path_deg": 0.7049429662270117,
+        "excess_rotation_deg": 0.05844169432168833
+      },
+      {
+        "phase": "STIR_PUSH",
+        "stage_index": 36,
+        "arm": "right",
+        "duration_s": 1.3480000640265644,
+        "translation_path_m": 0.033020277660582895,
+        "net_rotation_deg": 2.618027115328251,
+        "angular_path_deg": 2.6762066225403096,
+        "excess_rotation_deg": 0.05817950721205856
+      },
+      {
+        "phase": "STIR_REVERSE",
+        "stage_index": 37,
+        "arm": "right",
+        "duration_s": 1.0200000484474003,
+        "translation_path_m": 0.033025689347820644,
+        "net_rotation_deg": 0.8007969883115303,
+        "angular_path_deg": 0.8539037448298914,
+        "excess_rotation_deg": 0.053106756518361053
+      },
+      {
+        "phase": "STIR_WITHDRAW",
+        "stage_index": 38,
+        "arm": "right",
+        "duration_s": 0.6720000319182873,
+        "translation_path_m": 0.037893866152640676,
+        "net_rotation_deg": 2.8039117577850066,
+        "angular_path_deg": 2.8400774827607815,
+        "excess_rotation_deg": 0.03616572497577497
+      },
+      {
+        "phase": "SPATULA_RETURN_APPROACH",
+        "stage_index": 41,
+        "arm": "right",
+        "duration_s": 3.8520001829601824,
+        "translation_path_m": 0.37582868028829436,
+        "net_rotation_deg": 15.226789232635674,
+        "angular_path_deg": 15.291066510519524,
+        "excess_rotation_deg": 0.06427727788384985
+      },
+      {
+        "phase": "SPATULA_RETURN_LOWER",
+        "stage_index": 42,
+        "arm": "right",
+        "duration_s": 0.9920000471174717,
+        "translation_path_m": 0.0995452269354227,
+        "net_rotation_deg": 0.10697209910067748,
+        "angular_path_deg": 0.22703864198114482,
+        "excess_rotation_deg": 0.12006654288046734
+      },
+      {
+        "phase": "SPATULA_RETURN_RELEASE",
+        "stage_index": 43,
+        "arm": "right",
+        "duration_s": 1.600000075995922,
+        "translation_path_m": 0.0008359504116744066,
+        "net_rotation_deg": 0.12348414894844043,
+        "angular_path_deg": 0.12477838252736026,
+        "excess_rotation_deg": 0.0012942335789198345
+      },
+      {
+        "phase": "SPATULA_RETURN_RETREAT",
+        "stage_index": 44,
+        "arm": "right",
+        "duration_s": 1.5040000714361668,
+        "translation_path_m": 0.06986784234043175,
+        "net_rotation_deg": 0.03121412724038248,
+        "angular_path_deg": 0.27991185801241025,
+        "excess_rotation_deg": 0.24869773077202778
+      },
+      {
+        "phase": "FINAL_PARK",
+        "stage_index": 45,
+        "arm": "right",
+        "duration_s": 3.9480001875199378,
+        "translation_path_m": 0.30155045361315996,
+        "net_rotation_deg": 107.7290398858384,
+        "angular_path_deg": 111.01460272997528,
+        "excess_rotation_deg": 3.2855628441368765
+      },
+      {
+        "phase": "FINAL_LEFT_PARK",
+        "stage_index": 46,
+        "arm": "left",
+        "duration_s": 5.524000262375921,
+        "translation_path_m": 0.24295639013230863,
+        "net_rotation_deg": 47.781242490778844,
+        "angular_path_deg": 47.7931400359885,
+        "excess_rotation_deg": 0.011897545209656357
+      }
+    ],
+    "dual_coordination": {
+      "observed_both_arms_moving_s": 26.531658411026,
+      "activity_threshold_rad_s": 0.03,
+      "planned": {
+        "mode": "paired_pickup_and_transport_coordinated_pan_release",
+        "stages": [
+          {
+            "stage": "PAIR_1_APPROACH",
+            "time_s": 0.0,
+            "duration_s": 4.956,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.10712994635105133,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.7395597423283378,
+                "acceleration_rad_s2": 0.45986461305602605,
+                "jerk_rad_s3": 0.9650786420015569
+              },
+              "right": {
+                "velocity_rad_s": 0.674141194906053,
+                "acceleration_rad_s2": 0.419186797146355,
+                "jerk_rad_s3": 0.8797100960471835
+              }
+            },
+            "both_arms_moving_s": 4.724
+          },
+          {
+            "stage": "PAIR_1_DESCEND",
+            "time_s": 6.3360003009438515,
+            "duration_s": 1.772,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.45494556427001953,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.4440152117626824,
+                "acceleration_rad_s2": 0.9617634266767521,
+                "jerk_rad_s3": 6.318393724891163
+              },
+              "right": {
+                "velocity_rad_s": 0.3738473255737844,
+                "acceleration_rad_s2": 0.7444228995509574,
+                "jerk_rad_s3": 4.677928332403641
+              }
+            },
+            "both_arms_moving_s": 1.6480000000000001
+          },
+          {
+            "stage": "PAIR_1_LIFT",
+            "time_s": 9.488000450655818,
+            "duration_s": 1.724,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.45494556427001953,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.4395668480672295,
+                "acceleration_rad_s2": 0.9509760534598382,
+                "jerk_rad_s3": 6.328637613961519
+              },
+              "right": {
+                "velocity_rad_s": 0.4381517449395947,
+                "acceleration_rad_s2": 0.8796323002482805,
+                "jerk_rad_s3": 5.6587059210975434
+              }
+            },
+            "both_arms_moving_s": 1.604
+          },
+          {
+            "stage": "PAIR_1_TRANSFER",
+            "time_s": 11.412000542040914,
+            "duration_s": 3.2560000000000002,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.05643811076879501,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.4391188739099279,
+                "acceleration_rad_s2": 0.5723272405956922,
+                "jerk_rad_s3": 2.1382035383320983
+              },
+              "right": {
+                "velocity_rad_s": 0.6108700961798824,
+                "acceleration_rad_s2": 0.558851280529903,
+                "jerk_rad_s3": 1.5517433171741104
+              }
+            },
+            "both_arms_moving_s": 3.056
+          },
+          {
+            "stage": "PAIR_1_RIGHT_LOWER",
+            "time_s": 14.76800070144236,
+            "duration_s": 1.576,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.026915524154901505,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "right": {
+                "velocity_rad_s": 0.4173833205134421,
+                "acceleration_rad_s2": 0.9073045248442196,
+                "jerk_rad_s3": 6.3477462869387935
+              }
+            },
+            "both_arms_moving_s": 0.0
+          },
+          {
+            "stage": "PAIR_1_LEFT_ENTER_RIGHT_RETREAT",
+            "time_s": 17.924000851344317,
+            "duration_s": 1.512,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.016227073967456818,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.382267067843833,
+                "acceleration_rad_s2": 0.875943048650461,
+                "jerk_rad_s3": 6.3107594150402235
+              },
+              "right": {
+                "velocity_rad_s": 0.28554450013494853,
+                "acceleration_rad_s2": 0.5830565348865675,
+                "jerk_rad_s3": 4.018159941992831
+              }
+            },
+            "both_arms_moving_s": 1.4000000000000001
+          },
+          {
+            "stage": "PAIR_1_LEFT_LOWER",
+            "time_s": 19.436000923160464,
+            "duration_s": 1.488,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.01613501086831093,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.40361887123363493,
+                "acceleration_rad_s2": 0.8644500965049302,
+                "jerk_rad_s3": 6.338975386266377
+              }
+            },
+            "both_arms_moving_s": 0.0
+          },
+          {
+            "stage": "PAIR_1_LEFT_RETREAT",
+            "time_s": 22.504001068882644,
+            "duration_s": 1.3800000000000001,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.0619044192135334,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.3666611973632269,
+                "acceleration_rad_s2": 0.8327533140839434,
+                "jerk_rad_s3": 6.3410329070867455
+              }
+            },
+            "both_arms_moving_s": 0.0
+          },
+          {
+            "stage": "PAIR_2_APPROACH",
+            "time_s": 24.184001148678362,
+            "duration_s": 5.764,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.0619124211370945,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.6109897236675205,
+                "acceleration_rad_s2": 0.35972391176923346,
+                "jerk_rad_s3": 0.6661343351921367
+              },
+              "right": {
+                "velocity_rad_s": 0.2489556954764975,
+                "acceleration_rad_s2": 0.15271112436957976,
+                "jerk_rad_s3": 0.29489163558470644
+              }
+            },
+            "both_arms_moving_s": 5.264
+          },
+          {
+            "stage": "PAIR_2_DESCEND",
+            "time_s": 29.94800142245367,
+            "duration_s": 1.816,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.44712501764297485,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.6661710779420899,
+                "acceleration_rad_s2": 1.1433981725317266,
+                "jerk_rad_s3": 6.323647855355201
+              },
+              "right": {
+                "velocity_rad_s": 0.4739466731625312,
+                "acceleration_rad_s2": 0.8497988653842533,
+                "jerk_rad_s3": 4.960602709587757
+              }
+            },
+            "both_arms_moving_s": 1.7
+          },
+          {
+            "stage": "PAIR_2_LIFT",
+            "time_s": 33.144001574255526,
+            "duration_s": 1.816,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.4468158483505249,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.6682914102393295,
+                "acceleration_rad_s2": 1.1466706192897447,
+                "jerk_rad_s3": 6.337424959812488
+              },
+              "right": {
+                "velocity_rad_s": 0.4533439483033628,
+                "acceleration_rad_s2": 0.8162034551684954,
+                "jerk_rad_s3": 4.771886661875948
+              }
+            },
+            "both_arms_moving_s": 1.7
+          },
+          {
+            "stage": "PAIR_2_TRANSFER",
+            "time_s": 35.16000167001039,
+            "duration_s": 3.012,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.03102097287774086,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.4384603646091917,
+                "acceleration_rad_s2": 0.681654138047709,
+                "jerk_rad_s3": 2.76244409191102
+              },
+              "right": {
+                "velocity_rad_s": 0.7654316480024119,
+                "acceleration_rad_s2": 1.3852491359545,
+                "jerk_rad_s3": 6.333389229729018
+              }
+            },
+            "both_arms_moving_s": 2.836
+          },
+          {
+            "stage": "PAIR_2_RIGHT_LOWER",
+            "time_s": 38.272001817822456,
+            "duration_s": 1.744,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.026391753926873207,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "right": {
+                "velocity_rad_s": 0.4167048817971249,
+                "acceleration_rad_s2": 0.9804783568378976,
+                "jerk_rad_s3": 6.335370977827992
+              }
+            },
+            "both_arms_moving_s": 0.0
+          },
+          {
+            "stage": "PAIR_2_LEFT_ENTER_RIGHT_RETREAT",
+            "time_s": 41.596001975703984,
+            "duration_s": 1.36,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.026393072679638863,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.348569513983709,
+                "acceleration_rad_s2": 0.7980485365106103,
+                "jerk_rad_s3": 6.134027502196679
+              },
+              "right": {
+                "velocity_rad_s": 0.3012777545641218,
+                "acceleration_rad_s2": 0.7849181357655318,
+                "jerk_rad_s3": 6.331316096397366
+              }
+            },
+            "both_arms_moving_s": 1.248
+          },
+          {
+            "stage": "PAIR_2_LEFT_LOWER",
+            "time_s": 42.95600204030052,
+            "duration_s": 1.276,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.0404990054666996,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.3142031642514029,
+                "acceleration_rad_s2": 0.7626979825481314,
+                "jerk_rad_s3": 6.308241429220374
+              }
+            },
+            "both_arms_moving_s": 0.0
+          },
+          {
+            "stage": "PAIR_2_LEFT_RETREAT",
+            "time_s": 45.81200217595324,
+            "duration_s": 1.424,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.039993766695261,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.3618991648607347,
+                "acceleration_rad_s2": 0.8380878399605314,
+                "jerk_rad_s3": 6.345770367510699
+              }
+            },
+            "both_arms_moving_s": 0.0
+          },
+          {
+            "stage": "PAIR_FINAL_PARK",
+            "time_s": 47.536002257838845,
+            "duration_s": 4.048,
+            "start_delay_s": 0.0,
+            "delayed_arm": null,
+            "minimum_sphere_clearance_m": 0.024224095046520233,
+            "command_joint_jerk_limit_rad_s3": 8.0,
+            "command_peaks": {
+              "left": {
+                "velocity_rad_s": 0.7067476994575266,
+                "acceleration_rad_s2": 0.5381350349099163,
+                "jerk_rad_s3": 1.3829071741906305
+              },
+              "right": {
+                "velocity_rad_s": 0.811036420026404,
+                "acceleration_rad_s2": 0.6175430249687575,
+                "jerk_rad_s3": 1.5869704580642487
+              }
+            },
+            "both_arms_moving_s": 3.856
+          }
+        ],
+        "minimum_predicted_clearance_m": 0.01613501086831093,
+        "gripper_clearance_checks": [
+          {
+            "stage": "PAIR_1_OPEN",
+            "minimum_sphere_clearance_m": 0.45494556427001953
+          },
+          {
+            "stage": "PAIR_1_GRASP",
+            "minimum_sphere_clearance_m": 0.45494556427001953
+          },
+          {
+            "stage": "PAIR_1_RIGHT_RELEASE",
+            "minimum_sphere_clearance_m": 0.026915814727544785
+          },
+          {
+            "stage": "PAIR_1_LEFT_RELEASE",
+            "minimum_sphere_clearance_m": 0.06153060495853424
+          },
+          {
+            "stage": "PAIR_2_OPEN",
+            "minimum_sphere_clearance_m": 0.45494556427001953
+          },
+          {
+            "stage": "PAIR_2_GRASP",
+            "minimum_sphere_clearance_m": 0.45344507694244385
+          },
+          {
+            "stage": "PAIR_2_RIGHT_RELEASE",
+            "minimum_sphere_clearance_m": 0.026393072679638863
+          },
+          {
+            "stage": "PAIR_2_LEFT_RELEASE",
+            "minimum_sphere_clearance_m": 0.04642394557595253
+          },
+          {
+            "stage": "PAIR_FINAL_CLOSE",
+            "minimum_sphere_clearance_m": 0.059501804411411285
+          }
+        ],
+        "required_clearance_m": 0.012,
+        "kinematics_max_link_error_m": 1.510333076354586e-07,
+        "both_arms_moving_s": 29.036,
+        "intermediate_home_returns": 0,
+        "timing": "C2 joint splines, quintic phase, jerk bounded, stretch-only synchronization"
+      },
+      "actual_smoothness": {
+        "left": {
+          "ee_high_frequency_rms_m": 5.638321603917841e-07,
+          "ee_high_frequency_p99_m": 2.6129720677633103e-06,
+          "joint_high_frequency_rms_rad": 7.866840345705376e-07
+        },
+        "right": {
+          "ee_high_frequency_rms_m": 7.730537698289434e-07,
+          "ee_high_frequency_p99_m": 3.132851233354294e-06,
+          "joint_high_frequency_rms_rad": 8.585684407969774e-07
+        }
+      },
+      "smoothness_method": "250 Hz feedback minus 31-sample cubic Savitzky-Golay trend, paired-food stages only"
+    }
+  },
+  "independent_observed_dual_motion_s": {
+    "PAIR_1_LIFT": 1.4559812545776367,
+    "PAIR_1_TRANSFER": 2.7679643630981445,
+    "PAIR_2_LIFT": 1.5479800701141357,
+    "PAIR_2_TRANSFER": 2.6359660625457764
+  },
+  "online_joint_limit_compatibility": {
+    "maximum_command_feedback_gap_rad": 0.03821331262588501,
+    "maximum_consecutive_joint_target_step_rad": 0.03973877429962158,
+    "online_limit_rad": 0.05
+  },
+  "per_arm_phase_labels_passed": true,
   "pi05_reader": {
     "status": "passed",
-    "frames": 5924,
+    "frames": 2894,
     "state_shape": [
-      5924,
+      2894,
       14
     ],
     "action_shape": [
-      5924,
+      2894,
       14
     ],
     "image_shapes": {
       "cam_high": [
-        5924,
+        2894,
         480,
         640,
         3
       ],
       "cam_left_wrist": [
-        5924,
+        2894,
         480,
         640,
         3
       ],
       "cam_right_wrist": [
-        5924,
+        2894,
         480,
         640,
         3
       ]
     },
-    "instruction": "Put both green peppers, the potato and the eggplant in the pan, stir with small back-and-forth pushes for at least two seconds, and return the spatula.",
+    "instruction": "Use both arms to pick and place the vegetables into the pan, then stir with small back-and-forth spatula pushes for at least two seconds and return the spatula.",
     "frequency_hz": 30.0,
     "lerobot_exported": false,
     "training_started": false

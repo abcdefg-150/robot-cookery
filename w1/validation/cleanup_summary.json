@@ -1,0 +1,9 @@
+{
+  "version": "w1_finals_real_v7",
+  "status": "completed",
+  "previous_cleanup_removed_bytes": 14610908716,
+  "additional_removed_bytes": 3914298862,
+  "total_removed_bytes": 18525207578,
+  "preserved_files_verified": 100,
+  "only_current_simulation_demonstration_retained": true
+}

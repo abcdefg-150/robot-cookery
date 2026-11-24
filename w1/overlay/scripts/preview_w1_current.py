@@ -84,7 +84,7 @@ class PreviewRecorder:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--config', default='w1_finals_real_v5')
+    parser.add_argument('--config', default='w1_finals_real_v7')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--output', type=Path, default=ROOT / 'data/w1_current_preview_back_up_20261122')
     args = parser.parse_args()

@@ -1,29 +1,19 @@
 {
-  "control_steps": 30,
-  "physics_steps": 250,
+  "status": "passed",
+  "config": "w1_finals_real_v7",
+  "hold_control_steps": 30,
+  "hold_physics_steps": 250,
+  "additional_limit_and_opening_steps": 1,
   "state_shape": [
     14
   ],
-  "cameras": {
-    "cam_head": [
-      480,
-      640,
-      3
-    ],
-    "cam_left_wrist": [
-      480,
-      640,
-      3
-    ],
-    "cam_right_wrist": [
-      480,
-      640,
-      3
-    ]
-  },
+  "online_opening_unit": "m",
+  "internal_drive_uses_width_fraction": true,
+  "maximum_joint_step_rad": 0.05,
+  "observed_state_openings_match_raw_widths": true,
+  "left_target_opening_m": 0.036,
+  "right_target_opening_m": 0.072,
+  "rgb_d_cameras": 3,
   "depth_unit": "mm",
-  "task_success": false,
-  "policy": "hold",
-  "training_demonstration": false,
-  "status": "passed"
+  "training_demonstration": false
 }

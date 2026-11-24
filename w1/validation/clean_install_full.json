@@ -1,9 +1,11 @@
 {
   "status": "passed",
-  "installed_root": "/tmp/w1_cookery_install_smoke",
+  "installed_root": "/tmp/w1_dual_install_smoke",
+  "validation_method": "Complete collector from an independent base checkout with installed overlay, initial scene; no saved-state replay or object placement shortcuts",
   "raw_real_episode_available": false,
+  "task_config": "w1_finals_real_v7",
+  "independent_simulation_episodes": 1,
   "physical_success": true,
-  "task_scope": "Complete FSM from initial scene; no object initialization or replay shortcuts",
   "success_checks": {
     "plan_success": true,
     "completed": true,
@@ -20,18 +22,438 @@
     "both_arms_parked": true,
     "effective_reciprocal_stirring": true
   },
+  "motion_quality_checks": {
+    "all_four_food_transfers_measured": true,
+    "food_transfer_rotation_below_30deg": true,
+    "stir_entry_below_75deg": true,
+    "stir_lower_keeps_orientation": true,
+    "no_extra_rotation_loops": true,
+    "actual_dual_arm_overlap_over_5s": true,
+    "paired_collision_sweeps_passed": true,
+    "dual_ee_high_frequency_rms_below_1mm": true,
+    "dual_command_jerk_bounded": true
+  },
+  "dual_coordination": {
+    "observed_both_arms_moving_s": 26.531658411026,
+    "activity_threshold_rad_s": 0.03,
+    "planned": {
+      "mode": "paired_pickup_and_transport_coordinated_pan_release",
+      "stages": [
+        {
+          "stage": "PAIR_1_APPROACH",
+          "time_s": 0.0,
+          "duration_s": 4.956,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.10712994635105133,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.7395597423283378,
+              "acceleration_rad_s2": 0.45986461305602605,
+              "jerk_rad_s3": 0.9650786420015569
+            },
+            "right": {
+              "velocity_rad_s": 0.674141194906053,
+              "acceleration_rad_s2": 0.419186797146355,
+              "jerk_rad_s3": 0.8797100960471835
+            }
+          },
+          "both_arms_moving_s": 4.724
+        },
+        {
+          "stage": "PAIR_1_DESCEND",
+          "time_s": 6.3360003009438515,
+          "duration_s": 1.772,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.45494556427001953,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.4440152117626824,
+              "acceleration_rad_s2": 0.9617634266767521,
+              "jerk_rad_s3": 6.318393724891163
+            },
+            "right": {
+              "velocity_rad_s": 0.3738473255737844,
+              "acceleration_rad_s2": 0.7444228995509574,
+              "jerk_rad_s3": 4.677928332403641
+            }
+          },
+          "both_arms_moving_s": 1.6480000000000001
+        },
+        {
+          "stage": "PAIR_1_LIFT",
+          "time_s": 9.488000450655818,
+          "duration_s": 1.724,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.45494556427001953,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.4395668480672295,
+              "acceleration_rad_s2": 0.9509760534598382,
+              "jerk_rad_s3": 6.328637613961519
+            },
+            "right": {
+              "velocity_rad_s": 0.4381517449395947,
+              "acceleration_rad_s2": 0.8796323002482805,
+              "jerk_rad_s3": 5.6587059210975434
+            }
+          },
+          "both_arms_moving_s": 1.604
+        },
+        {
+          "stage": "PAIR_1_TRANSFER",
+          "time_s": 11.412000542040914,
+          "duration_s": 3.2560000000000002,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.05643811076879501,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.4391188739099279,
+              "acceleration_rad_s2": 0.5723272405956922,
+              "jerk_rad_s3": 2.1382035383320983
+            },
+            "right": {
+              "velocity_rad_s": 0.6108700961798824,
+              "acceleration_rad_s2": 0.558851280529903,
+              "jerk_rad_s3": 1.5517433171741104
+            }
+          },
+          "both_arms_moving_s": 3.056
+        },
+        {
+          "stage": "PAIR_1_RIGHT_LOWER",
+          "time_s": 14.76800070144236,
+          "duration_s": 1.576,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.026915524154901505,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "right": {
+              "velocity_rad_s": 0.4173833205134421,
+              "acceleration_rad_s2": 0.9073045248442196,
+              "jerk_rad_s3": 6.3477462869387935
+            }
+          },
+          "both_arms_moving_s": 0.0
+        },
+        {
+          "stage": "PAIR_1_LEFT_ENTER_RIGHT_RETREAT",
+          "time_s": 17.924000851344317,
+          "duration_s": 1.512,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.016227073967456818,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.382267067843833,
+              "acceleration_rad_s2": 0.875943048650461,
+              "jerk_rad_s3": 6.3107594150402235
+            },
+            "right": {
+              "velocity_rad_s": 0.28554450013494853,
+              "acceleration_rad_s2": 0.5830565348865675,
+              "jerk_rad_s3": 4.018159941992831
+            }
+          },
+          "both_arms_moving_s": 1.4000000000000001
+        },
+        {
+          "stage": "PAIR_1_LEFT_LOWER",
+          "time_s": 19.436000923160464,
+          "duration_s": 1.488,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.01613501086831093,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.40361887123363493,
+              "acceleration_rad_s2": 0.8644500965049302,
+              "jerk_rad_s3": 6.338975386266377
+            }
+          },
+          "both_arms_moving_s": 0.0
+        },
+        {
+          "stage": "PAIR_1_LEFT_RETREAT",
+          "time_s": 22.504001068882644,
+          "duration_s": 1.3800000000000001,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.0619044192135334,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.3666611973632269,
+              "acceleration_rad_s2": 0.8327533140839434,
+              "jerk_rad_s3": 6.3410329070867455
+            }
+          },
+          "both_arms_moving_s": 0.0
+        },
+        {
+          "stage": "PAIR_2_APPROACH",
+          "time_s": 24.184001148678362,
+          "duration_s": 5.764,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.0619124211370945,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.6109897236675205,
+              "acceleration_rad_s2": 0.35972391176923346,
+              "jerk_rad_s3": 0.6661343351921367
+            },
+            "right": {
+              "velocity_rad_s": 0.2489556954764975,
+              "acceleration_rad_s2": 0.15271112436957976,
+              "jerk_rad_s3": 0.29489163558470644
+            }
+          },
+          "both_arms_moving_s": 5.264
+        },
+        {
+          "stage": "PAIR_2_DESCEND",
+          "time_s": 29.94800142245367,
+          "duration_s": 1.816,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.44712501764297485,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.6661710779420899,
+              "acceleration_rad_s2": 1.1433981725317266,
+              "jerk_rad_s3": 6.323647855355201
+            },
+            "right": {
+              "velocity_rad_s": 0.4739466731625312,
+              "acceleration_rad_s2": 0.8497988653842533,
+              "jerk_rad_s3": 4.960602709587757
+            }
+          },
+          "both_arms_moving_s": 1.7
+        },
+        {
+          "stage": "PAIR_2_LIFT",
+          "time_s": 33.144001574255526,
+          "duration_s": 1.816,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.4468158483505249,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.6682914102393295,
+              "acceleration_rad_s2": 1.1466706192897447,
+              "jerk_rad_s3": 6.337424959812488
+            },
+            "right": {
+              "velocity_rad_s": 0.4533439483033628,
+              "acceleration_rad_s2": 0.8162034551684954,
+              "jerk_rad_s3": 4.771886661875948
+            }
+          },
+          "both_arms_moving_s": 1.7
+        },
+        {
+          "stage": "PAIR_2_TRANSFER",
+          "time_s": 35.16000167001039,
+          "duration_s": 3.012,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.03102097287774086,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.4384603646091917,
+              "acceleration_rad_s2": 0.681654138047709,
+              "jerk_rad_s3": 2.76244409191102
+            },
+            "right": {
+              "velocity_rad_s": 0.7654316480024119,
+              "acceleration_rad_s2": 1.3852491359545,
+              "jerk_rad_s3": 6.333389229729018
+            }
+          },
+          "both_arms_moving_s": 2.836
+        },
+        {
+          "stage": "PAIR_2_RIGHT_LOWER",
+          "time_s": 38.272001817822456,
+          "duration_s": 1.744,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.026391753926873207,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "right": {
+              "velocity_rad_s": 0.4167048817971249,
+              "acceleration_rad_s2": 0.9804783568378976,
+              "jerk_rad_s3": 6.335370977827992
+            }
+          },
+          "both_arms_moving_s": 0.0
+        },
+        {
+          "stage": "PAIR_2_LEFT_ENTER_RIGHT_RETREAT",
+          "time_s": 41.596001975703984,
+          "duration_s": 1.36,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.026393072679638863,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.348569513983709,
+              "acceleration_rad_s2": 0.7980485365106103,
+              "jerk_rad_s3": 6.134027502196679
+            },
+            "right": {
+              "velocity_rad_s": 0.3012777545641218,
+              "acceleration_rad_s2": 0.7849181357655318,
+              "jerk_rad_s3": 6.331316096397366
+            }
+          },
+          "both_arms_moving_s": 1.248
+        },
+        {
+          "stage": "PAIR_2_LEFT_LOWER",
+          "time_s": 42.95600204030052,
+          "duration_s": 1.276,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.0404990054666996,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.3142031642514029,
+              "acceleration_rad_s2": 0.7626979825481314,
+              "jerk_rad_s3": 6.308241429220374
+            }
+          },
+          "both_arms_moving_s": 0.0
+        },
+        {
+          "stage": "PAIR_2_LEFT_RETREAT",
+          "time_s": 45.81200217595324,
+          "duration_s": 1.424,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.039993766695261,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.3618991648607347,
+              "acceleration_rad_s2": 0.8380878399605314,
+              "jerk_rad_s3": 6.345770367510699
+            }
+          },
+          "both_arms_moving_s": 0.0
+        },
+        {
+          "stage": "PAIR_FINAL_PARK",
+          "time_s": 47.536002257838845,
+          "duration_s": 4.048,
+          "start_delay_s": 0.0,
+          "delayed_arm": null,
+          "minimum_sphere_clearance_m": 0.024224095046520233,
+          "command_joint_jerk_limit_rad_s3": 8.0,
+          "command_peaks": {
+            "left": {
+              "velocity_rad_s": 0.7067476994575266,
+              "acceleration_rad_s2": 0.5381350349099163,
+              "jerk_rad_s3": 1.3829071741906305
+            },
+            "right": {
+              "velocity_rad_s": 0.811036420026404,
+              "acceleration_rad_s2": 0.6175430249687575,
+              "jerk_rad_s3": 1.5869704580642487
+            }
+          },
+          "both_arms_moving_s": 3.856
+        }
+      ],
+      "minimum_predicted_clearance_m": 0.01613501086831093,
+      "gripper_clearance_checks": [
+        {
+          "stage": "PAIR_1_OPEN",
+          "minimum_sphere_clearance_m": 0.45494556427001953
+        },
+        {
+          "stage": "PAIR_1_GRASP",
+          "minimum_sphere_clearance_m": 0.45494556427001953
+        },
+        {
+          "stage": "PAIR_1_RIGHT_RELEASE",
+          "minimum_sphere_clearance_m": 0.026915814727544785
+        },
+        {
+          "stage": "PAIR_1_LEFT_RELEASE",
+          "minimum_sphere_clearance_m": 0.06153060495853424
+        },
+        {
+          "stage": "PAIR_2_OPEN",
+          "minimum_sphere_clearance_m": 0.45494556427001953
+        },
+        {
+          "stage": "PAIR_2_GRASP",
+          "minimum_sphere_clearance_m": 0.45344507694244385
+        },
+        {
+          "stage": "PAIR_2_RIGHT_RELEASE",
+          "minimum_sphere_clearance_m": 0.026393072679638863
+        },
+        {
+          "stage": "PAIR_2_LEFT_RELEASE",
+          "minimum_sphere_clearance_m": 0.04642394557595253
+        },
+        {
+          "stage": "PAIR_FINAL_CLOSE",
+          "minimum_sphere_clearance_m": 0.059501804411411285
+        }
+      ],
+      "required_clearance_m": 0.012,
+      "kinematics_max_link_error_m": 1.510333076354586e-07,
+      "both_arms_moving_s": 29.036,
+      "intermediate_home_returns": 0,
+      "timing": "C2 joint splines, quintic phase, jerk bounded, stretch-only synchronization"
+    },
+    "actual_smoothness": {
+      "left": {
+        "ee_high_frequency_rms_m": 5.638321603917841e-07,
+        "ee_high_frequency_p99_m": 2.6129720677633103e-06,
+        "joint_high_frequency_rms_rad": 7.866840345705376e-07
+      },
+      "right": {
+        "ee_high_frequency_rms_m": 7.730537698289434e-07,
+        "ee_high_frequency_p99_m": 3.132851233354294e-06,
+        "joint_high_frequency_rms_rad": 8.585684407969774e-07
+      }
+    },
+    "smoothness_method": "250 Hz feedback minus 31-sample cubic Savitzky-Golay trend, paired-food stages only"
+  },
   "stir_metrics": {
     "success": true,
-    "motion_duration_s": 2.448000116273761,
-    "contact_duration_s": 2.140000101644546,
-    "contact_steps": 535,
-    "direction_reversals": 5,
-    "maximum_food_displacement_m": 0.032862333176530846,
+    "motion_duration_s": 2.5560001214034855,
+    "contact_duration_s": 2.340000111144036,
+    "contact_steps": 585,
+    "direction_reversals": 3,
+    "maximum_food_displacement_m": 0.006697830758451132,
     "contacted_foods": [
-      "green_pepper",
-      "small_pepper"
+      "green_pepper"
     ],
-    "tool_planar_path_m": 0.10105274411475143,
+    "tool_planar_path_m": 0.0953509553348253,
     "minimum_motion_duration_s": 2.0,
     "minimum_food_displacement_m": 0.005,
     "minimum_stroke_m": 0.008,
@@ -41,38 +463,36 @@
     "severe_event_count": 0,
     "severe_events": [],
     "peak_pair_impulse_Ns": {
-      "green_pepper|table": 0.003204372536856681,
-      "potato|table": 0.027931014075875282,
-      "eggplant|table": 0.028108850121498108,
-      "spatula|table": 0.020533738657832146,
-      "small_pepper|table": 0.06105414591729641,
+      "green_pepper|table": 0.00602529791649431,
+      "potato|table": 0.03038838692009449,
+      "eggplant|table": 0.03614202747121453,
+      "spatula|table": 0.020419826731085777,
+      "small_pepper|table": 0.013424256394500844,
       "g2_left_link|table": 0.0,
       "g2_right_link|table": 0.0,
-      "g2_right_link|small_pepper": 0.121998131275177,
-      "g2_left_link|small_pepper": 0.13296641409397125,
-      "g2_right_link|link4": 0.0,
-      "skillet|small_pepper": 0.006370023882482201,
-      "g2_right_link|green_pepper": 0.2012261768686585,
-      "g2_left_link|green_pepper": 0.19884446263313293,
-      "green_pepper|skillet": 0.01785276213195175,
-      "g2_left_link|potato": 0.20589900203049183,
-      "g2_right_link|potato": 0.2101755440235138,
-      "green_pepper|potato": 0.00968711479799822,
-      "potato|skillet": 0.01590971276164055,
-      "eggplant|g2_right_link": 0.2006685435771942,
-      "eggplant|g2_left_link": 0.1994602150953142,
-      "eggplant|skillet": 0.01214022422209382,
-      "eggplant|potato": 0.010364487068727612,
-      "g2_left_link|spatula": 0.17243228171719238,
-      "g2_right_link|spatula": 0.1715062473085709,
-      "potato|spatula": 0.009122414514422417,
-      "small_pepper|spatula": 0.0038534144405275583,
-      "skillet|spatula": 0.0,
-      "green_pepper|spatula": 0.006057473830878735,
-      "eggplant|green_pepper": 0.004318051040172577
+      "g2_right_link|green_pepper": 0.20081221955479123,
+      "g2_left_link|green_pepper": 0.19880300760269165,
+      "g2_right_link|small_pepper": 0.20175215601921082,
+      "g2_left_link|small_pepper": 0.2072657197713852,
+      "skillet|small_pepper": 0.00473038898780942,
+      "green_pepper|small_pepper": 0.0038528956938534975,
+      "green_pepper|skillet": 0.01114378368947655,
+      "g2_right_link|potato": 0.20118660479784012,
+      "g2_left_link|potato": 0.20275178691372275,
+      "eggplant|g2_right_link": 0.20084602944552898,
+      "eggplant|g2_left_link": 0.19982361380903058,
+      "potato|skillet": 0.013888347893953323,
+      "eggplant|green_pepper": 0.008958098944276571,
+      "eggplant|skillet": 0.00564928725361824,
+      "eggplant|potato": 0.006701572332531214,
+      "g2_left_link|spatula": 0.17429273808375,
+      "g2_right_link|spatula": 0.1706837508827448,
+      "eggplant|spatula": 0.0026713525876402855,
+      "skillet|spatula": 0.014383725821971893,
+      "green_pepper|spatula": 0.007609297521412373
     },
-    "contact_steps": 379241,
+    "contact_steps": 203250,
+    "inter_arm_contact_count": 0,
     "thresholds_note": "Engineering simulation filters, not measured hardware force limits."
-  },
-  "loaded_task_module": "/tmp/w1_cookery_install_smoke/envs/w1_finals_real.py"
+  }
 }

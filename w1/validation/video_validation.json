@@ -1,16 +1,68 @@
 {
-  "programs": [],
-  "streams": [
-    {
-      "codec_name": "h264",
-      "width": 960,
-      "height": 480,
-      "avg_frame_rate": "30/1",
-      "nb_frames": "1481"
+  "complete_workflow_4x": {
+    "native_start_s": null,
+    "native_end_s": null,
+    "playback_speed": 4,
+    "source": "accepted native RGB recordings",
+    "media": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 960,
+          "height": 480,
+          "avg_frame_rate": "30/1",
+          "nb_frames": "724"
+        }
+      ],
+      "format": {
+        "duration": "24.134000",
+        "size": "1835094"
+      }
     }
-  ],
-  "format": {
-    "duration": "49.367000",
-    "size": "3159147"
+  },
+  "dual_food_pick_place_1x": {
+    "native_start_s": 0,
+    "native_end_s": 52.96400251565501,
+    "playback_speed": 1,
+    "source": "accepted native RGB recordings",
+    "media": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 960,
+          "height": 480,
+          "avg_frame_rate": "30/1",
+          "nb_frames": "1588"
+        }
+      ],
+      "format": {
+        "duration": "52.934000",
+        "size": "3271957"
+      }
+    }
+  },
+  "tool_grasp_stir_return_1x": {
+    "native_start_s": 57.30000272160396,
+    "native_end_s": 84.46400401182473,
+    "playback_speed": 1,
+    "source": "accepted native RGB recordings",
+    "media": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 960,
+          "height": 480,
+          "avg_frame_rate": "30/1",
+          "nb_frames": "814"
+        }
+      ],
+      "format": {
+        "duration": "27.134000",
+        "size": "910725"
+      }
+    }
   }
 }

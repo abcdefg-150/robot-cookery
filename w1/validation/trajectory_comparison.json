@@ -1,20 +1,20 @@
 {
   "real_duration_s": 106.42861986160278,
-  "simulation_duration_s": 197.53600001335144,
-  "comparison_note": "Same task ordering and data layout; conservative planner timing and uncalibrated actuator response differ from teleoperation.",
+  "simulation_duration_s": 96.53600001335144,
+  "comparison_note": "Same data layout; paired food pickup and transport are optimized from sequential teleoperation. Timing and actuator response differ from real data.",
   "arms": {
     "left": {
       "simulation": {
-        "samples": 49384,
-        "ee_speed_p95_m_s": 0.12704037081730607,
-        "ee_path_length_m": 3.2709889392808416,
+        "samples": 24134,
+        "ee_speed_p95_m_s": 0.1208627057945599,
+        "ee_path_length_m": 2.8304565036471545,
         "joint_velocity_p99_rad_s": [
-          0.467381893627174,
-          0.6498366887974613,
-          0.6377579275405365,
-          0.6537632067154947,
-          0.8608592855172749,
-          0.583832296268598
+          0.3815406009923125,
+          0.5917424180351667,
+          0.6842463050130032,
+          0.3854542748079025,
+          0.6825881878527417,
+          0.6049302221672667
         ]
       },
       "real": {
@@ -33,16 +33,16 @@
     },
     "right": {
       "simulation": {
-        "samples": 49384,
-        "ee_speed_p95_m_s": 0.16208358659332828,
-        "ee_path_length_m": 6.355084660426393,
+        "samples": 24134,
+        "ee_speed_p95_m_s": 0.1816669229309391,
+        "ee_path_length_m": 4.588496978098388,
         "joint_velocity_p99_rad_s": [
-          0.5208551912621585,
-          0.7657002216209764,
-          0.854083433934378,
-          0.6730814620626661,
-          1.0773855213729029,
-          0.6330211602291351
+          0.5426637759641431,
+          0.810572526001747,
+          0.8489129562390957,
+          0.17621747986178837,
+          1.1048798731139904,
+          0.6093248761565574
         ]
       },
       "real": {

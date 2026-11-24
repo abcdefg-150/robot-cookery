@@ -16,6 +16,7 @@ import numpy as np
 import yaml
 from w1_sim_interface import W1Simulation,ROOT
 from convert_w1_native import convert,validate
+from analyze_w1_motion import analyze as analyze_motion
 
 
 def snapshot(config,destination):
@@ -28,6 +29,8 @@ def snapshot(config,destination):
            ROOT/"scripts/w1_task_monitor.py",ROOT/"envs/_base_task.py",
            ROOT/"scripts/w1_collision_quality.py",ROOT/"envs/robot/cartesian_trajectory.py",
            ROOT/"scripts/w1_stir_monitor.py",ROOT/"scripts/prepare_w1_back_up_reference.py",
+           ROOT/"scripts/w1_motion_quality.py",ROOT/"scripts/analyze_w1_motion.py",
+           ROOT/"scripts/w1_dual_control.py",ROOT/"scripts/w1_dual_collision.py",ROOT/"scripts/w1_dual_trajectory.py",
            ROOT/"env_cfg/task_config/_camera_config.yml",ROOT/"env_cfg/task_config/_embodiment_config.yml",
            ROOT/"scripts/prepare_w1_real_reference.py",
            ROOT/"scripts/prepare_w1_continuous_reference.py",ROOT/"scripts/prepare_w1_image_reference.py",
@@ -60,7 +63,7 @@ def snapshot(config,destination):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--config",default="w1_finals_real_v5")
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument("--config",default="w1_finals_real_v7")
     p.add_argument("--output",type=Path,default=ROOT/"data/w1_real_style_v1")
     p.add_argument("--episodes",type=int,default=1);p.add_argument("--max-attempts",type=int,default=12)
     p.add_argument("--start-seed",type=int,default=0)
@@ -76,6 +79,16 @@ def main():
             info,success=interface.expert()
             if not success:raise RuntimeError("Full physical task success checks failed")
             task=interface.task
+            if task.minimal_rotation:
+                quality=analyze_motion(directory)
+                (directory/'motion_quality.json').write_text(json.dumps(quality,indent=2)+'\n')
+                info['motion_quality_checks']=quality['checks']
+                (directory/'scene_info.json').write_text(json.dumps(info,indent=2)+'\n')
+                meta=json.loads((directory/'meta.json').read_text())
+                meta['extra']['motion_quality_passed']=quality['success']
+                meta['extra']['success']=bool(success and quality['success'])
+                (directory/'meta.json').write_text(json.dumps(meta,indent=2)+'\n')
+                if not quality['success']:raise RuntimeError(f"EE rotation quality checks failed: {quality['checks']}")
             if not task.planned_joints_legal()[0]:raise RuntimeError("Expert trajectory violates URDF limits")
             task.save_dir=str(args.output/"trajectories")
             task.save_traj_data(len(accepted))
