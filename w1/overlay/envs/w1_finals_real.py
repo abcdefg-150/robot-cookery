@@ -15,6 +15,15 @@ ROOT=Path(__file__).resolve().parents[1]
 class w1_finals_real(w1_finals):
     def setup_demo(self, **kwargs):
         self.record_sink=None
+        self.small_pepper_spawn_xy = None
+        spawn_positions = kwargs.get("small_pepper_spawn_positions_xy")
+        if spawn_positions is not None:
+            positions = np.asarray(spawn_positions, dtype=float)
+            if (positions.ndim != 2 or positions.shape[1:] != (2,) or len(positions) == 0
+                    or not np.isfinite(positions).all()):
+                raise ValueError("small_pepper_spawn_positions_xy must contain finite [x, y] pairs in metres")
+            index = int(kwargs.get("seed", 0)) % len(positions)
+            self.small_pepper_spawn_xy = positions[index]
         self.reference_episode=kwargs.get("real_episode","data/real_w1/episode_0001")
         self.camera_reference_file=kwargs.get('camera_reference_file')
         self.native_meta_template=kwargs.get('native_meta_template')
@@ -90,7 +99,8 @@ class w1_finals_real(w1_finals):
     def load_actors(self):
         super().load_actors()
         kind="small_pepper"
-        actor,body,half,vertices=build_vegetable(self.scene,kind,self.assets[kind]["initial_xy"],self.table_top,self.assets)
+        xy = self.assets[kind]["initial_xy"] if self.small_pepper_spawn_xy is None else self.small_pepper_spawn_xy
+        actor,body,half,vertices=build_vegetable(self.scene,kind,xy,self.table_top,self.assets)
         self.foods[kind]=actor;self.food_bodies[kind]=body;self.food_half[kind]=half;self.food_vertices[kind]=vertices
         for value in [*self.food_bodies.values(),self.spatula_body]:
             value.solver_position_iterations=self.object_solver_iterations[0]
